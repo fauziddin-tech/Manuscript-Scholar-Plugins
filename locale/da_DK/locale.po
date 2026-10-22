@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da_DK\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "Det rene Manuskript-layout i en boks, der imiterer et papirdokument, med videnskabelige funktioner: forfatternes lande, Dimensions-citationsmærke, nummerets dækning med flag, artikelhandlinger, kort på forsiden og hjælpere i administrationen."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Accentfarve"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Farve på de tynde linjer under overskrifter og på knapper ved hover. En lys farve passer bedst; sidehoved, knapper og links bruger grundfarven."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "Tidsskriftets hjemland"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "Tidsskriftets land, valgt ved dets fulde navn som på forfatterformularen. Bruges til at vise andelen af udenlandske forfattere på arkiv- og nummersiderne. Lad feltet være tomt for at skjule tallet."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— ikke valgt —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Artikler i alt: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Sider i alt: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Nummerets dækning: {$authors} forfatter(e) fra {$countries} land(e)"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Udenlandske forfattere: {$count} ({$percent}%)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Seneste artikler"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "Mest læste"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "Mest downloadede"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} visninger"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} downloads"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Læs mere"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Vis mindre"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Vis resumé"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Skjul resumé"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "Download PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Søg i Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Kategorier"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "artikler"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "forfattere"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "lande"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "artikler"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "sider"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Oversigt over nummerets forfatterbidrag"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "udenlandske"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Vælg alle"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Ryd valg"

@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "O layout em caixa do Manuscript, limpo e simples, que imita um documento em papel, com recursos acadêmicos: países dos autores, selo de citações do Dimensions, cobertura da edição com bandeiras, ações dos artigos, cartões na página inicial e auxiliares na área administrativa."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Cor de destaque"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Cor das linhas finas sob os títulos e dos botões ao passar o mouse. Uma cor clara funciona melhor; o cabeçalho, os botões e os links usam a cor base."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "País da revista"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "País da revista, escolhido pelo nome completo como no formulário de autor. É usado para mostrar a proporção de autores estrangeiros nas páginas de arquivo e de edição. Deixe sem escolha para ocultar esse número."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— não definido —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Total de artigos: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Total de páginas: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Cobertura da edição: {$authors} autor(es) de {$countries} país(es)"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Autores estrangeiros: {$count} ({$percent}%)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Artigos recentes"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "Mais lidos"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "Mais baixados"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} visualizações"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} downloads"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Leia mais"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Mostrar menos"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Mostrar resumo"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Ocultar resumo"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "Baixar PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Verificar no Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Categorias"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "artigos"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "autores"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "países"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "artigos"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "páginas"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Resumo da contribuição dos autores da edição"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "estrangeiros"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Selecionar tudo"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Limpar seleção"

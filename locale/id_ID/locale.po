@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: id_ID\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "Tata letak Manuscript yang bersih dan berbingkai menyerupai dokumen kertas, dengan fitur ilmiah: negara penulis, badge kutipan Dimensions, cakupan terbitan dengan bendera, tombol aksi artikel, kartu beranda, dan alat bantu di sisi admin."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Warna aksen"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Warna garis tipis di bawah judul dan warna tombol saat disorot. Warna terang paling cocok; header, tombol, dan tautan memakai Base colour."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "Negara asal jurnal"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "Negara asal jurnal, dipilih dengan nama lengkap seperti pada formulir penulis. Dipakai untuk menampilkan persentase penulis dari luar negeri di halaman Archives dan terbitan. Biarkan tidak dipilih untuk menyembunyikan angka itu."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— belum dipilih —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Total Artikel: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Total Halaman: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Cakupan Terbitan: {$authors} Penulis dari {$countries} Negara"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Penulis asing: {$count} ({$percent}%)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Artikel terbaru"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "Paling banyak dibaca"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "Paling banyak diunduh"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} kali dilihat"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} unduhan"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Selengkapnya"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Tampilkan lebih sedikit"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Tampilkan Abstrak"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Sembunyikan Abstrak"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "Unduh PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Cek di Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Kategori"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "artikel"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "penulis"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "negara"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "artikel"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "halaman"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Ringkasan kontribusi penulis terbitan"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "asing"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Pilih Semua"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Batal Pilih"

@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar_IQ\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "تخطيط Manuscript الصندوقي البسيط الذي يحاكي ورقة المستند، مع ميزات علمية: بلدان المؤلفين، وشارة استشهادات Dimensions، وتغطية العدد مع الأعلام، وإجراءات المقالات، وبطاقات الصفحة الرئيسية، وأدوات مساعدة في لوحة الإدارة."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "لون التأكيد"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "لون الخطوط الرفيعة أسفل العناوين ولون الأزرار عند تمرير المؤشر. يناسبه لون فاتح؛ أما الترويسة والأزرار والروابط فتستخدم اللون الأساسي."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "بلد المجلة"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "بلد المجلة، يُختار باسمه الكامل كما في نموذج المؤلف. يُستخدم لعرض نسبة المؤلفين من خارج البلد في صفحات الأرشيف والأعداد. اتركه دون اختيار لإخفاء هذا الرقم."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— غير محدد —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "مجموع المقالات: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "مجموع الصفحات: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "تغطية العدد: {$authors} مؤلف من {$countries} بلد"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "المؤلفون الأجانب: {$count} ({$percent}%)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "أحدث المقالات"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "الأكثر قراءة"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "الأكثر تنزيلاً"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} مشاهدة"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} تنزيل"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "اقرأ المزيد"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "عرض أقل"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "عرض الملخص"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "إخفاء الملخص"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "تنزيل PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "البحث في Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "التصنيفات"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "مقالات"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "مؤلفون"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "بلدان"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "مقالات"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "صفحات"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "ملخص مساهمة المؤلفين في العدد"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "أجانب"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "تحديد الكل"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "إلغاء التحديد"

@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs_CZ\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "Čisté rozvržení Manuscript v boxu, které napodobuje papírový dokument, s odbornými funkcemi: země autorů, citační odznak Dimensions, pokrytí čísla s vlajkami, akce u článků, karty na úvodní stránce a pomocníci v administraci."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Barva zvýraznění"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Barva tenkých čar pod nadpisy a tlačítek při najetí myší. Nejlépe se hodí světlá barva; záhlaví, tlačítka a odkazy používají základní barvu."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "Domovská země časopisu"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "Země časopisu, vybraná podle plného názvu jako ve formuláři autora. Slouží k zobrazení podílu zahraničních autorů na stránkách archivu a čísel. Nechte nevybrané, chcete-li tento údaj skrýt."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— nevybráno —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Celkem článků: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Celkem stran: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Pokrytí čísla: {$authors} autor(ů) z {$countries} zem(í)"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Zahraniční autoři: {$count} ({$percent} %)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Nejnovější články"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "Nejčtenější"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "Nejstahovanější"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} zobrazení"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} stažení"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Číst dále"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Zobrazit méně"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Zobrazit abstrakt"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Skrýt abstrakt"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "Stáhnout PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Ověřit v Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Kategorie"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "článků"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "autorů"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "zemí"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "článků"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "stran"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Přehled příspěvků autorů čísla"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "zahraničních"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Vybrat vše"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Zrušit výběr"

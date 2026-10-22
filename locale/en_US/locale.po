@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en_US\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "The clean, boxed Manuscript layout that mimics a paper document, with scholarly features: author countries, Dimensions citation badge, issue coverage with flags, article actions, home page cards and back-end helpers."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Accent colour"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Colour of the thin lines under headings and of buttons when hovered. A light colour works best; the header, buttons and links use the Base colour."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "Journal home country"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "Country of the journal, chosen by its full name as on the author form. It is used to show the share of authors from abroad on the Archives and issue pages. Leave it unset to hide that figure."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— not set —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Total Articles: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Total Pages: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Issue Coverage: {$authors} Author(s) from {$countries} Country(s)"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Foreign authors: {$count} ({$percent}%)"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Latest articles"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "Most read"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "Most downloaded"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} views"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} downloads"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Read more"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Show less"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Show Abstract"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Hide Abstract"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "Download PDF"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Check in Google Scholar"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Categories"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "articles"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "authors"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "countries"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "articles"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "pages"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Issue author contribution summary"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "foreign"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Select all"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Clear selection"

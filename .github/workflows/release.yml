@@ -1,0 +1,42 @@
+name: Attach package to the release
+
+# When a GitHub Release is published (tag vX.Y.Z), build the installable
+# manuscriptScholar-vX.Y.Z.tar.gz from that tag and attach it to the release.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+      - name: Tag must match version.xml
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(scripts/check-version.sh)
+          if [ "$TAG" != "v$version" ]; then
+            echo "Release tag $TAG does not match version.xml ($version). Create the release with tag v$version." >&2
+            exit 1
+          fi
+      - name: Tests
+        run: php tests/themeTest.php
+      - name: Build and upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(scripts/check-version.sh)
+          file="$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz"
+          scripts/package-theme.sh "$file"
+          gh release upload "$TAG" "$file" --clobber --repo "$GITHUB_REPOSITORY"

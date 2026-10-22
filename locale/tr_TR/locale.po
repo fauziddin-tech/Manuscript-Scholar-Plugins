@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr_TR\n"
+
+msgid "plugins.themes.manuscriptScholar.name"
+msgstr "Manuscript Scholar Plugins"
+
+msgid "plugins.themes.manuscriptScholar.description"
+msgstr "Kâğıt bir belgeyi andıran sade, kutulu Manuscript düzeni ve akademik özellikler: yazar ülkeleri, Dimensions atıf rozeti, bayraklarla sayı kapsamı, makale eylemleri, ana sayfa kartları ve yönetim paneli yardımcıları."
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.label"
+msgstr "Vurgu Rengi"
+
+msgid "plugins.themes.manuscriptScholar.option.accentColour.description"
+msgstr "Başlıkların altındaki ince çizgilerin ve üzerine gelindiğinde düğmelerin rengi. Açık bir renk en iyi sonucu verir; başlık alanı, düğmeler ve bağlantılar temel rengi kullanır."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.label"
+msgstr "Derginin ülkesi"
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.description"
+msgstr "Derginin ülkesi, yazar formundaki gibi tam adıyla seçilir. Arşiv ve sayı sayfalarında yurt dışından yazarların oranını göstermek için kullanılır. Bu değeri gizlemek için seçmeden bırakın."
+
+msgid "plugins.themes.manuscriptScholar.option.homeCountry.none"
+msgstr "— seçilmedi —"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalArticles"
+msgstr "Toplam makale: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.totalPages"
+msgstr "Toplam sayfa: {$count}"
+
+msgid "plugins.themes.manuscriptScholar.issue.coverage"
+msgstr "Sayı kapsamı: {$countries} ülkeden {$authors} yazar"
+
+msgid "plugins.themes.manuscriptScholar.issue.foreign"
+msgstr "Yabancı yazarlar: {$count} (%{$percent})"
+
+msgid "plugins.themes.manuscriptScholar.home.latest"
+msgstr "Son makaleler"
+
+msgid "plugins.themes.manuscriptScholar.home.mostRead"
+msgstr "En çok okunanlar"
+
+msgid "plugins.themes.manuscriptScholar.home.mostDownloaded"
+msgstr "En çok indirilenler"
+
+msgid "plugins.themes.manuscriptScholar.home.views"
+msgstr "{$count} görüntülenme"
+
+msgid "plugins.themes.manuscriptScholar.home.downloads"
+msgstr "{$count} indirme"
+
+msgid "plugins.themes.manuscriptScholar.home.readMore"
+msgstr "Devamını oku"
+
+msgid "plugins.themes.manuscriptScholar.home.readLess"
+msgstr "Daha az göster"
+
+msgid "plugins.themes.manuscriptScholar.article.showAbstract"
+msgstr "Özeti göster"
+
+msgid "plugins.themes.manuscriptScholar.article.hideAbstract"
+msgstr "Özeti gizle"
+
+msgid "plugins.themes.manuscriptScholar.article.download"
+msgstr "PDF indir"
+
+msgid "plugins.themes.manuscriptScholar.article.scholar"
+msgstr "Google Scholar'da kontrol et"
+
+msgid "plugins.themes.manuscriptScholar.categories.heading"
+msgstr "Kategoriler"
+
+msgid "plugins.themes.manuscriptScholar.categories.articles"
+msgstr "makale"
+
+msgid "plugins.themes.manuscriptScholar.archive.authors"
+msgstr "yazar"
+
+msgid "plugins.themes.manuscriptScholar.archive.countries"
+msgstr "ülke"
+
+msgid "plugins.themes.manuscriptScholar.archive.articles"
+msgstr "makale"
+
+msgid "plugins.themes.manuscriptScholar.archive.pages"
+msgstr "sayfa"
+
+msgid "plugins.themes.manuscriptScholar.archive.summary"
+msgstr "Sayının yazar katkısı özeti"
+
+msgid "plugins.themes.manuscriptScholar.archive.foreign"
+msgstr "yabancı"
+
+msgid "plugins.themes.manuscriptScholar.admin.selectAll"
+msgstr "Tümünü seç"
+
+msgid "plugins.themes.manuscriptScholar.admin.clearAll"
+msgstr "Seçimi temizle"

@@ -1,0 +1,844 @@
+/*
+ * Manuscript Scholar 1.0.0: feature styles on top of the Manuscript stylesheet.
+ * The Manuscript look (styles/index.less: boxed white page on a grey
+ * background, Montserrat headings, Noto Serif text, a thin accent line under
+ * headings) is compiled with the Default Theme. This file adds the wide page,
+ * the full-width header image and the styles of the theme's own elements, in
+ * the same idiom: base colour for bands and buttons, accent colour for thin
+ * lines only (it is too light for text), light grey boxes with a hairline.
+ */
+:root {
+	--ms-base: #4b7d92;
+	--ms-on-base: #ffffff;
+	--ms-primary: #4b7d92;
+	--ms-primary-dark: #3a6070;
+	--ms-primary-rgb: 75, 125, 146; /* the primary colour as r, g, b for rgba() */
+	--ms-accent: #f7bc4a;
+	--ms-text: rgba(0, 0, 0, 0.87);
+	--ms-muted: rgba(0, 0, 0, 0.6);
+	--ms-line: #dddddd;
+	--ms-soft: #f5f5f5;
+	--ms-radius: 3px;
+	--ms-font-heading: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	/* gutter inside the white page, as in the Manuscript header */
+	--ms-gutter: 2.143rem;
+}
+
+/* Text size: by default (0px) the theme's own sizes are used everywhere, so
+ * every page looks the same. If you set --ms-font-bump to e.g. 2px, every text
+ * size is raised by that amount by the theme's helper script
+ * (js/manuscriptScholar.js) (the Default Theme mixes px, rem and em, so CSS
+ * alone cannot add a fixed amount to all of them). That only reaches pages that
+ * run the script (not stale cached pages or visitors without JavaScript), which
+ * is why it is off by default. */
+:root {
+	/* border of the outlined buttons; raise the alpha to 0.6 for a 3:1 contrast against the page (WCAG 1.4.11) */
+	--ms-pill-border: rgba(var(--ms-primary-rgb), 0.35);
+	--ms-font-bump: 0px;
+	/* extra size for the titles in article lists, on top of the bump */
+	--ms-title-bump: 0px;
+}
+
+/* Page width: the white Manuscript page is 90% of the screen on desktop
+ * (Manuscript alone stops at 1160px). Below 992px the Default Theme's
+ * responsive layout is kept. */
+@media (min-width: 992px) {
+	html body .pkp_structure_page {
+		width: 90% !important;
+		max-width: none !important;
+		margin: 30px auto !important;
+	}
+	/* Header, content and footer fill the white page */
+	html body .pkp_head_wrapper,
+	html body .pkp_structure_content,
+	html body .pkp_structure_footer {
+		box-sizing: border-box;
+		width: 100% !important;
+		max-width: none !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+	html body .pkp_structure_content {
+		padding-left: var(--ms-gutter) !important;
+		padding-right: var(--ms-gutter) !important;
+	}
+
+	/* Main column takes the remaining width; the sidebar keeps a fixed share,
+	 * with Manuscript's thin divider on its left. */
+	html body .pkp_structure_content {
+		display: flex !important;
+		align-items: stretch;
+	}
+	html body .pkp_structure_main {
+		position: relative;
+		box-sizing: border-box;
+		float: none !important;
+		flex: 1 1 auto;
+		width: auto !important;
+		min-width: 0;
+		max-width: none !important;
+		margin: 0 !important;
+		padding-left: 0 !important;
+		padding-right: var(--ms-gutter) !important;
+	}
+	html body .pkp_structure_main:last-child {
+		padding-right: 0 !important;
+	}
+	html body .pkp_structure_main > * {
+		margin-left: 0 !important;
+		padding-left: 0 !important;
+	}
+	/* The Default Theme and Manuscript draw the dividers with pseudo-elements
+	 * at fixed positions. Hide them; the sidebar draws its own border, so the
+	 * divider always follows the column widths. */
+	html body .pkp_structure_content::before,
+	html body .pkp_structure_content::after,
+	html body .pkp_structure_main::before,
+	html body .pkp_structure_main::after,
+	html body .pkp_structure_sidebar::before,
+	html body .pkp_structure_sidebar::after {
+		content: none !important;
+		display: none !important;
+	}
+	html body .pkp_structure_sidebar {
+		float: none !important;
+		flex: 0 0 26%;
+		box-sizing: border-box;
+		width: 26% !important;
+		min-width: 300px;
+		max-width: 520px !important;
+		padding-left: 28px !important;
+		padding-right: 0 !important;
+		border-left: 1px solid var(--ms-line);
+	}
+	html body .pkp_structure_sidebar .pkp_block {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		margin-right: 0 !important;
+	}
+}
+
+/* Header image. Sizing rules are !important so they win over the Default
+ * Theme and over width/height attributes on the <img>.
+ *
+ * Desktop (992px and up): the image fills the width of the white page,
+ * keeping its proportions, like a letterhead. Upload a wide image, e.g.
+ * 1800 x 293 px. Below 992px the Default Theme shows a slim bar with a menu
+ * button, so the image is capped to fit that bar instead of overflowing it. */
+@media (max-width: 991px) {
+	html body .pkp_site_name .is_img img {
+		width: auto !important;
+		max-width: 100% !important;
+		height: auto !important;
+		max-height: 48px !important;
+	}
+}
+@media (min-width: 992px) {
+	html body.has_site_logo .pkp_site_name_wrapper {
+		padding-left: 0;
+		padding-right: 0;
+		overflow: hidden; /* the image may be shifted left, see js/manuscriptScholar.js */
+	}
+	html body.has_site_logo .pkp_site_name {
+		float: none;
+		width: 100%;
+		max-width: none;
+		margin-left: 0;
+		margin-right: 0;
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
+	}
+	html body.has_site_logo .pkp_site_name > a,
+	html body.has_site_logo .pkp_site_name .is_img {
+		display: block !important;
+		width: 100% !important;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	html body.has_site_logo .pkp_site_name .is_img img {
+		display: block !important;
+		width: 100% !important;
+		max-width: none !important;
+		height: auto !important;
+		max-height: none !important;
+		margin: 0;
+	}
+	/* Register/Login float over the top-right corner of the header image */
+	html body.has_site_logo .pkp_structure_head {
+		position: relative !important;
+	}
+	html body.has_site_logo .pkp_head_wrapper,
+	html body.has_site_logo .pkp_site_nav_menu {
+		position: static !important;
+	}
+	html body.has_site_logo .pkp_navigation_user_wrapper {
+		position: absolute !important;
+		top: 0 !important;
+		right: 0 !important;
+		bottom: auto !important;
+		left: auto !important;
+		float: none !important;
+		width: max-content !important;
+		max-width: 90% !important;
+		margin: 0 !important;
+		padding: 8px var(--ms-gutter) 0 0 !important;
+		transform: none !important;
+		text-align: right !important;
+		z-index: 20;
+	}
+	html body.has_site_logo .pkp_navigation_user {
+		display: flex !important;
+		align-items: center;
+		justify-content: flex-end !important;
+		position: static !important;
+		float: none !important;
+		width: auto !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		text-align: right !important;
+	}
+	html body.has_site_logo .pkp_navigation_user > li > a {
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+	}
+	/* Primary menu row lines up with the content gutter */
+	html body .pkp_navigation_primary_row {
+		padding-left: var(--ms-gutter);
+		padding-right: var(--ms-gutter);
+	}
+}
+
+/* Shared look of the theme's boxes: Manuscript's light grey panel with a hairline */
+.ms-issue-coverage,
+.ms-archive-stats,
+.ms-highlight,
+.ms-category,
+.ms-abstract {
+	background: var(--ms-soft);
+	border-radius: var(--ms-radius);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+/* Headings of the theme's sections, like Manuscript's block titles */
+.ms-highlight h2,
+.ms-categories > h2 {
+	display: inline-block;
+	margin: 0 0 1em;
+	padding: 0 0 0.5em;
+	border-bottom: 3px solid var(--ms-accent);
+	font-family: var(--ms-font-heading);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.3;
+	text-transform: uppercase;
+	color: var(--ms-muted);
+}
+
+/* Sidebar menu: write a plain bulleted list in a custom block and give it the
+ * class "ms-menu"; it is shown as a stack of tiles with an icon per link.
+ * Icons come from Font Awesome 4 (already loaded by the Default Theme) and are
+ * picked from words in the link URL. The current page is highlighted by a
+ * small script the theme adds to each page. */
+.pkp_block ul.ms-menu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.pkp_block ul.ms-menu li {
+	margin: 0 0 2px;
+	padding: 0;
+	list-style: none;
+}
+.pkp_block ul.ms-menu li a {
+	display: flex;
+	align-items: center;
+	gap: 0.65em;
+	padding: 0.6em 0.8em;
+	background: var(--ms-soft);
+	border-left: 3px solid transparent;
+	color: var(--ms-text);
+	font-family: var(--ms-font-heading);
+	font-size: 0.93rem;
+	line-height: 1.35;
+	text-decoration: none;
+}
+.pkp_block ul.ms-menu li a::before {
+	flex: 0 0 1.25em;
+	width: 1.25em;
+	font: normal normal normal 1em/1 FontAwesome;
+	text-align: center;
+	color: var(--ms-primary);
+	content: "\f10c";
+}
+.pkp_block ul.ms-menu li a:hover,
+.pkp_block ul.ms-menu li a:focus,
+.pkp_block ul.ms-menu li a.is-active {
+	background: var(--ms-base);
+	border-left-color: var(--ms-accent);
+	color: var(--ms-on-base);
+}
+.pkp_block ul.ms-menu li a:hover::before,
+.pkp_block ul.ms-menu li a:focus::before,
+.pkp_block ul.ms-menu li a.is-active::before {
+	color: inherit;
+}
+/* general rules first, then the specific ones that override them */
+.pkp_block ul.ms-menu li a[href*="/about"]::before { content: "\f05a"; }
+.pkp_block ul.ms-menu li a[href*="/issue/"]::before { content: "\f02d"; }
+.pkp_block ul.ms-menu li a[href*="submissions"]::before { content: "\f093"; }
+.pkp_block ul.ms-menu li.home a::before { content: "\f015"; }
+.pkp_block ul.ms-menu li a[href*="focusAndScope"]::before,
+.pkp_block ul.ms-menu li a[href*="ublicationEthics"]::before { content: "\f10c"; }
+.pkp_block ul.ms-menu li a[href*="editorialTeam"]::before { content: "\f2be"; }
+.pkp_block ul.ms-menu li a[href*="peerReviewers"]::before { content: "\f0c0"; }
+.pkp_block ul.ms-menu li a[href*="peerReviewProcess"]::before { content: "\f046"; }
+.pkp_block ul.ms-menu li a[href*="uthorGuidelines"]::before { content: "\f044"; }
+.pkp_block ul.ms-menu li a[href*="contact"]::before { content: "\f2ba"; }
+.pkp_block ul.ms-menu li a[href*="openAccess"]::before { content: "\f09c"; }
+.pkp_block ul.ms-menu li a[href*="opyright"]::before { content: "\f1f9"; }
+.pkp_block ul.ms-menu li a[href*="uthorFees"]::before { content: "\f09d"; }
+.pkp_block ul.ms-menu li a[href*="license"]::before { content: "\f24e"; }
+.pkp_block ul.ms-menu li a[href*="drive.google.com"]::before,
+.pkp_block ul.ms-menu li a[href*="download"]::before { content: "\f019"; }
+.pkp_block ul.ms-menu li a[href*="ndexing"]::before { content: "\f002"; }
+.pkp_block ul.ms-menu li a[href*="announcement"]::before { content: "\f0a1"; }
+
+/* Authors on the article page: name, then affiliation and country right
+ * below it with only a small gap, and a clear gap between authors. The
+ * affiliation must NOT use white-space: pre-line: the template indents it
+ * with newlines, which would then show up as blank lines. */
+html body .obj_article_details .item.authors li {
+	margin-top: 0 !important;
+	margin-bottom: 0.9em !important;
+	line-height: 1.35;
+}
+html body .obj_article_details .item.authors .name {
+	display: block !important;
+	margin: 0 0 0.1em !important;
+	padding: 0 !important;
+	color: var(--ms-text);
+	font-weight: 700;
+}
+html body .obj_article_details .item.authors .affiliation,
+html body .obj_article_details .item.authors .ms-country-line {
+	display: block !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: var(--ms-muted);
+	line-height: 1.4;
+}
+
+/* Dimensions citation badge just above the DOI line of an article: it keeps
+ * the left spacing of the other items, only the vertical spacing is tightened. */
+html body .obj_article_details .item.ms-dimensions {
+	margin-top: 0 !important;
+	margin-bottom: 0.4rem !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	min-height: 0;
+}
+html body .obj_article_details .item.ms-dimensions + .item.doi {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
+/* Issue heading: cover on the left (a fixed share of the width, so a large
+ * cover image cannot push the rest around), everything else (coverage box,
+ * description, DOI, published date) stacked in the right column. */
+@media (min-width: 768px) {
+	.obj_issue_toc .heading {
+		display: grid;
+		grid-template-columns: clamp(200px, 28%, 420px) minmax(0, 1fr);
+		/* Rows of the right column take only the height they need; the last
+		 * row absorbs the rest of the cover's height (otherwise the cover's
+		 * height is shared out over all rows and opens gaps between the box
+		 * and the published date). */
+		grid-template-rows: repeat(19, min-content) 1fr;
+		column-gap: 40px;
+		align-items: start;
+		max-width: 100%;
+		min-width: 0;
+		margin-bottom: 1.5rem !important;
+		padding-bottom: 0 !important;
+	}
+	.obj_issue_toc .sections {
+		margin-top: 0 !important;
+	}
+	.obj_issue_toc .heading > .cover {
+		grid-column: 1;
+		grid-row: 1 / span 20;
+		float: none;
+		width: auto;
+		max-width: 100%;
+		margin: 0;
+	}
+	.obj_issue_toc .heading > .cover img {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		margin: 0;
+	}
+	.obj_issue_toc .heading > :not(.cover) {
+		grid-column: 2;
+		min-width: 0;
+		max-width: 100%;
+		margin-left: 0;
+	}
+}
+
+/* Issue coverage box */
+.ms-issue-coverage {
+	box-sizing: border-box;
+	max-width: 100%;
+	overflow: hidden;
+	margin: 1.5em 0;
+	padding: 1em 1.25em;
+	border-left: 3px solid var(--ms-accent);
+	color: var(--ms-text);
+	font-family: var(--ms-font-heading);
+	font-size: 0.93rem;
+}
+.obj_issue_toc .heading .ms-issue-coverage { margin: 0 0 0.8rem; }
+html body .obj_issue_toc .heading .published,
+html body .obj_issue_toc .heading .description {
+	margin-top: 0 !important;
+}
+.ms-issue-coverage p { margin: 0 0 0.5em; font-weight: 700; }
+.ms-issue-coverage__total { text-transform: uppercase; }
+.ms-issue-coverage__sep { margin: 0 0.5em; font-weight: 400; color: var(--ms-line); }
+/* Countries in even columns (a flag, the name, the count), flags all the same
+ * size with a thin neutral outline so white-edged flags do not disappear. */
+.ms-issue-coverage__countries {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 0.75em 1.5em;
+	margin: 0.9em 0 0;
+	padding: 0.9em 0 0;
+	border-top: 1px solid var(--ms-line);
+	list-style: none;
+}
+.ms-issue-coverage__countries li { display: flex; align-items: center; gap: 0.65em; min-width: 0; line-height: 1.25; }
+.ms-issue-coverage .ms-country { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+html body .ms-issue-coverage .ms-flag {
+	flex: none;
+	display: block;
+	width: 28px;
+	height: 21px;
+	margin: 0;
+	padding: 0 !important; /* the Default Theme's image frame would thicken the flag */
+	border: 0 !important;
+	outline: 0;
+	background: none;
+	object-fit: cover;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1); /* hairline so white flags keep their edge */
+}
+.ms-issue-coverage .ms-count { margin-left: auto; padding-left: 0.4em; color: var(--ms-muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* Archives page: statistics card under each issue (authors, countries + flags, articles) */
+.ms-archive-stats {
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) minmax(0, 1fr);
+	align-items: center;
+	max-width: 640px;
+	margin: 14px 0 4px;
+	padding: 10px 6px;
+	overflow: hidden; /* sits beside the cover instead of under it */
+	border-left: 3px solid var(--ms-accent);
+	color: var(--ms-text);
+	font-family: var(--ms-font-heading);
+	font-size: 0.93rem;
+	line-height: 1.3;
+}
+.ms-archive-stats__item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	padding: 2px 14px;
+	border-right: 1px solid var(--ms-line);
+}
+.ms-archive-stats__item:last-child { border-right: 0; }
+.ms-archive-stats__icon {
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	color: var(--ms-on-base);
+	background: var(--ms-base);
+	border-radius: 50%;
+}
+.ms-archive-stats__icon svg {
+	display: block;
+	width: 18px;
+	height: 18px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.ms-archive-stats__copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ms-archive-stats__num {
+	font-size: 1em;
+	font-weight: 700;
+	color: var(--ms-primary);
+	font-variant-numeric: tabular-nums;
+}
+.ms-archive-stats__label { color: var(--ms-muted); }
+.ms-archive-stats__flags { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+html body .ms-archive-stats .ms-flag {
+	display: block;
+	width: 22px;
+	height: 16px;
+	margin: 0;
+	padding: 0 !important; /* the Default Theme's image frame would thicken the flag */
+	border: 0 !important;
+	outline: 0;
+	background: none;
+	object-fit: cover;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1); /* hairline so white flags keep their edge */
+}
+.ms-archive-stats .ms-flag--text {
+	width: auto;
+	min-width: 22px;
+	padding: 0 3px;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 16px;
+	text-align: center;
+	background: #fff;
+	color: var(--ms-muted);
+}
+.ms-archive-stats__more { font-size: 0.85em; color: var(--ms-muted); }
+@media (max-width: 620px) {
+	.ms-archive-stats { grid-template-columns: 1fr; }
+	.ms-archive-stats__item { padding: 8px 8px; border-right: 0; border-bottom: 1px solid var(--ms-line); }
+	.ms-archive-stats__item:last-child { border-bottom: 0; }
+}
+
+/* Home page: little space between "View All Issues" and the cards below */
+html body .pkp_structure_main {
+	padding-bottom: 1rem !important;
+}
+html body .page_index_journal,
+html body .page_index_journal .current_issue {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+html body .page_index_journal .current_issue .read_more {
+	margin-bottom: 0 !important;
+}
+
+/* Home page cards: latest, most read, most downloaded (inside the white page,
+ * above the footer) */
+.ms-highlights {
+	box-sizing: border-box;
+	max-width: none;
+	margin: 1rem 0 0;
+	padding: 2rem 16px;
+	border-top: 1px solid var(--ms-line);
+}
+.ms-highlights__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 24px;
+}
+.ms-highlight {
+	padding: 24px 28px;
+}
+.ms-highlight ul { margin: 0; padding: 0; list-style: none; }
+.ms-highlight li { padding: 0.75em 0; border-bottom: 1px dotted var(--ms-line); line-height: 1.45; }
+.ms-highlight li:last-child { border-bottom: 0; }
+.ms-highlight__meta { display: block; margin-top: 0.2em; font-family: var(--ms-font-heading); font-size: 0.8rem; line-height: 1.3; color: var(--ms-muted); font-variant-numeric: tabular-nums; }
+.ms-highlight li a { color: var(--ms-text); text-decoration: none; }
+.ms-highlight li a:hover, .ms-highlight li a:focus { color: var(--ms-primary); text-decoration: underline; }
+
+/* Category cards below the journal description: click a card to list its articles */
+.ms-categories { margin: 0 0 2em; }
+.ms-categories__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 16px;
+	align-items: start;
+}
+.ms-category {
+	border-left: 3px solid var(--ms-base);
+}
+.ms-category summary {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15em;
+	padding: 14px 40px 14px 18px;
+	position: relative;
+	cursor: pointer;
+	list-style: none;
+}
+.ms-category summary::-webkit-details-marker { display: none; }
+.ms-category summary::after {
+	content: "+";
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	margin-top: -0.6em;
+	font-size: 1.3em;
+	line-height: 1.2;
+	color: var(--ms-primary);
+}
+.ms-category[open] summary::after { content: "\2212"; }
+.ms-category summary:hover .ms-category__name,
+.ms-category summary:focus .ms-category__name { color: var(--ms-primary); }
+.ms-category__name { font-family: var(--ms-font-heading); font-weight: 700; color: var(--ms-text); line-height: 1.3; }
+.ms-category__count { font-family: var(--ms-font-heading); font-size: 0.8rem; text-transform: uppercase; color: var(--ms-muted); }
+.ms-category ul { margin: 0; padding: 0 18px 10px; list-style: none; border-top: 1px dotted var(--ms-line); }
+.ms-category li { padding: 0.6em 0; border-bottom: 1px dotted var(--ms-line); line-height: 1.4; }
+.ms-category li:last-child { border-bottom: 0; }
+.ms-category li a { color: var(--ms-text); text-decoration: none; }
+.ms-category li a:hover, .ms-category li a:focus { color: var(--ms-primary); text-decoration: underline; }
+
+/* "Read more" button below the shortened current issue on the home page: the
+ * same outlined button as the article actions, right-aligned and close to the
+ * last article (the spacing the Default Theme leaves under the list is removed). */
+html body .current_issue .sections,
+html body .current_issue .section:last-child,
+html body .current_issue .section:last-child .cmp_article_list,
+html body .current_issue .cmp_article_list > li:last-child,
+html body .current_issue .cmp_article_list > li:last-child .obj_article_summary {
+	margin-bottom: 0 !important;
+}
+html body .current_issue .cmp_article_list > li:last-child .obj_article_summary {
+	padding-bottom: 0 !important;
+}
+/* Folded current issue (home page): the articles after the first few are in the
+ * page but hidden until "Read more" is pressed. While folded, the last visible
+ * article (.ms-edge) behaves like the last one of the list: no divider under
+ * it and no extra space, so the button sits right below it. */
+html body .current_issue [hidden] {
+	display: none !important;
+}
+html body .current_issue.ms-collapsed .ms-edge-section,
+html body .current_issue.ms-collapsed .ms-edge-section .cmp_article_list,
+html body .current_issue.ms-collapsed .ms-edge,
+html body .current_issue.ms-collapsed .ms-edge .obj_article_summary {
+	margin-bottom: 0 !important;
+}
+html body .current_issue.ms-collapsed .ms-edge .obj_article_summary {
+	padding-bottom: 0 !important;
+	border-bottom: 0 !important;
+}
+
+html body .ms-readmore {
+	/* above neighbouring positioned elements (e.g. the "View All Issues" link or the
+	 * page numbers of the last article), which could otherwise cover most of the
+	 * button and leave only its top edge clickable */
+	position: relative;
+	z-index: 10;
+	margin: var(--ms-list-gap) 0 0.4rem !important;
+	padding: 0 !important;
+	text-align: right;
+	line-height: 1.35;
+}
+
+/* Outlined buttons: the article actions and "Read more" (white, soft border and
+ * text in the primary colour, Montserrat like Manuscript's buttons; filled on
+ * hover, focus and while the abstract is open) */
+html body .ms-readmore__button,
+.ms-article-actions a {
+	display: inline-block;
+	cursor: pointer;
+	padding: 0.35em 1em;
+	background: #fff;
+	border: 1px solid var(--ms-pill-border);
+	border-radius: var(--ms-radius);
+	color: var(--ms-primary);
+	font-family: var(--ms-font-heading);
+	font-size: 0.8rem;
+	font-weight: 700;
+	line-height: 1.35;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 0.15s, color 0.15s;
+}
+html body .ms-readmore__button {
+	text-transform: uppercase;
+}
+html body .ms-readmore__button:hover,
+html body .ms-readmore__button:focus,
+.ms-article-actions a:hover,
+.ms-article-actions a:focus,
+.ms-article-actions a.is-open {
+	background: var(--ms-primary);
+	border-color: var(--ms-primary);
+	color: #fff;
+	text-decoration: none;
+}
+
+/* Thin divider between listed articles (not after the last one of a list) */
+html body .obj_article_summary {
+	padding-bottom: 1.1rem;
+	border-bottom: 1px solid var(--ms-line);
+}
+html body .cmp_article_list > li:last-child .obj_article_summary {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+/* Action line under the authors of listed articles */
+/* Title, authors and the action line sit close together with the same small
+ * gap (--ms-list-gap) between them. Tight line heights and no padding or
+ * top margin on the title and the meta block, so no hidden space is added. */
+:root {
+	--ms-list-gap: 0.2rem;
+}
+html body .obj_article_summary .title {
+	margin: 0 0 var(--ms-list-gap) !important;
+	padding: 0 !important;
+	line-height: 1.3 !important;
+}
+html body .obj_article_summary .meta {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+html body .obj_article_summary .meta .authors {
+	margin: 0 7em 0 0 !important; /* room for the page numbers on the right */
+	padding: 0 !important;
+	line-height: 1.35;
+}
+html body .obj_article_summary .ms-article-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	margin: var(--ms-list-gap) 0 0 !important;
+	padding: 0 !important;
+	line-height: 1.35;
+}
+.ms-article-actions .ms-sep { display: none; }
+.ms-abstract {
+	margin: 0.6em 0 0.4em;
+	padding: 0.8em 1em;
+	border-left: 3px solid var(--ms-accent);
+	color: var(--ms-text);
+	line-height: 1.55;
+	text-align: justify;
+}
+.ms-abstract[hidden] { display: none; }
+
+/* Keyboard focus: a visible ring on the buttons and cards that open or follow links */
+.ms-article-actions a:focus-visible,
+html body .ms-readmore__button:focus-visible,
+.ms-category summary:focus-visible,
+.pkp_block ul.ms-menu li a:focus-visible {
+	outline: 2px solid var(--ms-primary);
+	outline-offset: 2px;
+}
+
+/* Footer: Manuscript's light footer with the base-colour line at the bottom.
+ * Footer text on the left, the OJS / PKP logo at the right, both centred
+ * vertically between the top and bottom of the footer (768px and up). */
+@media (min-width: 768px) {
+	/* The Default Theme's clearfix pseudo-elements would become empty flex items
+	 * and, with the gap, push the footer text to the right */
+	html body .pkp_structure_footer::before,
+	html body .pkp_structure_footer::after {
+		content: none !important;
+		display: none !important;
+	}
+	html body .pkp_structure_footer {
+		display: flex !important;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 1.5rem var(--ms-gutter) !important;
+	}
+	html body .pkp_structure_footer .pkp_footer_content {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+	/* No extra left space inside the footer text: its left edge is the
+	 * footer's own left edge (which a small script lines up with the content) */
+	html body .pkp_structure_footer .pkp_footer_content,
+	html body .pkp_structure_footer .pkp_footer_content > * {
+		margin-left: 0 !important;
+		padding-left: 0 !important;
+	}
+	html body .pkp_structure_footer .pkp_footer_content > :first-child {
+		margin-top: 0 !important;
+	}
+	html body .pkp_structure_footer .pkp_footer_content > :last-child {
+		margin-bottom: 0 !important;
+	}
+	html body .pkp_structure_footer .pkp_brand_footer {
+		flex: 0 0 auto;
+		float: none !important;
+		width: auto !important;
+		margin: 0 0 0 auto !important;
+		padding: 0 !important;
+		text-align: right;
+	}
+	html body .pkp_structure_footer .pkp_brand_footer a {
+		float: none;
+		max-width: none;
+	}
+	html body .pkp_structure_footer .pkp_brand_footer img {
+		display: block;
+		width: 180px;
+		max-width: 100%;
+		height: auto;
+		margin-left: auto;
+	}
+}
+
+/* Right-to-left languages (e.g. Arabic): mirror the sidebar divider and the
+ * corner of Register/Login */
+@media (min-width: 992px) {
+	html body[dir="rtl"] .pkp_structure_main {
+		padding-left: var(--ms-gutter) !important;
+		padding-right: 0 !important;
+	}
+	html body[dir="rtl"] .pkp_structure_main:last-child {
+		padding-left: 0 !important;
+	}
+	html body[dir="rtl"] .pkp_structure_sidebar {
+		padding-left: 0 !important;
+		padding-right: 28px !important;
+		border-left: 0;
+		border-right: 1px solid var(--ms-line);
+	}
+	html body[dir="rtl"].has_site_logo .pkp_navigation_user_wrapper {
+		right: auto !important;
+		left: 0 !important;
+		padding: 8px 0 0 var(--ms-gutter) !important;
+		text-align: left !important;
+	}
+}
+body[dir="rtl"] .ms-issue-coverage,
+body[dir="rtl"] .ms-archive-stats,
+body[dir="rtl"] .ms-abstract {
+	border-left: 0;
+	border-right: 3px solid var(--ms-accent);
+}
+body[dir="rtl"] .ms-category {
+	border-left: 0;
+	border-right: 3px solid var(--ms-base);
+}
+body[dir="rtl"] .pkp_block ul.ms-menu li a {
+	border-left: 0;
+	border-right: 3px solid transparent;
+}
+body[dir="rtl"] .pkp_block ul.ms-menu li a:hover,
+body[dir="rtl"] .pkp_block ul.ms-menu li a:focus,
+body[dir="rtl"] .pkp_block ul.ms-menu li a.is-active {
+	border-right-color: var(--ms-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* { transition: none !important; animation: none !important; }
+}
+
+/* Share of authors from abroad under the coverage line */
+.ms-issue-coverage .ms-issue-coverage__foreign { font-weight: 400; }
+.ms-archive-stats__line { white-space: nowrap; }
