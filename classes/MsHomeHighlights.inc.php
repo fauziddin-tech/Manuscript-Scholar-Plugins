@@ -4,7 +4,7 @@
  * Pure helpers for the three homepage cards (latest, most read, most
  * downloaded). Nothing here touches OJS, so it can be tested on its own.
  */
-class HomeHighlights {
+class MsHomeHighlights {
 
 	/**
 	 * Read submission ids from a statistics result. Accepts rows as arrays or

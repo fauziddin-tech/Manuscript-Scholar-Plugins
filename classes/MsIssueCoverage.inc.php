@@ -4,7 +4,7 @@
  * Pure helpers for the "Issue Coverage" box (authors and countries of an
  * issue). Nothing here touches OJS, so it can be tested on its own.
  */
-class IssueCoverage {
+class MsIssueCoverage {
 
 	/**
 	 * Count unique authors and authors per country.

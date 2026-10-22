@@ -8,7 +8,7 @@
  * is also shown with 0 citations (nothing is drawn when Dimensions does not
  * know the DOI at all).
  */
-class DimensionsBadge {
+class MsDimensionsBadge {
 
 	const SCRIPT = 'https://badge.dimensions.ai/badge.js';
 

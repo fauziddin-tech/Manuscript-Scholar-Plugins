@@ -7,7 +7,7 @@
  * PDF button is removed and its link becomes "Download PDF".
  * Nothing here touches OJS, so it can be tested on its own.
  */
-class ArticleActions {
+class MsArticleActions {
 
 	const SEGMENT = '<div class="obj_article_summary"';
 

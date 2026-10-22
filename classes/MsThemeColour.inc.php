@@ -8,7 +8,7 @@
  * Manuscript stylesheet and the CSS variables of manuscriptScholar.css.
  * Nothing here touches OJS, so it can be tested on its own.
  */
-class ThemeColour {
+class MsThemeColour {
 
 	/** Manuscript's own header colour */
 	const DEFAULT_BASE = '#4B7D92';

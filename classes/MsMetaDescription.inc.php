@@ -5,7 +5,7 @@
  * it under the page title). Nothing here touches OJS, so it can be tested
  * on its own.
  */
-class MetaDescription {
+class MsMetaDescription {
 
 	const LIMIT = 160;
 

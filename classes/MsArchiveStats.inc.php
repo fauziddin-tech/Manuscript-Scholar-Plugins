@@ -6,7 +6,7 @@
  * and number of articles (with the total number of pages under it). Nothing here touches OJS, so it can be tested on
  * its own.
  */
-class ArchiveStats {
+class MsArchiveStats {
 
 	const MARKER = '</div><!-- .obj_issue_summary -->';
 
@@ -15,14 +15,14 @@ class ArchiveStats {
 
 	/**
 	 * @param int $articleCount
-	 * @param array $summary result of IssueCoverage::summarize()
+	 * @param array $summary result of MsIssueCoverage::summarize()
 	 * @param array $names CODE => localized country name
 	 * @param callable $flagUrl CODE => URL, or '' when there is no flag
 	 * @param array $labels 'authors', 'countries', 'articles', 'summary' (already translated),
 	 *   optional 'pages' (the word shown after the total number of pages)
 	 * @param int $totalPages pages of all articles; shown under the article count
 	 *   when greater than zero and a 'pages' label is given
-	 * @param array|null $foreign result of IssueCoverage::foreignShare(); shown under the
+	 * @param array|null $foreign result of MsIssueCoverage::foreignShare(); shown under the
 	 *   author count as "12% foreign" when a 'foreign' label (the word) is given
 	 * @return string HTML, or '' when the issue has no articles
 	 */

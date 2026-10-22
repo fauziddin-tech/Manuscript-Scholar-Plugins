@@ -77,6 +77,7 @@ Tema ini membutuhkan Default Theme (bawaan OJS) tetap terpasang.
 | Tema tidak muncul di daftar plugin | Default Theme tidak terpasang | Pastikan `plugins/themes/default/` ada dan aktif |
 | Judul tampil dengan font cadangan | Nama folder salah sehingga `fonts/` tidak ditemukan | Rename folder menjadi `manuscriptScholar`, lalu Clear Template Cache |
 | Tema muncul tapi tidak bisa dipilih | Cache lama | Jalankan Clear Template Cache + Clear Data Caches |
+| HTTP 500 saat unggah atau di semua halaman, padahal Lite Scholar juga terpasang | Versi 1.0.0 memakai nama kelas PHP yang sama dengan Lite Scholar (`Cannot declare class IssueCoverage`) | Pakai versi 1.0.1 atau lebih baru: hapus folder `plugins/themes/manuscriptScholar` lewat cPanel, ekstrak paket baru di `plugins/themes/`, lalu Clear Data Caches |
 
 ### Pindah dari Lite Scholar atau Manuscript
 

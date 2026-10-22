@@ -61,7 +61,7 @@ class FakeDispatcher {
 	public function url($request, $route, $path, $page, $op, $args) { return "https://example.org/index.php/$path/$page/$op/" . implode('/', $args); }
 }
 require __DIR__ . '/../ManuscriptScholarThemePlugin.inc.php';
-require_once __DIR__ . '/../classes/CssMinifier.inc.php';
+require_once __DIR__ . '/../classes/MsCssMinifier.inc.php';
 
 class FakeAuthor {
 	public $data;
@@ -182,7 +182,7 @@ $theme->saveOption('manuscriptScholarHomeCountry', 'ID');
 check('saveOption: only hex colours are stored', array_slice($theme->calls, -3), array(array('saveOption', 'baseColour', null), array('saveOption', 'accentColour', '#abc'), array('saveOption', 'manuscriptScholarHomeCountry', 'ID')));
 
 // Issue coverage
-$summary = IssueCoverage::summarize(array(
+$summary = MsIssueCoverage::summarize(array(
 	array('key' => 'e:a', 'country' => 'id'),
 	array('key' => 'e:a', 'country' => 'ID'),
 	array('key' => 'e:b', 'country' => 'ID'),
@@ -192,39 +192,39 @@ $summary = IssueCoverage::summarize(array(
 ));
 check('summary authors', $summary['authors'], 4);
 check('summary countries', $summary['countries'], array('ID' => 2, 'PH' => 1));
-check('author key: same name and email', IssueCoverage::authorKey(' A@X.org ', ' Efi  Marija '), IssueCoverage::authorKey('a@x.org', 'efi marija'));
-check('author key: different names sharing one email stay different', IssueCoverage::authorKey('a@x.org', 'Ahmad') !== IssueCoverage::authorKey('a@x.org', 'Usarov Jabbor'), true);
-check('author key: affiliation does not matter', IssueCoverage::authorKey('', 'Efi Marija', 'Univ A'), IssueCoverage::authorKey('', 'Efi Marija', 'Univ B'));
-check('author key: name only and email only', array(IssueCoverage::authorKey('', 'Efi Marija'), IssueCoverage::authorKey('a@x.org', ''), IssueCoverage::authorKey('', '')), array('n:efi marija|e:', 'n:|e:a@x.org', ''));
-$shared = IssueCoverage::summarize(array(array('key' => IssueCoverage::authorKey('shared@x.org', 'Ahmad'), 'country' => 'ID'), array('key' => IssueCoverage::authorKey('shared@x.org', 'Usarov Jabbor'), 'country' => 'UZ'), array('key' => IssueCoverage::authorKey('shared@x.org', 'Ahmad'), 'country' => 'ID')));
+check('author key: same name and email', MsIssueCoverage::authorKey(' A@X.org ', ' Efi  Marija '), MsIssueCoverage::authorKey('a@x.org', 'efi marija'));
+check('author key: different names sharing one email stay different', MsIssueCoverage::authorKey('a@x.org', 'Ahmad') !== MsIssueCoverage::authorKey('a@x.org', 'Usarov Jabbor'), true);
+check('author key: affiliation does not matter', MsIssueCoverage::authorKey('', 'Efi Marija', 'Univ A'), MsIssueCoverage::authorKey('', 'Efi Marija', 'Univ B'));
+check('author key: name only and email only', array(MsIssueCoverage::authorKey('', 'Efi Marija'), MsIssueCoverage::authorKey('a@x.org', ''), MsIssueCoverage::authorKey('', '')), array('n:efi marija|e:', 'n:|e:a@x.org', ''));
+$shared = MsIssueCoverage::summarize(array(array('key' => MsIssueCoverage::authorKey('shared@x.org', 'Ahmad'), 'country' => 'ID'), array('key' => MsIssueCoverage::authorKey('shared@x.org', 'Usarov Jabbor'), 'country' => 'UZ'), array('key' => MsIssueCoverage::authorKey('shared@x.org', 'Ahmad'), 'country' => 'ID')));
 check('authors who share an email are all counted, each with his country', $shared, array('authors' => 2, 'countries' => array('ID' => 1, 'UZ' => 1)));
-check('names without a valid country', IssueCoverage::namesWithoutCountry(array(array('name' => 'A', 'country' => 'ID'), array('name' => 'B', 'country' => ''), array('name' => 'B', 'country' => 'xx1'), array('name' => 'C'), array('name' => '', 'country' => ''), array('name' => 'D', 'country' => 'UZ')), 5), array('B', 'C'));
-check('names without a valid country, limited', count(IssueCoverage::namesWithoutCountry(array(array('name' => 'A'), array('name' => 'B'), array('name' => 'C')), 2)), 2);
+check('names without a valid country', MsIssueCoverage::namesWithoutCountry(array(array('name' => 'A', 'country' => 'ID'), array('name' => 'B', 'country' => ''), array('name' => 'B', 'country' => 'xx1'), array('name' => 'C'), array('name' => '', 'country' => ''), array('name' => 'D', 'country' => 'UZ')), 5), array('B', 'C'));
+check('names without a valid country, limited', count(MsIssueCoverage::namesWithoutCountry(array(array('name' => 'A'), array('name' => 'B'), array('name' => 'C')), 2)), 2);
 
-$html = IssueCoverage::render(12, $summary, array('ID' => 'Indonesia', 'PH' => 'Philippines <x>'), function ($c) {
+$html = MsIssueCoverage::render(12, $summary, array('ID' => 'Indonesia', 'PH' => 'Philippines <x>'), function ($c) {
 	return $c === 'ID' ? 'https://e.org/flags/id.svg' : '';
 }, array('total' => 'Total Articles: 12', 'coverage' => 'Issue Coverage: 4 Author(s) from 2 Country(s)'));
 check('render has flag', strpos($html, 'src="https://e.org/flags/id.svg"') !== false, true);
 check('render no flag for PH', substr_count($html, '<img'), 1);
 check('render escapes', strpos($html, 'Philippines &lt;x&gt;') !== false, true);
 check('render counts', strpos($html, '(2)') !== false && strpos($html, '(1)') !== false, true);
-check('render zero articles', IssueCoverage::render(0, $summary, array(), function () { return ''; }, array('total' => 'x', 'coverage' => 'y')), '');
+check('render zero articles', MsIssueCoverage::render(0, $summary, array(), function () { return ''; }, array('total' => 'x', 'coverage' => 'y')), '');
 
 $page = '<div class="obj_issue_toc"><div class="heading">h</div><div class="sections"><p>s $1 \\0</p></div></div>';
-$out = IssueCoverage::inject($page, '<b>BOX $1</b>');
+$out = MsIssueCoverage::inject($page, '<b>BOX $1</b>');
 check('inject before sections', strpos($out, '<b>BOX $1</b><div class="sections"') !== false, true);
 check('inject keeps content', strpos($out, 's $1 \\0') !== false, true);
 $heading = '<div class="obj_issue_toc"><div class="heading"><a class="cover" href="#"><img src="c.jpg"></a><div class="description">d</div><div class="published">p</div></div><div class="sections"><div class="description">x</div></div></div>';
-$out = IssueCoverage::inject($heading, '<b>BOX</b>');
+$out = MsIssueCoverage::inject($heading, '<b>BOX</b>');
 check('inject beside cover', strpos($out, '</a><b>BOX</b><div class="description">d</div>') !== false, true);
 check('inject once', substr_count($out, '<b>BOX</b>'), 1);
 $noDesc = '<div class="obj_issue_toc"><div class="heading"><a class="cover" href="#"></a><div class="published">p</div></div><div class="sections"></div></div>';
-check('inject before published', strpos(IssueCoverage::inject($noDesc, '<b>BOX</b>'), '</a><b>BOX</b><div class="published">') !== false, true);
+check('inject before published', strpos(MsIssueCoverage::inject($noDesc, '<b>BOX</b>'), '</a><b>BOX</b><div class="published">') !== false, true);
 $noAnchor = '<div class="obj_issue_toc"><div class="heading"><a class="cover" href="#"></a></div><div class="sections"></div></div>';
-check('no anchor in heading falls back to sections', strpos(IssueCoverage::inject($noAnchor, '<b>BOX</b>'), '<b>BOX</b><div class="sections"') !== false, true);
-$out = IssueCoverage::inject('<div class="obj_issue_toc"><p>x</p></div>', '<b>B</b>');
+check('no anchor in heading falls back to sections', strpos(MsIssueCoverage::inject($noAnchor, '<b>BOX</b>'), '<b>BOX</b><div class="sections"') !== false, true);
+$out = MsIssueCoverage::inject('<div class="obj_issue_toc"><p>x</p></div>', '<b>B</b>');
 check('inject fallback', $out, '<div class="obj_issue_toc"><b>B</b><p>x</p></div>');
-check('inject no toc', IssueCoverage::inject('<p>no</p>', '<b>B</b>'), '<p>no</p>');
+check('inject no toc', MsIssueCoverage::inject('<p>no</p>', '<b>B</b>'), '<p>no</p>');
 
 // End to end through the theme, with fake OJS services
 class FakeIssue { public function getJournalId() { return 1; } public function getId() { return 7; } }
@@ -258,21 +258,21 @@ check('e2e flag', strpos($out, 'https://example.org/plugins/themes/manuscriptSch
 check('e2e flag exists on disk', is_file(__DIR__ . '/../flags/id.svg') && is_file(__DIR__ . '/../flags/my.svg'), true);
 
 // Home highlights
-check('ids from stats', HomeHighlights::idsFromStats(array(array('submission_id' => 5), (object) array('submissionId' => 7), array('id' => 5), array('x' => 1), array('id' => 9)), 3), array(5, 7, 9));
-check('ids from junk', HomeHighlights::idsFromStats(null), array());
-$cardsHtml = HomeHighlights::render(array(
+check('ids from stats', MsHomeHighlights::idsFromStats(array(array('submission_id' => 5), (object) array('submissionId' => 7), array('id' => 5), array('x' => 1), array('id' => 9)), 3), array(5, 7, 9));
+check('ids from junk', MsHomeHighlights::idsFromStats(null), array());
+$cardsHtml = MsHomeHighlights::render(array(
 	array('title' => 'Latest articles', 'items' => array(array('title' => 'A <b>', 'url' => 'https://e.org/a?x=1&y=2'))),
 	array('title' => 'Empty', 'items' => array()),
 ));
 check('cards render', substr_count($cardsHtml, '<section'), 1);
 check('cards escape', strpos($cardsHtml, 'A &lt;b&gt;') !== false && strpos($cardsHtml, 'x=1&amp;y=2') !== false, true);
-check('totals from stats', HomeHighlights::totalsFromStats(array(array('submission_id' => 5, 'total' => '12'), (object) array('submissionId' => 7, 'metric' => 3), array('id' => 5, 'total' => 99), array('x' => 1, 'total' => 4), array('id' => 9))), array(5 => 12, 7 => 3));
-check('totals from junk', HomeHighlights::totalsFromStats(null), array());
-check('card item with a meta line, escaped', strpos(HomeHighlights::render(array(array('title' => 'T', 'items' => array(array('title' => 'A', 'url' => 'u', 'meta' => '1 <b>'))))), '<a href="u">A</a><span class="ms-highlight__meta">1 &lt;b&gt;</span></li>') !== false, true);
-check('card item without meta has no meta element', strpos(HomeHighlights::render(array(array('title' => 'T', 'items' => array(array('title' => 'A', 'url' => 'u'))))), 'ms-highlight__meta'), false);
-check('cards empty', HomeHighlights::render(array(array('title' => 'x', 'items' => array()))), '');
-check('inject footer', HomeHighlights::inject('<p>main</p><div class="pkp_structure_footer_wrapper" role="contentinfo">f</div>', '<i>C</i>'), '<p>main</p><i>C</i><div class="pkp_structure_footer_wrapper" role="contentinfo">f</div>');
-check('inject no footer', HomeHighlights::inject('<p>x</p>', '<i>C</i>'), '<p>x</p>');
+check('totals from stats', MsHomeHighlights::totalsFromStats(array(array('submission_id' => 5, 'total' => '12'), (object) array('submissionId' => 7, 'metric' => 3), array('id' => 5, 'total' => 99), array('x' => 1, 'total' => 4), array('id' => 9))), array(5 => 12, 7 => 3));
+check('totals from junk', MsHomeHighlights::totalsFromStats(null), array());
+check('card item with a meta line, escaped', strpos(MsHomeHighlights::render(array(array('title' => 'T', 'items' => array(array('title' => 'A', 'url' => 'u', 'meta' => '1 <b>'))))), '<a href="u">A</a><span class="ms-highlight__meta">1 &lt;b&gt;</span></li>') !== false, true);
+check('card item without meta has no meta element', strpos(MsHomeHighlights::render(array(array('title' => 'T', 'items' => array(array('title' => 'A', 'url' => 'u'))))), 'ms-highlight__meta'), false);
+check('cards empty', MsHomeHighlights::render(array(array('title' => 'x', 'items' => array()))), '');
+check('inject footer', MsHomeHighlights::inject('<p>main</p><div class="pkp_structure_footer_wrapper" role="contentinfo">f</div>', '<i>C</i>'), '<p>main</p><i>C</i><div class="pkp_structure_footer_wrapper" role="contentinfo">f</div>');
+check('inject no footer', MsHomeHighlights::inject('<p>x</p>', '<i>C</i>'), '<p>x</p>');
 
 class HSub {
 	public $id; public $status; public $title;
@@ -328,19 +328,19 @@ $list = '<div class="obj_article_summary"><h3 class="title"><a id="article-12" h
 	. '<div class="obj_article_summary"><h3 class="title"><a id="article-13" href="x/article/view/13">Two</a></h3><div class="meta"><div class="authors">Cy</div></div></div>'
 	. '<div class="obj_article_summary"><h3 class="title"><a id="article-14" href="x/article/view/14">Three</a></h3><div class="meta"><div class="pages">9</div></div></div>'
 	. '<div class="sidebar"><div class="authors">not an article</div></div>';
-check('ids from output', ArticleActions::idsFromOutput($list), array(12, 13, 14));
+check('ids from output', MsArticleActions::idsFromOutput($list), array(12, 13, 14));
 $labels = array('show' => 'Show Abstract', 'hide' => 'Hide Abstract', 'download' => 'Download PDF', 'scholar' => 'Check in Google Scholar');
 $data = array(
 	12 => array('title' => 'One & "Two"', 'abstract' => '<p>An abstract.</p>', 'url' => 'https://e.org/article/view/12', 'download' => 'https://e.org/article/download/12/5'),
 	13 => array('title' => 'Two', 'abstract' => '', 'url' => 'https://e.org/article/view/13', 'download' => ''),
 	14 => array('title' => 'Three', 'abstract' => '<p>x</p>', 'url' => 'https://e.org/article/view/14', 'download' => ''),
 );
-$out = ArticleActions::inject($list, $data, $labels);
+$out = MsArticleActions::inject($list, $data, $labels);
 check('actions after authors', strpos($out, '<div class="authors">Ann, Bob</div><p class="ms-article-actions"><a href="https://e.org/article/view/12" class="ms-show-abstract"') !== false, true);
 check('three links with separators', substr_count(substr($out, 0, strpos($out, '</p>')), '<span class="ms-sep">|</span>'), 2);
 check('abstract hidden after the line, linked by id', preg_match('#</p><div class="ms-abstract" id="(ms-abstract-12-\d+)" hidden><p>An abstract.</p></div>#', $out, $mm) === 1 && strpos($out, 'aria-controls="' . $mm[1] . '"') !== false, true);
 check('abstract link is an accessible toggle', strpos($out, 'role="button" aria-expanded="false" aria-controls="ms-abstract-12-') !== false, true);
-check('same article twice gets different panel ids', (function () use ($list, $data, $labels) { preg_match_all('/id="(ms-abstract-[^"]+)"/', ArticleActions::inject($list . $list, $data, $labels), $m); return count($m[1]) === count(array_unique($m[1])) && count($m[1]) > 1; })(), true);
+check('same article twice gets different panel ids', (function () use ($list, $data, $labels) { preg_match_all('/id="(ms-abstract-[^"]+)"/', MsArticleActions::inject($list . $list, $data, $labels), $m); return count($m[1]) === count(array_unique($m[1])) && count($m[1]) > 1; })(), true);
 check('download link is the old PDF button link', strpos($out, 'href="https://e.org/article/view/12/5?x=1&amp;y=2" class="ms-download">Download PDF') !== false, true);
 check('pdf button removed', strpos($out, 'obj_galley_link pdf'), false);
 check('other galley buttons kept', strpos($out, '<ul class="galleys_links"><li><a class="obj_galley_link file" href="https://e.org/article/view/12/6">HTML</a></li></ul>') !== false, true);
@@ -348,13 +348,13 @@ check('scholar link encoded', strpos($out, 'https://scholar.google.com/scholar?q
 check('no abstract, no download: only scholar', substr_count(substr($out, strpos($out, 'Cy')), 'ms-show-abstract'), 0);
 check('article without authors untouched', strpos($out, '<div class="meta"><div class="pages">9</div></div>') !== false, true);
 check('sidebar authors untouched', strpos($out, '<div class="authors">not an article</div></div>') !== false, true);
-list($seg, $href) = ArticleActions::takePdfButton('<ul class="galleys_links"><li><a href="/v/1/2" class="obj_galley_link pdf">PDF</a></li></ul><p>x</p>');
+list($seg, $href) = MsArticleActions::takePdfButton('<ul class="galleys_links"><li><a href="/v/1/2" class="obj_galley_link pdf">PDF</a></li></ul><p>x</p>');
 check('only pdf button: list removed', $seg, '<p>x</p>');
 check('only pdf button: href', $href, '/v/1/2');
-list($seg, $href) = ArticleActions::takePdfButton('<ul class="galleys_links"><li><a class="obj_galley_link file" href="/h">HTML</a></li></ul>');
+list($seg, $href) = MsArticleActions::takePdfButton('<ul class="galleys_links"><li><a class="obj_galley_link file" href="/h">HTML</a></li></ul>');
 check('no pdf button: list kept', strpos($seg, 'HTML') !== false && $href === '', true);
-check('inject no data', ArticleActions::inject($list, array(), $labels), $list);
-check('scholar url spaces', ArticleActions::scholarUrl("A   B\nC"), 'https://scholar.google.com/scholar?q=%2Bintitle%3A%22A%20B%20C%22');
+check('inject no data', MsArticleActions::inject($list, array(), $labels), $list);
+check('scholar url spaces', MsArticleActions::scholarUrl("A   B\nC"), 'https://scholar.google.com/scholar?q=%2Bintitle%3A%22A%20B%20C%22');
 
 class AGalley { public $id; public $pdf; public function __construct($id, $pdf) { $this->id = $id; $this->pdf = $pdf; } public function isPdfGalley() { return $this->pdf; } public function getBestGalleyId() { return $this->id; } }
 class APub { public function getLocalizedFullTitle() { return 'Full Title'; } public function getLocalizedTitle() { return 'T'; } public function getLocalizedData($k) { return '<p>Abs <b>x</b><script>alert(1)</script></p>'; } public function getData($k) { return array(new AGalley(7, false), new AGalley(8, true)); } public function getStoredPubId($type) { return $type === 'doi' ? '10.31004/aulad.v9i3.1779' : ''; } }
@@ -401,7 +401,7 @@ function sampleHome($first, $second) {
 		. '</div></div><a href="https://e.org/issue/archive" class="read_more">View All Issues</a></section></div><div class="pkp_structure_footer_wrapper">f</div>';
 }
 function hiddenIds($html) { preg_match_all('/<li class="ms-more" hidden>.*?id="article-(\\d+)"/s', $html, $m); return array_map('intval', $m[1]); }
-$out = HomeIssueTrim::trim(sampleHome(4, 3), 5, 'Read more', 'Show less');
+$out = MsHomeIssueTrim::trim(sampleHome(4, 3), 5, 'Read more', 'Show less');
 check('fold: every article stays in the page', substr_count($out, '<div class="obj_article_summary"'), 7);
 check('fold: the ones after the fifth are hidden', hiddenIds($out), array(102, 103));
 check('fold: the fifth is the edge', strpos($out, '<li class="ms-edge"><div class="obj_article_summary"><h3 class="title"><a id="article-101"') !== false, true);
@@ -411,17 +411,17 @@ check('fold: first section untouched', strpos($out, '<div class="section"><h2>Re
 check('fold: sections wrapper gets an id', strpos($out, '<div class="sections" id="ms-issue-sections">') !== false, true);
 check('fold button before View All Issues, with ARIA and labels', strpos($out, '<div class="ms-readmore"><a class="ms-readmore__button" href="https://e.org/issue/view/29" role="button" aria-expanded="false" aria-controls="ms-issue-sections" data-more="Read more" data-less="Show less">Read more</a></div><a href="https://e.org/issue/archive" class="read_more">') !== false, true);
 check('galley list markup still balanced', substr_count($out, '<li') === substr_count($out, '</li>'), true);
-$out = HomeIssueTrim::trim(sampleHome(4, 3), 4, 'Read more', 'Show less');
+$out = MsHomeIssueTrim::trim(sampleHome(4, 3), 4, 'Read more', 'Show less');
 check('a section with only hidden articles is hidden with its heading', strpos($out, '<div class="section ms-more" hidden><h2>Book Reviews</h2>') !== false && hiddenIds($out) === array(101, 102, 103), true);
 check('edge is the fourth article', strpos($out, '<li class="ms-edge"><div class="obj_article_summary"><h3 class="title"><a id="article-4"') !== false && strpos($out, 'ms-edge-section') !== false, true);
-check('no fold at or below the limit', HomeIssueTrim::trim(sampleHome(3, 2), 5, 'Read more', 'Show less'), sampleHome(3, 2));
-check('no current issue block', HomeIssueTrim::trim('<p>x</p>', 5, 'Read more', 'Show less'), '<p>x</p>');
+check('no fold at or below the limit', MsHomeIssueTrim::trim(sampleHome(3, 2), 5, 'Read more', 'Show less'), sampleHome(3, 2));
+check('no current issue block', MsHomeIssueTrim::trim('<p>x</p>', 5, 'Read more', 'Show less'), '<p>x</p>');
 $noLink = str_replace(' class="read_more">View All Issues</a>', '>x</a>', sampleHome(6, 0));
-check('button at the end when there is no View All Issues link', strpos(HomeIssueTrim::trim($noLink, 5, 'Read more', 'Show less'), 'Read more</a></div></section>') !== false, true);
+check('button at the end when there is no View All Issues link', strpos(MsHomeIssueTrim::trim($noLink, 5, 'Read more', 'Show less'), 'Read more</a></div></section>') !== false, true);
 $noCover = str_replace('href="https://e.org/issue/view/29"', 'href="https://e.org/x"', sampleHome(6, 0));
-check('without an issue link the button points at the sections', strpos(HomeIssueTrim::trim($noCover, 5, 'Read more', 'Show less'), 'href="#ms-issue-sections" role="button"') !== false, true);
-check('labels escaped', strpos(HomeIssueTrim::trim(sampleHome(6, 0), 5, 'A&B', '"x"'), 'data-more="A&amp;B" data-less="&quot;x&quot;"') !== false, true);
-check('classes added to an li that already has one', strpos(HomeIssueTrim::trim(str_replace('<li><div class="obj_article_summary"', '<li class="foo"><div class="obj_article_summary"', sampleHome(6, 0)), 5, 'm', 'l'), 'class="foo ms-more" hidden') !== false, true);
+check('without an issue link the button points at the sections', strpos(MsHomeIssueTrim::trim($noCover, 5, 'Read more', 'Show less'), 'href="#ms-issue-sections" role="button"') !== false, true);
+check('labels escaped', strpos(MsHomeIssueTrim::trim(sampleHome(6, 0), 5, 'A&B', '"x"'), 'data-more="A&amp;B" data-less="&quot;x&quot;"') !== false, true);
+check('classes added to an li that already has one', strpos(MsHomeIssueTrim::trim(str_replace('<li><div class="obj_article_summary"', '<li class="foo"><div class="obj_article_summary"', sampleHome(6, 0)), 5, 'm', 'l'), 'class="foo ms-more" hidden') !== false, true);
 
 $prevServices2 = Services::$services;
 Services::$services = array('submission' => new ASubService());
@@ -488,61 +488,61 @@ $pdo->exec("INSERT INTO submissions VALUES (10,1,3,100),(11,1,3,111),(12,1,3,120
 $pdo->exec("INSERT INTO publications VALUES (100,10,'2024-01-01'),(110,11,'2023-01-01'),(111,11,'2025-01-01'),(120,12,'2022-01-01'),(130,13,'2025-06-01'),(140,14,'2025-01-01')");
 // 110 is an old version of submission 11: must not count
 $pdo->exec("INSERT INTO publication_categories VALUES (100,1),(110,1),(111,1),(120,2),(130,4),(140,5),(100,2)");
-$cats = CategoryCards::load($pdo, 1, array('id_ID', 'en_US'), 20);
+$cats = MsCategoryCards::load($pdo, 1, array('id_ID', 'en_US'), 20);
 check('categories without published articles are left out', array_map(function ($c) { return $c['id']; }, $cats), array(2, 1));
 check('category order follows seq', $cats[0]['title'], 'Science');
 check('title in the preferred locale', $cats[1]['title'], 'Pendidikan');
 check('count uses current publications only', array($cats[0]['count'], $cats[1]['count']), array(2, 2));
 check('latest articles first', $cats[1]['submissionIds'], array(11, 10));
-$cats = CategoryCards::load($pdo, 1, array('fr_FR'), 1);
+$cats = MsCategoryCards::load($pdo, 1, array('fr_FR'), 1);
 check('title falls back to any locale', $cats[1]['title'] === 'Education' || $cats[1]['title'] === 'Pendidikan', true);
 check('article list limited, count kept', array(count($cats[1]['submissionIds']), $cats[1]['count']), array(1, 2));
 $pdo->exec('CREATE TABLE publication_settings (publication_id INTEGER, locale TEXT, setting_name TEXT, setting_value TEXT)');
 $pdo->exec("INSERT INTO publication_settings VALUES (100,'','issueId','5'),(110,'','issueId','5'),(111,'','issueId','6'),(120,'','issueId','5'),(100,'','title','x'),(130,'','issueId','5'),(140,'','issueId','5')");
 $pdo->exec('CREATE TABLE issues (issue_id INTEGER, journal_id INTEGER, current INTEGER)');
 $pdo->exec("INSERT INTO issues VALUES (4,1,0),(5,1,1),(6,1,0),(7,2,1)");
-check('current issue id', array(CategoryCards::currentIssueId($pdo, 1), CategoryCards::currentIssueId($pdo, 2), CategoryCards::currentIssueId($pdo, 3)), array(5, 7, 0));
-$cats = CategoryCards::load($pdo, 1, array('en_US'), 20, 5);
+check('current issue id', array(MsCategoryCards::currentIssueId($pdo, 1), MsCategoryCards::currentIssueId($pdo, 2), MsCategoryCards::currentIssueId($pdo, 3)), array(5, 7, 0));
+$cats = MsCategoryCards::load($pdo, 1, array('en_US'), 20, 5);
 check('current issue: only its categories, empty ones hidden', array_map(function ($c) { return $c['id']; }, $cats), array(2, 1));
 check('current issue: counts and articles', array($cats[0]['count'], $cats[0]['submissionIds'], $cats[1]['count'], $cats[1]['submissionIds']), array(2, array(10, 12), 1, array(10)));
-$cats = CategoryCards::load($pdo, 1, array('en_US'), 20, 6);
+$cats = MsCategoryCards::load($pdo, 1, array('en_US'), 20, 6);
 check('other issue: only its articles (current publication, not old version)', array_map(function ($c) { return array($c['id'], $c['count'], $c['submissionIds']); }, $cats), array(array(1, 1, array(11))));
-check('no articles in issue: no cards', CategoryCards::load($pdo, 1, array('en_US'), 20, 4), array());
-check('other journals ignored', CategoryCards::load($pdo, 2, array('en_US'), 5)[0]['title'], 'Other journal');
+check('no articles in issue: no cards', MsCategoryCards::load($pdo, 1, array('en_US'), 20, 4), array());
+check('other journals ignored', MsCategoryCards::load($pdo, 2, array('en_US'), 5)[0]['title'], 'Other journal');
 
 $cards = array(array('title' => 'Edu <b>', 'count' => 3, 'articles' => array(array('title' => 'A & B', 'url' => 'http://x/1?a=1&b=2'))));
-$html = CategoryCards::render($cards, array('heading' => 'Categories', 'articles' => 'articles', 'more' => ''));
+$html = MsCategoryCards::render($cards, array('heading' => 'Categories', 'articles' => 'articles', 'more' => ''));
 check('card html: details/summary', strpos($html, '<details class="ms-category"><summary>') !== false && strpos($html, '3 articles') !== false, true);
 check('card html escaped', strpos($html, 'Edu &lt;b&gt;') !== false && strpos($html, 'A &amp; B') !== false && strpos($html, 'a=1&amp;b=2') !== false, true);
-check('no cards, no html', CategoryCards::render(array(), array('heading' => 'x', 'articles' => 'y', 'more' => '')), '');
+check('no cards, no html', MsCategoryCards::render(array(), array('heading' => 'x', 'articles' => 'y', 'more' => '')), '');
 $page = '<div>about</div><section class="current_issue"><h2>x</h2></section>';
-$out = CategoryCards::inject($page, $html);
+$out = MsCategoryCards::inject($page, $html);
 check('cards inserted before current issue', strpos($out, 'ms-categories') < strpos($out, 'current_issue') && strpos($out, 'about') < strpos($out, 'ms-categories'), true);
-check('inject without anchor leaves page', CategoryCards::inject('<p>x</p>', $html), '<p>x</p>');
-check('inject with empty html leaves page', CategoryCards::inject($page, ''), $page);
+check('inject without anchor leaves page', MsCategoryCards::inject('<p>x</p>', $html), '<p>x</p>');
+check('inject with empty html leaves page', MsCategoryCards::inject($page, ''), $page);
 
 // Article order by start page
 function pagedArticle($n, $pages) { return str_replace('</div></li>', ($pages === null ? '' : '<div class="pages">' . $pages . '</div>') . '</div></li>', sampleArticle($n)); }
 function ids($html) { preg_match_all('/id="article-(\\d+)"/', $html, $m); return array_map('intval', $m[1]); }
 $list = '<ul class="cmp_article_list articles">' . pagedArticle(1, '977-988') . "\n" . pagedArticle(2, '1029-1038') . pagedArticle(3, null) . pagedArticle(4, '1028-1038') . pagedArticle(5, '989-1001') . '</ul>';
-$out = ArticleOrder::sortByPages('<p>x</p>' . $list . '<p>y</p>');
+$out = MsArticleOrder::sortByPages('<p>x</p>' . $list . '<p>y</p>');
 check('articles ordered by start page, no page last', ids($out), array(1, 5, 4, 2, 3));
 check('order keeps the markup balanced', substr_count($out, '<li') === substr_count($out, '</li>') && substr_count($out, '<ul') === substr_count($out, '</ul>'), true);
 check('text around the list untouched', strpos($out, '<p>x</p><ul') === 0 && substr($out, -strlen('</ul><p>y</p>')) === '</ul><p>y</p>', true);
-check('numeric, not alphabetical', ids(ArticleOrder::sortByPages('<ul>' . pagedArticle(1, '1000-1005') . pagedArticle(2, '99-101') . '</ul>')), array(2, 1));
-check('letters in pages ignored', ids(ArticleOrder::sortByPages('<ul>' . pagedArticle(1, 'e30') . pagedArticle(2, 'e5') . '</ul>')), array(2, 1));
-check('missing pages keep their order', ids(ArticleOrder::sortByPages('<ul>' . pagedArticle(1, null) . pagedArticle(2, null) . pagedArticle(3, '5') . '</ul>')), array(3, 1, 2));
-check('same page keeps order', ids(ArticleOrder::sortByPages('<ul>' . pagedArticle(1, '7') . pagedArticle(2, '7') . '</ul>')), array(1, 2));
+check('numeric, not alphabetical', ids(MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, '1000-1005') . pagedArticle(2, '99-101') . '</ul>')), array(2, 1));
+check('letters in pages ignored', ids(MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, 'e30') . pagedArticle(2, 'e5') . '</ul>')), array(2, 1));
+check('missing pages keep their order', ids(MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, null) . pagedArticle(2, null) . pagedArticle(3, '5') . '</ul>')), array(3, 1, 2));
+check('same page keeps order', ids(MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, '7') . pagedArticle(2, '7') . '</ul>')), array(1, 2));
 $twoSections = '<div class="section"><ul class="cmp_article_list">' . pagedArticle(1, '50') . pagedArticle(2, '10') . '</ul></div><div class="section"><ul class="cmp_article_list">' . pagedArticle(3, '20') . pagedArticle(4, '5') . '</ul></div>';
-check('each section sorted on its own', ids(ArticleOrder::sortByPages($twoSections)), array(2, 1, 4, 3));
-check('single article and no articles unchanged', ArticleOrder::sortByPages('<ul>' . pagedArticle(1, '5') . '</ul>') === '<ul>' . pagedArticle(1, '5') . '</ul>' && ArticleOrder::sortByPages('<p>x</p>') === '<p>x</p>', true);
-check('sorted page unchanged', ArticleOrder::sortByPages('<ul>' . pagedArticle(1, '1') . pagedArticle(2, '2') . '</ul>'), '<ul>' . pagedArticle(1, '1') . pagedArticle(2, '2') . '</ul>');
+check('each section sorted on its own', ids(MsArticleOrder::sortByPages($twoSections)), array(2, 1, 4, 3));
+check('single article and no articles unchanged', MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, '5') . '</ul>') === '<ul>' . pagedArticle(1, '5') . '</ul>' && MsArticleOrder::sortByPages('<p>x</p>') === '<p>x</p>', true);
+check('sorted page unchanged', MsArticleOrder::sortByPages('<ul>' . pagedArticle(1, '1') . pagedArticle(2, '2') . '</ul>'), '<ul>' . pagedArticle(1, '1') . pagedArticle(2, '2') . '</ul>');
 // Order first, then the home page keeps the first five by page
 $home = '<html><body>' . '<div class="page_index_journal"><section class="current_issue"><div class="sections"><div class="section"><h2>S</h2><ul class="cmp_article_list articles">'
 	. pagedArticle(1, '60') . pagedArticle(2, '50') . pagedArticle(3, '40') . pagedArticle(4, '30') . pagedArticle(5, '20') . pagedArticle(6, '10') . pagedArticle(7, '5')
 	. '</ul></div></div><a href="https://e.org/issue/view/1">x</a></section></div></body></html>';
-$sorted = ArticleOrder::sortByPages($home);
-check('home: sorted before folding shows the lowest pages first', array_slice(ids(HomeIssueTrim::trim($sorted, 5, 'Read more', 'Show less')), 0, 5), array(7, 6, 5, 4, 3));
+$sorted = MsArticleOrder::sortByPages($home);
+check('home: sorted before folding shows the lowest pages first', array_slice(ids(MsHomeIssueTrim::trim($sorted, 5, 'Read more', 'Show less')), 0, 5), array(7, 6, 5, 4, 3));
 $theme = new TestTheme();
 $mgr = new HomeMgr();
 $theme->handleDisplay('TemplateManager::display', array($mgr, 'frontend/pages/indexJournal.tpl'));
@@ -559,16 +559,16 @@ check('plugin: search results keep their own order', ids($out), array(1, 2));
 
 // Dimensions badge
 $doiPage = '<div class="item authors">a</div><section class="item doi"><span class="label">DOI:</span> <span class="value"><a href="https://doi.org/10.31004/aulad.v9i3.1759">https://doi.org/10.31004/aulad.v9i3.1759</a></span></section><div class="item keywords">k</div>';
-check('doi from the DOI line', DimensionsBadge::doiFromOutput($doiPage), '10.31004/aulad.v9i3.1759');
-check('doi from a div line, encoded', DimensionsBadge::doiFromOutput('<div class="item doi"><a href="https://doi.org/10.1234/ab%28c%29&amp;d">x</a></div>'), '10.1234/ab(c)&d');
-check('no DOI line', DimensionsBadge::doiFromOutput('<div class="item keywords">k</div>'), '');
-check('link that is not a DOI', DimensionsBadge::doiFromOutput('<div class="item doi"><a href="https://doi.org/hello">x</a></div>'), '');
-$out = DimensionsBadge::inject($doiPage);
+check('doi from the DOI line', MsDimensionsBadge::doiFromOutput($doiPage), '10.31004/aulad.v9i3.1759');
+check('doi from a div line, encoded', MsDimensionsBadge::doiFromOutput('<div class="item doi"><a href="https://doi.org/10.1234/ab%28c%29&amp;d">x</a></div>'), '10.1234/ab(c)&d');
+check('no DOI line', MsDimensionsBadge::doiFromOutput('<div class="item keywords">k</div>'), '');
+check('link that is not a DOI', MsDimensionsBadge::doiFromOutput('<div class="item doi"><a href="https://doi.org/hello">x</a></div>'), '');
+$out = MsDimensionsBadge::inject($doiPage);
 check('badge right before the DOI line', strpos($out, '<div class="item authors">a</div><div class="item ms-dimensions"><span class="__dimensions_badge_embed__" data-doi="10.31004/aulad.v9i3.1759"') !== false && strpos($out, '</script></div><section class="item doi">') !== false, true);
 check('badge options', strpos($out, 'data-style="small_rectangle"') !== false && strpos($out, 'data-hide-zero-citations="false"') !== false && substr_count($out, 'badge.dimensions.ai/badge.js') === 1, true);
-check('badge only once', DimensionsBadge::inject($out), $out);
-check('no DOI, page unchanged', DimensionsBadge::inject('<p>x</p>'), '<p>x</p>');
-check('doi attribute escaped', strpos(DimensionsBadge::render('10.1/a"b'), 'data-doi="10.1/a&quot;b"') !== false, true);
+check('badge only once', MsDimensionsBadge::inject($out), $out);
+check('no DOI, page unchanged', MsDimensionsBadge::inject('<p>x</p>'), '<p>x</p>');
+check('doi attribute escaped', strpos(MsDimensionsBadge::render('10.1/a"b'), 'data-doi="10.1/a&quot;b"') !== false, true);
 $theme = new TestTheme();
 $mgr = new HomeMgr();
 $theme->handleDisplay('TemplateManager::display', array($mgr, 'frontend/pages/article.tpl'));
@@ -579,7 +579,7 @@ check('plugin: no badge on other pages', strpos($mgr->apply('<html><body>' . $do
 
 // Fragment cache
 $cacheDir = sys_get_temp_dir() . '/ms-test-cache-' . getmypid();
-$cache = new FragmentCache($cacheDir, 60);
+$cache = new MsFragmentCache($cacheDir, 60);
 $built = 0;
 $make = function () use (&$built) { $built++; return '<p>card ' . $built . '</p>'; };
 check('cache: first call builds', $cache->remember('k1', $make), '<p>card 1</p>');
@@ -595,13 +595,13 @@ check('cache: a failing build reaches the caller and stores nothing', array($thr
 $files = glob($cacheDir . '/ms-*.cache');
 foreach ($files as $f) { touch($f, time() - 120); }
 check('cache: expired values are rebuilt', $cache->remember('k1', $make), '<p>card 4</p>');
-check('cache: ttl 0 never stores', (new FragmentCache($cacheDir, 0))->remember('k1', function () { return 'fresh'; }), 'fresh');
+check('cache: ttl 0 never stores', (new MsFragmentCache($cacheDir, 0))->remember('k1', function () { return 'fresh'; }), 'fresh');
 check('cache: no temp files left behind', glob($cacheDir . '/*.tmp'), array());
 $cache->flush();
 check('cache: flush removes everything', glob($cacheDir . '/ms-*.cache'), array());
 file_put_contents($cacheDir . '/ms-bad.cache', 'not serialized');
-check('cache: damaged file is ignored', (new FragmentCache($cacheDir, 60))->remember('bad', function () { return 'rebuilt'; }), 'rebuilt');
-check('cache: unwritable directory still builds', (new FragmentCache('/proc/nope/x', 60))->remember('k', function () { return 'v'; }), 'v');
+check('cache: damaged file is ignored', (new MsFragmentCache($cacheDir, 60))->remember('bad', function () { return 'rebuilt'; }), 'rebuilt');
+check('cache: unwritable directory still builds', (new MsFragmentCache('/proc/nope/x', 60))->remember('k', function () { return 'v'; }), 'v');
 $cache->flush();
 @rmdir($cacheDir);
 
@@ -614,7 +614,7 @@ check('plugin cache: visitors get the stored copy', array($theme->cachedFor('hig
 check('plugin cache: journal is part of the key', array($theme->cachedFor('highlights', 2, $build), $calls), array('html', 2));
 $theme->debug = true;
 check('plugin cache: administrators always rebuild', array($theme->cachedFor('highlights', 1, $build), $calls), array('html', 3));
-(new FragmentCache($cacheDir, 60))->flush();
+(new MsFragmentCache($cacheDir, 60))->flush();
 @rmdir($cacheDir);
 TestTheme::$cacheDir = '';
 
@@ -644,25 +644,25 @@ $sum = array('authors' => 5, 'countries' => array('ID' => 4, 'MY' => 1));
 $names = array('ID' => 'Indonesia', 'MY' => 'Malaysia');
 $flag = function ($c) { return $c === 'MY' ? '' : 'https://e.org/flags/' . strtolower($c) . '.svg'; };
 $labels = array('authors' => 'authors', 'countries' => 'countries', 'articles' => 'articles', 'summary' => 'Issue "summary"');
-$card = ArchiveStats::render(3, $sum, $names, $flag, $labels);
+$card = MsArchiveStats::render(3, $sum, $names, $flag, $labels);
 check('card: three counts', preg_match_all('#<span class="ms-archive-stats__num">(\d+)</span> <span class="ms-archive-stats__label">(\w+)</span>#', $card, $mm) === 3 && $mm[1] === array('5', '2', '3') && $mm[2] === array('authors', 'countries', 'articles'), true);
 check('card: flag image with a title, text fallback without a flag file', strpos($card, '<img class="ms-flag" src="https://e.org/flags/id.svg" alt="" title="Indonesia (4)"') !== false && strpos($card, '<span class="ms-flag ms-flag--text" title="Malaysia (1)">MY</span>') !== false, true);
 check('card: accessible group label, escaped', strpos($card, 'role="group" aria-label="Issue &quot;summary&quot;"') !== false, true);
-$pagedCard = ArchiveStats::render(3, $sum, $names, $flag, $labels + array('pages' => 'pages'), 405);
+$pagedCard = MsArchiveStats::render(3, $sum, $names, $flag, $labels + array('pages' => 'pages'), 405);
 check('card: total pages under the article count', preg_match('#<span class="ms-archive-stats__num">3</span> <span class="ms-archive-stats__label">articles</span></span><span class="ms-archive-stats__line ms-archive-stats__pages"><span class="ms-archive-stats__num">405</span> <span class="ms-archive-stats__label">pages</span></span>#', $pagedCard), 1);
-check('card: no pages line without pages or without a label', array(strpos($card, 'ms-archive-stats__pages'), strpos(ArchiveStats::render(3, $sum, $names, $flag, $labels + array('pages' => 'pages'), 0), 'ms-archive-stats__pages'), strpos(ArchiveStats::render(3, $sum, $names, $flag, $labels, 405), 'ms-archive-stats__pages')), array(false, false, false));
-check('card: no articles, no card', ArchiveStats::render(0, $sum, $names, $flag, $labels), '');
+check('card: no pages line without pages or without a label', array(strpos($card, 'ms-archive-stats__pages'), strpos(MsArchiveStats::render(3, $sum, $names, $flag, $labels + array('pages' => 'pages'), 0), 'ms-archive-stats__pages'), strpos(MsArchiveStats::render(3, $sum, $names, $flag, $labels, 405), 'ms-archive-stats__pages')), array(false, false, false));
+check('card: no articles, no card', MsArchiveStats::render(0, $sum, $names, $flag, $labels), '');
 $many = array('authors' => 9, 'countries' => array('AA' => 9, 'BB' => 8, 'CC' => 7, 'DD' => 6, 'EE' => 5, 'FF' => 4, 'GG' => 3, 'HH' => 2));
-$manyCard = ArchiveStats::render(2, $many, array(), $flag, $labels);
+$manyCard = MsArchiveStats::render(2, $many, array(), $flag, $labels);
 check('card: at most six flags, the rest as +N', substr_count($manyCard, 'class="ms-flag') === 6 && strpos($manyCard, '<span class="ms-archive-stats__more">+2</span>') !== false, true);
-check('card: without countries only the counts', strpos(ArchiveStats::render(2, array('authors' => 2, 'countries' => array()), array(), $flag, $labels), 'ms-archive-stats__flags') === false, true);
+check('card: without countries only the counts', strpos(MsArchiveStats::render(2, array('authors' => 2, 'countries' => array()), array(), $flag, $labels), 'ms-archive-stats__flags') === false, true);
 $page = '<div class="obj_issue_summary"><a class="title">A</a></div><!-- .obj_issue_summary -->' . "\n" . '<div class="obj_issue_summary"><a class="title">B</a></div><!-- .obj_issue_summary -->';
-$out = ArchiveStats::inject($page, array('<i>1</i>', '<i>2</i>'));
+$out = MsArchiveStats::inject($page, array('<i>1</i>', '<i>2</i>'));
 check('inject: card at the end of each issue block', $out === '<div class="obj_issue_summary"><a class="title">A</a><i>1</i></div><!-- .obj_issue_summary -->' . "\n" . '<div class="obj_issue_summary"><a class="title">B</a><i>2</i></div><!-- .obj_issue_summary -->', true);
-check('inject: an issue without a card is skipped', substr_count(ArchiveStats::inject($page, array('', '<i>2</i>')), '<i>'), 1);
-check('inject: block count differs from issue count, page untouched', ArchiveStats::inject($page, array('<i>1</i>')), $page);
-check('inject: the Author Origins plugin badge is already there', ArchiveStats::inject('<div class="ao-badge"></div>' . $page, array('<i>1</i>', '<i>2</i>')), '<div class="ao-badge"></div>' . $page);
-check('inject: no cards', ArchiveStats::inject($page, array()), $page);
+check('inject: an issue without a card is skipped', substr_count(MsArchiveStats::inject($page, array('', '<i>2</i>')), '<i>'), 1);
+check('inject: block count differs from issue count, page untouched', MsArchiveStats::inject($page, array('<i>1</i>')), $page);
+check('inject: the Author Origins plugin badge is already there', MsArchiveStats::inject('<div class="ao-badge"></div>' . $page, array('<i>1</i>', '<i>2</i>')), '<div class="ao-badge"></div>' . $page);
+check('inject: no cards', MsArchiveStats::inject($page, array()), $page);
 
 class ArchIssue { public $id; public function __construct($id) { $this->id = $id; } public function getId() { return $this->id; } public function getJournalId() { return 1; } }
 class ArchMgr {
@@ -697,13 +697,13 @@ check('plugin: other pages get no archive cards', strpos($mgr->apply('<html><bod
 Services::$service = $prevSvc; Services::$services = $prevList;
 
 // DOI link in the action line
-check('doi cleaning', array(ArticleActions::cleanDoi('10.31004/aulad.v9i3.1779'), ArticleActions::cleanDoi(' https://doi.org/10.1234/ab.c '), ArticleActions::cleanDoi('doi: 10.1234/x'), ArticleActions::cleanDoi('hello'), ArticleActions::cleanDoi(''), ArticleActions::cleanDoi('10.12/x')), array('10.31004/aulad.v9i3.1779', '10.1234/ab.c', '10.1234/x', '', '', ''));
-check('doi url', ArticleActions::doiUrl('10.1234/a(b)#c'), 'https://doi.org/10.1234/a%28b%29%23c');
-$withDoi = ArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => 'https://e.org/d', 'doi' => '10.31004/aulad.v9i3.1779'), $labels);
+check('doi cleaning', array(MsArticleActions::cleanDoi('10.31004/aulad.v9i3.1779'), MsArticleActions::cleanDoi(' https://doi.org/10.1234/ab.c '), MsArticleActions::cleanDoi('doi: 10.1234/x'), MsArticleActions::cleanDoi('hello'), MsArticleActions::cleanDoi(''), MsArticleActions::cleanDoi('10.12/x')), array('10.31004/aulad.v9i3.1779', '10.1234/ab.c', '10.1234/x', '', '', ''));
+check('doi url', MsArticleActions::doiUrl('10.1234/a(b)#c'), 'https://doi.org/10.1234/a%28b%29%23c');
+$withDoi = MsArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => 'https://e.org/d', 'doi' => '10.31004/aulad.v9i3.1779'), $labels);
 check('doi pill with the DOI text, opens doi.org', strpos($withDoi, '<a href="https://doi.org/10.31004/aulad.v9i3.1779" class="ms-doi" target="_blank" rel="noopener">DOI: 10.31004/aulad.v9i3.1779</a>') !== false, true);
 check('doi pill sits between download and Google Scholar', strpos($withDoi, 'ms-download') < strpos($withDoi, 'ms-doi') && strpos($withDoi, 'ms-doi') < strpos($withDoi, 'ms-scholar'), true);
-check('no doi, no pill', strpos(ArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => '', 'doi' => ''), $labels), 'ms-doi'), false);
-check('junk doi, no pill', strpos(ArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => '', 'doi' => '<script>'), $labels), 'ms-doi'), false);
+check('no doi, no pill', strpos(MsArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => '', 'doi' => ''), $labels), 'ms-doi'), false);
+check('junk doi, no pill', strpos(MsArticleActions::render(array('title' => 'T', 'abstract' => '', 'url' => 'u', 'download' => '', 'doi' => '<script>'), $labels), 'ms-doi'), false);
 // Content signature: cached fragments follow the articles
 $sig = new PDO('sqlite::memory:');
 $sig->exec('CREATE TABLE submissions (submission_id INTEGER, context_id INTEGER, status INTEGER, current_publication_id INTEGER, last_modified TEXT)');
@@ -712,37 +712,37 @@ $sig->exec('CREATE TABLE publication_settings (publication_id INTEGER, locale TE
 $sig->exec("INSERT INTO submissions VALUES (1,1,3,10,'2026-10-01 10:00:00'),(2,1,3,20,'2026-10-02 10:00:00'),(3,1,1,30,'2026-10-03 10:00:00'),(4,2,3,40,'2026-10-04 10:00:00')");
 $sig->exec("INSERT INTO publications VALUES (10,1,'2026-10-01 10:00:00'),(20,2,'2026-10-02 10:00:00'),(30,3,'2026-10-03 10:00:00'),(40,4,'2026-10-04 10:00:00')");
 $sig->exec("INSERT INTO publication_settings VALUES (10,'','issueId','29'),(20,'','issueId','29'),(30,'','issueId','29'),(40,'','issueId','29')");
-$base = ContentSignature::forContext($sig, 1);
+$base = MsContentSignature::forContext($sig, 1);
 check('signature: 8 hex characters', preg_match('/^[0-9a-f]{8}$/', $base), 1);
-check('signature: stable while nothing changes', ContentSignature::forContext($sig, 1), $base);
-check('signature: issue and journal differ', ContentSignature::forContext($sig, 1, 29) !== '' && ContentSignature::forContext($sig, 1, 28) !== ContentSignature::forContext($sig, 1, 29), true);
-$issueBase = ContentSignature::forContext($sig, 1, 29);
+check('signature: stable while nothing changes', MsContentSignature::forContext($sig, 1), $base);
+check('signature: issue and journal differ', MsContentSignature::forContext($sig, 1, 29) !== '' && MsContentSignature::forContext($sig, 1, 28) !== MsContentSignature::forContext($sig, 1, 29), true);
+$issueBase = MsContentSignature::forContext($sig, 1, 29);
 $sig->exec("INSERT INTO submissions VALUES (5,1,3,50,'2026-10-18 09:00:00')");
 $sig->exec("INSERT INTO publications VALUES (50,5,'2026-10-18 09:00:00')");
 $sig->exec("INSERT INTO publication_settings VALUES (50,'','issueId','29')");
-check('signature: a newly published article changes the journal signature', ContentSignature::forContext($sig, 1) !== $base, true);
-check('signature: and the signature of its issue', ContentSignature::forContext($sig, 1, 29) !== $issueBase, true);
-$issueNow = ContentSignature::forContext($sig, 1, 29);
+check('signature: a newly published article changes the journal signature', MsContentSignature::forContext($sig, 1) !== $base, true);
+check('signature: and the signature of its issue', MsContentSignature::forContext($sig, 1, 29) !== $issueBase, true);
+$issueNow = MsContentSignature::forContext($sig, 1, 29);
 $sig->exec("UPDATE publications SET last_modified = '2026-10-18 11:00:00' WHERE publication_id = 10");
-$beforeDraft = ContentSignature::forContext($sig, 1, 29);
+$beforeDraft = MsContentSignature::forContext($sig, 1, 29);
 $sig->exec("INSERT INTO publications VALUES (11,1,'2026-10-18 12:00:00')");
 $sig->exec("UPDATE publications SET last_modified = '2026-10-18 12:30:00' WHERE publication_id = 11");
-check('signature: saving a draft or older version of a published article does not change it', ContentSignature::forContext($sig, 1, 29) === $beforeDraft, true);
-check('signature: editing an article changes it', ContentSignature::forContext($sig, 1, 29) !== $issueNow, true);
-$issueNow = ContentSignature::forContext($sig, 1, 29);
+check('signature: saving a draft or older version of a published article does not change it', MsContentSignature::forContext($sig, 1, 29) === $beforeDraft, true);
+check('signature: editing an article changes it', MsContentSignature::forContext($sig, 1, 29) !== $issueNow, true);
+$issueNow = MsContentSignature::forContext($sig, 1, 29);
 $sig->exec("UPDATE submissions SET status = 4 WHERE submission_id = 2");
-check('signature: withdrawing an article changes it', ContentSignature::forContext($sig, 1, 29) !== $issueNow, true);
-check('signature: other journals do not matter', (function () use ($sig) { $a = ContentSignature::forContext($sig, 1); $sig->exec("UPDATE submissions SET last_modified = '2027-01-01 00:00:00' WHERE context_id = 2"); return ContentSignature::forContext($sig, 1) === $a; })(), true);
+check('signature: withdrawing an article changes it', MsContentSignature::forContext($sig, 1, 29) !== $issueNow, true);
+check('signature: other journals do not matter', (function () use ($sig) { $a = MsContentSignature::forContext($sig, 1); $sig->exec("UPDATE submissions SET last_modified = '2027-01-01 00:00:00' WHERE context_id = 2"); return MsContentSignature::forContext($sig, 1) === $a; })(), true);
 check('signatures of all issues in one query equal the single ones', (function () use ($sig) {
 	$sig->exec("INSERT INTO submissions VALUES (6,1,3,60,'2026-10-19 09:00:00')");
 	$sig->exec("INSERT INTO publications VALUES (60,6,'2026-10-19 09:00:00')");
 	$sig->exec("INSERT INTO publication_settings VALUES (60,'','issueId','28')");
-	$map = ContentSignature::forIssues($sig, 1);
-	return array(array_keys($map) == array(28, 29) || array_keys($map) == array(29, 28), $map[29] === ContentSignature::forContext($sig, 1, 29), $map[28] === ContentSignature::forContext($sig, 1, 28), ContentSignature::emptyIssue() === ContentSignature::forContext($sig, 1, 27));
+	$map = MsContentSignature::forIssues($sig, 1);
+	return array(array_keys($map) == array(28, 29) || array_keys($map) == array(29, 28), $map[29] === MsContentSignature::forContext($sig, 1, 29), $map[28] === MsContentSignature::forContext($sig, 1, 28), MsContentSignature::emptyIssue() === MsContentSignature::forContext($sig, 1, 27));
 })(), array(true, true, true, true));
-check('signatures of all issues: unreadable database gives null', ContentSignature::forIssues(new PDO('sqlite::memory:'), 1), null);
-check('signature: unreadable database gives an empty signature', ContentSignature::forContext(new PDO('sqlite::memory:'), 1), '');
-check('authors without a valid country', IssueCoverage::countWithoutCountry(array(array('key' => 'a', 'country' => 'UZ'), array('key' => 'b', 'country' => ''), array('key' => 'c'), array('key' => 'd', 'country' => 'Uzbekistan'), array('key' => 'e', 'country' => ' id '))), 3);
+check('signatures of all issues: unreadable database gives null', MsContentSignature::forIssues(new PDO('sqlite::memory:'), 1), null);
+check('signature: unreadable database gives an empty signature', MsContentSignature::forContext(new PDO('sqlite::memory:'), 1), '');
+check('authors without a valid country', MsIssueCoverage::countWithoutCountry(array(array('key' => 'a', 'country' => 'UZ'), array('key' => 'b', 'country' => ''), array('key' => 'c'), array('key' => 'd', 'country' => 'Uzbekistan'), array('key' => 'e', 'country' => ' id '))), 3);
 
 $sigDir = sys_get_temp_dir() . '/ms-test-sig-' . getmypid();
 TestTheme::$cacheDir = $sigDir;
@@ -754,21 +754,21 @@ $mk = function () use (&$builds) { $builds++; return 'v' . $builds; };
 check('cached fragment: same signature, one build', array($theme->cachedFor('coverage-29', 1, $mk, 'aaaa1111'), $theme->cachedFor('coverage-29', 1, $mk, 'aaaa1111'), $builds), array('v1', 'v1', 1));
 check('cached fragment: new signature (an article was published), rebuilt at once', array($theme->cachedFor('coverage-29', 1, $mk, 'bbbb2222'), $builds), array('v2', 2));
 check('cached fragment: no signature still works', array($theme->cachedFor('coverage-29', 1, $mk), $builds), array('v3', 3));
-(new FragmentCache($sigDir, 60))->flush();
+(new MsFragmentCache($sigDir, 60))->flush();
 @rmdir($sigDir);
 TestTheme::$cacheDir = '';
 
 // Page count beside the total of articles
-check('page count: range', IssueCoverage::pageCount('863-875'), 13);
-check('page count: en dash and spaces', IssueCoverage::pageCount('1038 – 1045'), 8);
-check('page count: single page', IssueCoverage::pageCount('12'), 1);
-check('page count: several ranges', IssueCoverage::pageCount('1-5, 9-10'), 7);
-check('page count: letters ignored', IssueCoverage::pageCount('e12-e20'), 9);
-check('page count: nothing usable', array(IssueCoverage::pageCount(''), IssueCoverage::pageCount('xii'), IssueCoverage::pageCount('9-3'), IssueCoverage::pageCount(null)), array(0, 0, 0, 0));
-check('total pages of an issue', IssueCoverage::totalPages(array('863-875', '876-886', '', '887-900')), 13 + 11 + 14);
-$boxNoPages = IssueCoverage::render(3, array('authors' => 2, 'countries' => array()), array(), function ($c) { return ''; }, array('total' => 'Total Articles: 3', 'coverage' => 'c'));
+check('page count: range', MsIssueCoverage::pageCount('863-875'), 13);
+check('page count: en dash and spaces', MsIssueCoverage::pageCount('1038 – 1045'), 8);
+check('page count: single page', MsIssueCoverage::pageCount('12'), 1);
+check('page count: several ranges', MsIssueCoverage::pageCount('1-5, 9-10'), 7);
+check('page count: letters ignored', MsIssueCoverage::pageCount('e12-e20'), 9);
+check('page count: nothing usable', array(MsIssueCoverage::pageCount(''), MsIssueCoverage::pageCount('xii'), MsIssueCoverage::pageCount('9-3'), MsIssueCoverage::pageCount(null)), array(0, 0, 0, 0));
+check('total pages of an issue', MsIssueCoverage::totalPages(array('863-875', '876-886', '', '887-900')), 13 + 11 + 14);
+$boxNoPages = MsIssueCoverage::render(3, array('authors' => 2, 'countries' => array()), array(), function ($c) { return ''; }, array('total' => 'Total Articles: 3', 'coverage' => 'c'));
 check('box without pages keeps the old total line', strpos($boxNoPages, '<p class="ms-issue-coverage__total">Total Articles: 3</p>') !== false, true);
-$boxPages = IssueCoverage::render(3, array('authors' => 2, 'countries' => array()), array(), function ($c) { return ''; }, array('total' => 'Total Articles: 3', 'pages' => 'Total Pages: 38', 'coverage' => 'c'));
+$boxPages = MsIssueCoverage::render(3, array('authors' => 2, 'countries' => array()), array(), function ($c) { return ''; }, array('total' => 'Total Articles: 3', 'pages' => 'Total Pages: 38', 'coverage' => 'c'));
 check('box with pages: beside the total of articles', strpos($boxPages, '<p class="ms-issue-coverage__total">Total Articles: 3 <span class="ms-issue-coverage__sep" aria-hidden="true">|</span> Total Pages: 38</p>') !== false, true);
 $keepServices = Services::$services; $keepService = Services::$service;
 Services::$services = array();
@@ -789,22 +789,22 @@ check('plugin: articles without page numbers show no page total', strpos($out, '
 Services::$services = $keepServices; Services::$service = $keepService;
 
 // Base and accent colours of the journal
-check('colour: valid hex, upper-cased', ThemeColour::normalize('#2e7d32'), '#2E7D32');
-check('colour: short hex expanded', ThemeColour::normalize(' #0a5 '), '#00AA55');
-check('colour: junk gives the default', array(ThemeColour::normalize(''), ThemeColour::normalize(null), ThemeColour::normalize('green'), ThemeColour::normalize('#12345'), ThemeColour::normalize('#12345g'), ThemeColour::normalize(array('#fff')), ThemeColour::normalize('red;}body{display:none')), array('#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92'));
-check('colour: the Default Theme\'s base colour means Manuscript\'s', array(ThemeColour::base('#1e6292'), ThemeColour::base(null), ThemeColour::base('#2e7d32')), array('#4B7D92', '#4B7D92', '#2E7D32'));
-check('colour: accent default and junk', array(ThemeColour::accent(null), ThemeColour::accent('x'), ThemeColour::accent('#c00')), array('#F7BC4A', '#F7BC4A', '#CC0000'));
-check('colour: channels and rgb', array(ThemeColour::channels('#4B7D92'), ThemeColour::rgb('#4b7d92')), array(array(75, 125, 146), '75, 125, 146'));
-check('colour: darker shade', array(ThemeColour::darker('#4B7D92'), ThemeColour::darker('#2E7D32'), ThemeColour::darker('#000000'), ThemeColour::darker('#FFFFFF')), array('#3A6070', '#236027', '#000000', '#C4C4C4'));
-check('colour: white text contrast', array(ThemeColour::whiteContrast('#4B7D92') >= 4.5, ThemeColour::whiteContrast('#2E7D32') > 4.5, ThemeColour::whiteContrast('#FFFF00') < 1.5), array(true, true, true));
-check('colour: text on the base colour', array(ThemeColour::textOn('#4B7D92'), ThemeColour::textOn('#FFFF00')), array('#ffffff', 'rgba(0,0,0,0.84)'));
-check('colour: a light base colour keeps readable links', array(ThemeColour::primary('#2E7D32'), ThemeColour::primary('#F7BC4A')), array('#2E7D32', '#4B7D92'));
-$greenLess = ThemeColour::lessVariables('#2e7d32', '#c00');
+check('colour: valid hex, upper-cased', MsThemeColour::normalize('#2e7d32'), '#2E7D32');
+check('colour: short hex expanded', MsThemeColour::normalize(' #0a5 '), '#00AA55');
+check('colour: junk gives the default', array(MsThemeColour::normalize(''), MsThemeColour::normalize(null), MsThemeColour::normalize('green'), MsThemeColour::normalize('#12345'), MsThemeColour::normalize('#12345g'), MsThemeColour::normalize(array('#fff')), MsThemeColour::normalize('red;}body{display:none')), array('#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92', '#4B7D92'));
+check('colour: the Default Theme\'s base colour means Manuscript\'s', array(MsThemeColour::base('#1e6292'), MsThemeColour::base(null), MsThemeColour::base('#2e7d32')), array('#4B7D92', '#4B7D92', '#2E7D32'));
+check('colour: accent default and junk', array(MsThemeColour::accent(null), MsThemeColour::accent('x'), MsThemeColour::accent('#c00')), array('#F7BC4A', '#F7BC4A', '#CC0000'));
+check('colour: channels and rgb', array(MsThemeColour::channels('#4B7D92'), MsThemeColour::rgb('#4b7d92')), array(array(75, 125, 146), '75, 125, 146'));
+check('colour: darker shade', array(MsThemeColour::darker('#4B7D92'), MsThemeColour::darker('#2E7D32'), MsThemeColour::darker('#000000'), MsThemeColour::darker('#FFFFFF')), array('#3A6070', '#236027', '#000000', '#C4C4C4'));
+check('colour: white text contrast', array(MsThemeColour::whiteContrast('#4B7D92') >= 4.5, MsThemeColour::whiteContrast('#2E7D32') > 4.5, MsThemeColour::whiteContrast('#FFFF00') < 1.5), array(true, true, true));
+check('colour: text on the base colour', array(MsThemeColour::textOn('#4B7D92'), MsThemeColour::textOn('#FFFF00')), array('#ffffff', 'rgba(0,0,0,0.84)'));
+check('colour: a light base colour keeps readable links', array(MsThemeColour::primary('#2E7D32'), MsThemeColour::primary('#F7BC4A')), array('#2E7D32', '#4B7D92'));
+$greenLess = MsThemeColour::lessVariables('#2e7d32', '#c00');
 check('colour: LESS variables for a green journal', $greenLess, '@bg-base:#2E7D32;@text-bg-base:#ffffff;@primary:#2E7D32;@accent:#CC0000;');
-check('colour: LESS variables for a yellow header', ThemeColour::lessVariables('#ffff00', null), '@bg-base:#FFFF00;@text-bg-base:rgba(0,0,0,0.84);@primary:#4B7D92;@accent:#F7BC4A;');
-check('colour: no inline CSS for the default colours', array(ThemeColour::rootCss('#4b7d92', '#f7bc4a'), ThemeColour::rootCss('', null)), array('', ''));
-check('colour: CSS variables for other colours', ThemeColour::rootCss('#2e7d32', null), 'html:root{--ms-base:#2E7D32;--ms-on-base:#ffffff;--ms-primary:#2E7D32;--ms-primary-dark:#236027;--ms-primary-rgb:46, 125, 50;--ms-accent:#F7BC4A;}');
-check('colour: CSS variables for another accent only', ThemeColour::rootCss(null, '#cc0000'), 'html:root{--ms-base:#4B7D92;--ms-on-base:#ffffff;--ms-primary:#4B7D92;--ms-primary-dark:#3A6070;--ms-primary-rgb:75, 125, 146;--ms-accent:#CC0000;}');
+check('colour: LESS variables for a yellow header', MsThemeColour::lessVariables('#ffff00', null), '@bg-base:#FFFF00;@text-bg-base:rgba(0,0,0,0.84);@primary:#4B7D92;@accent:#F7BC4A;');
+check('colour: no inline CSS for the default colours', array(MsThemeColour::rootCss('#4b7d92', '#f7bc4a'), MsThemeColour::rootCss('', null)), array('', ''));
+check('colour: CSS variables for other colours', MsThemeColour::rootCss('#2e7d32', null), 'html:root{--ms-base:#2E7D32;--ms-on-base:#ffffff;--ms-primary:#2E7D32;--ms-primary-dark:#236027;--ms-primary-rgb:46, 125, 50;--ms-accent:#F7BC4A;}');
+check('colour: CSS variables for another accent only', MsThemeColour::rootCss(null, '#cc0000'), 'html:root{--ms-base:#4B7D92;--ms-on-base:#ffffff;--ms-primary:#4B7D92;--ms-primary-dark:#3A6070;--ms-primary-rgb:75, 125, 146;--ms-accent:#CC0000;}');
 class ColourTheme extends TestTheme {
 	public $saved = array();
 	public function getOption($name) { return isset($this->saved[$name]) ? $this->saved[$name] : null; }
@@ -819,7 +819,7 @@ $t->saved = array('baseColour' => '#2e7d32', 'accentColour' => '#cc0000');
 $t->init();
 $styles = array_values(array_filter($t->calls, function ($c) { return $c[0] === 'addStyle'; }));
 check('init with saved colours: their LESS variables', $lessOf($t), '@bg-base:#2E7D32;@text-bg-base:#ffffff;@primary:#2E7D32;@accent:#CC0000;');
-check('init with saved colours: inline variables after the stylesheet', array($styles[0][1], $styles[1][1], $styles[1][2], !empty($styles[1][3]['inline'])), array('manuscriptScholar', 'manuscriptScholarColour', ThemeColour::rootCss('#2e7d32', '#cc0000'), true));
+check('init with saved colours: inline variables after the stylesheet', array($styles[0][1], $styles[1][1], $styles[1][2], !empty($styles[1][3]['inline'])), array('manuscriptScholar', 'manuscriptScholarColour', MsThemeColour::rootCss('#2e7d32', '#cc0000'), true));
 $t = new ColourTheme();
 $t->saved = array('baseColour' => '#1E6292', 'accentColour' => 'not a colour');
 $t->init();
@@ -830,49 +830,49 @@ $accentOption = array_values(array_filter($opt->calls, function ($c) { return $c
 check('init registers the accent colour option', array(count($accentOption), $accentOption[0][2], $accentOption[0][3]['default']), array(1, 'FieldColor', '#F7BC4A'));
 
 // Country from the affiliation, share of foreign authors, image hints
-$idx = CountryFromAffiliation::index(array(array('ID' => 'Indonesia', 'MY' => 'Malaysia', 'UZ' => 'Uzbekistan', 'US' => 'United States')));
+$idx = MsCountryFromAffiliation::index(array(array('ID' => 'Indonesia', 'MY' => 'Malaysia', 'UZ' => 'Uzbekistan', 'US' => 'United States')));
 check('affiliation: last part is a country', array(
-	CountryFromAffiliation::detect('Universitas Indonesia, Depok, Indonesia', $idx),
-	CountryFromAffiliation::detect('Universiti Malaya, Kuala Lumpur, MALAYSIA.', $idx),
-	CountryFromAffiliation::detect('  Tashkent State University ; Uzbekistan  ', $idx),
-	CountryFromAffiliation::detect('MIT, Cambridge, USA', $idx),
-	CountryFromAffiliation::detect('Univ. X - Indonesia', $idx),
+	MsCountryFromAffiliation::detect('Universitas Indonesia, Depok, Indonesia', $idx),
+	MsCountryFromAffiliation::detect('Universiti Malaya, Kuala Lumpur, MALAYSIA.', $idx),
+	MsCountryFromAffiliation::detect('  Tashkent State University ; Uzbekistan  ', $idx),
+	MsCountryFromAffiliation::detect('MIT, Cambridge, USA', $idx),
+	MsCountryFromAffiliation::detect('Univ. X - Indonesia', $idx),
 ), array('ID', 'MY', 'UZ', 'US', 'ID'));
 check('affiliation: no country at the end', array(
-	CountryFromAffiliation::detect('Universitas Indonesia', $idx),
-	CountryFromAffiliation::detect('Indonesia Institute of Sciences, Jakarta', $idx),
-	CountryFromAffiliation::detect('', $idx),
-	CountryFromAffiliation::detect(null, $idx),
-	CountryFromAffiliation::detect('Depok, ,', $idx),
+	MsCountryFromAffiliation::detect('Universitas Indonesia', $idx),
+	MsCountryFromAffiliation::detect('Indonesia Institute of Sciences, Jakarta', $idx),
+	MsCountryFromAffiliation::detect('', $idx),
+	MsCountryFromAffiliation::detect(null, $idx),
+	MsCountryFromAffiliation::detect('Depok, ,', $idx),
 ), array('', '', '', '', ''));
 check('affiliation: first list wins, bad codes ignored', array(
-	CountryFromAffiliation::index(array(array('ID' => 'Land'), array('MY' => 'Land')))['land'],
-	isset(CountryFromAffiliation::index(array(array('XYZ' => 'Nowhere', '' => 'Blank')))['nowhere']),
+	MsCountryFromAffiliation::index(array(array('ID' => 'Land'), array('MY' => 'Land')))['land'],
+	isset(MsCountryFromAffiliation::index(array(array('XYZ' => 'Nowhere', '' => 'Blank')))['nowhere']),
 ), array('ID', false));
 
 $sumF = array('authors' => 10, 'countries' => array('ID' => 7, 'MY' => 2, 'UZ' => 1));
-check('foreign share', IssueCoverage::foreignShare($sumF, 'id'), array('foreign' => 3, 'known' => 10, 'percent' => 30));
+check('foreign share', MsIssueCoverage::foreignShare($sumF, 'id'), array('foreign' => 3, 'known' => 10, 'percent' => 30));
 check('foreign share: nobody from abroad, rounding up from zero, no home country, no countries', array(
-	IssueCoverage::foreignShare(array('authors' => 3, 'countries' => array('ID' => 3)), 'ID')['percent'],
-	IssueCoverage::foreignShare(array('authors' => 300, 'countries' => array('ID' => 299, 'MY' => 1)), 'ID')['percent'],
-	IssueCoverage::foreignShare($sumF, ''),
-	IssueCoverage::foreignShare($sumF, 'IDN'),
-	IssueCoverage::foreignShare(array('authors' => 4, 'countries' => array()), 'ID'),
+	MsIssueCoverage::foreignShare(array('authors' => 3, 'countries' => array('ID' => 3)), 'ID')['percent'],
+	MsIssueCoverage::foreignShare(array('authors' => 300, 'countries' => array('ID' => 299, 'MY' => 1)), 'ID')['percent'],
+	MsIssueCoverage::foreignShare($sumF, ''),
+	MsIssueCoverage::foreignShare($sumF, 'IDN'),
+	MsIssueCoverage::foreignShare(array('authors' => 4, 'countries' => array()), 'ID'),
 ), array(0, 1, null, null, null));
-$withForeign = IssueCoverage::render(5, $sumF, array(), function ($c) { return ''; }, array('total' => 'T', 'coverage' => 'C', 'foreign' => 'Foreign authors: 3 (30%)'));
+$withForeign = MsIssueCoverage::render(5, $sumF, array(), function ($c) { return ''; }, array('total' => 'T', 'coverage' => 'C', 'foreign' => 'Foreign authors: 3 (30%)'));
 check('coverage box shows the foreign line after the summary line', strpos($withForeign, '<p class="ms-issue-coverage__summary">C</p><p class="ms-issue-coverage__foreign">Foreign authors: 3 (30%)</p>') !== false, true);
-check('coverage box without the label has no foreign line', strpos(IssueCoverage::render(5, $sumF, array(), function ($c) { return ''; }, array('total' => 'T', 'coverage' => 'C')), 'foreign') === false, true);
-$fCard = ArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'authors', 'countries' => 'countries', 'articles' => 'articles', 'summary' => 's', 'foreign' => 'foreign'), 0, array('foreign' => 3, 'known' => 10, 'percent' => 30));
+check('coverage box without the label has no foreign line', strpos(MsIssueCoverage::render(5, $sumF, array(), function ($c) { return ''; }, array('total' => 'T', 'coverage' => 'C')), 'foreign') === false, true);
+$fCard = MsArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'authors', 'countries' => 'countries', 'articles' => 'articles', 'summary' => 's', 'foreign' => 'foreign'), 0, array('foreign' => 3, 'known' => 10, 'percent' => 30));
 check('card: foreign share under the author count', strpos($fCard, '<span class="ms-archive-stats__num">10</span> <span class="ms-archive-stats__label">authors</span></span><span class="ms-archive-stats__line ms-archive-stats__foreign"><span class="ms-archive-stats__num">30%</span> <span class="ms-archive-stats__label">foreign</span></span>') !== false, true);
 check('card: no foreign line without the share or the label', array(
-	strpos(ArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'a', 'countries' => 'c', 'articles' => 'r', 'summary' => 's', 'foreign' => 'foreign')), 'ms-archive-stats__foreign'),
-	strpos(ArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'a', 'countries' => 'c', 'articles' => 'r', 'summary' => 's'), 0, array('percent' => 30)), 'ms-archive-stats__foreign'),
+	strpos(MsArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'a', 'countries' => 'c', 'articles' => 'r', 'summary' => 's', 'foreign' => 'foreign')), 'ms-archive-stats__foreign'),
+	strpos(MsArchiveStats::render(3, $sumF, array(), function ($c) { return ''; }, array('authors' => 'a', 'countries' => 'c', 'articles' => 'r', 'summary' => 's'), 0, array('percent' => 30)), 'ms-archive-stats__foreign'),
 ), array(false, false));
 
 class HomeCountryTheme extends TestTheme {
 	public $home = 'ID';
 	public function getOption($name) { return $name === 'manuscriptScholarHomeCountry' ? $this->home : null; }
-	protected function affiliationIndex() { return CountryFromAffiliation::index(array(array('ID' => 'Indonesia', 'MY' => 'Malaysia'))); }
+	protected function affiliationIndex() { return MsCountryFromAffiliation::index(array(array('ID' => 'Indonesia', 'MY' => 'Malaysia'))); }
 	public function coverageHtml($issue) { return $this->buildIssueCoverageHtml($issue); }
 	public function archiveCard($issue) { return $this->buildArchiveCard($issue); }
 	public function authors($issue) { return $this->collectIssueAuthors($issue); }
@@ -901,17 +901,17 @@ Services::$service = $prevSvc;
 Services::$services = $prevServices;
 
 $headerPage = '<div class="pkp_site_name"><a href="/" class="is_img"><img src="/h.png" width="900" alt="Aulad"></a></div><a class="cover" href="/1"><img class="img-fluid" src="/c1.jpg" alt=""></a>';
-check('header image gets fetchpriority', ImageHints::prioritizeHeader($headerPage), str_replace('<img src="/h.png"', '<img fetchpriority="high" src="/h.png"', $headerPage));
+check('header image gets fetchpriority', MsImageHints::prioritizeHeader($headerPage), str_replace('<img src="/h.png"', '<img fetchpriority="high" src="/h.png"', $headerPage));
 check('header image: unchanged without such a link, or with its own hint', array(
-	ImageHints::prioritizeHeader('<a href="/" class="x"><img src="/h.png"></a>'),
-	ImageHints::prioritizeHeader('<a class="is_img"><img loading="lazy" src="/h.png"></a>'),
-	ImageHints::prioritizeHeader('<a class="is_img"><img fetchpriority="low" src="/h.png"></a>'),
-	ImageHints::prioritizeHeader('<p>no images</p>'),
+	MsImageHints::prioritizeHeader('<a href="/" class="x"><img src="/h.png"></a>'),
+	MsImageHints::prioritizeHeader('<a class="is_img"><img loading="lazy" src="/h.png"></a>'),
+	MsImageHints::prioritizeHeader('<a class="is_img"><img fetchpriority="low" src="/h.png"></a>'),
+	MsImageHints::prioritizeHeader('<p>no images</p>'),
 ), array('<a href="/" class="x"><img src="/h.png"></a>', '<a class="is_img"><img loading="lazy" src="/h.png"></a>', '<a class="is_img"><img fetchpriority="low" src="/h.png"></a>', '<p>no images</p>'));
 $covers = '<a class="cover" href="/1"><img class="img-fluid" src="/1.jpg"></a> text <a class="cover" href="/2">' . "\n" . '<img src="/2.jpg" alt=""></a><a class="cover" href="/3"><img loading="eager" src="/3.jpg"></a><a class="cover" href="/4"><img src="/4.jpg"/></a>';
-check('covers: the first stays eager, the others are lazy, own loading respected', ImageHints::lazyCovers($covers),
+check('covers: the first stays eager, the others are lazy, own loading respected', MsImageHints::lazyCovers($covers),
 	'<a class="cover" href="/1"><img class="img-fluid" src="/1.jpg"></a> text <a class="cover" href="/2">' . "\n" . '<img loading="lazy" decoding="async" src="/2.jpg" alt=""></a><a class="cover" href="/3"><img loading="eager" src="/3.jpg"></a><a class="cover" href="/4"><img loading="lazy" decoding="async" src="/4.jpg"/></a>');
-check('covers: no covers, no change', ImageHints::lazyCovers('<p>x</p>'), '<p>x</p>');
+check('covers: no covers, no change', MsImageHints::lazyCovers('<p>x</p>'), '<p>x</p>');
 
 // Back-end "Select all" script
 $adminTag = ManuscriptScholarThemePlugin::adminScriptTag('https://e.org/plugins/themes/manuscriptScholar/js/manuscriptScholarAdmin.js', '1.26.0', array('all' => 'Pilih "Semua"', 'none' => 'Batal Pilih'));
@@ -926,9 +926,9 @@ check('admin script: not twice, not into fragments', array(
 check('admin script: only the last body tag', substr_count(ManuscriptScholarThemePlugin::injectAdminScript('<html><body>a</body><iframe srcdoc="<body></body>"></iframe></html>', $adminTag), 'manuscriptScholarAdmin.js'), 1);
 
 // "Journal home country" drop-down
-$opts = CountryOptions::build(array('ID' => 'Indonesia', 'MY' => 'Malaysia', 'AU' => 'Australia', 'xx' => ' ', 'BAD' => 'Nowhere', 'UZ' => 'Uzbekistan'), '- none -');
+$opts = MsCountryOptions::build(array('ID' => 'Indonesia', 'MY' => 'Malaysia', 'AU' => 'Australia', 'xx' => ' ', 'BAD' => 'Nowhere', 'UZ' => 'Uzbekistan'), '- none -');
 check('country options: empty choice first, then names sorted', array_map(function ($o) { return $o['value'] . '=' . $o['label']; }, $opts), array('=- none -', 'AU=Australia', 'ID=Indonesia', 'MY=Malaysia', 'UZ=Uzbekistan'));
-check('country options: nothing usable, nothing listed', array(CountryOptions::build(array(), 'x'), CountryOptions::build(array('ID' => ''), 'x')), array(array(), array()));
+check('country options: nothing usable, nothing listed', array(MsCountryOptions::build(array(), 'x'), MsCountryOptions::build(array('ID' => ''), 'x')), array(array(), array()));
 class CountryListTheme extends TestTheme {
 	public $names = array();
 	public $calls2 = array();
@@ -948,7 +948,7 @@ check('home country option: a text field when no country list is available', arr
 $staleDir = sys_get_temp_dir() . '/ms-stale-' . getmypid();
 $jobs = array();
 $defer = function ($job) use (&$jobs) { $jobs[] = $job; };
-$sc = (new FragmentCache($staleDir, 60))->serveStale(3600, $defer);
+$sc = (new MsFragmentCache($staleDir, 60))->serveStale(3600, $defer);
 $n = 0;
 $mk = function () use (&$n) { $n++; return 'v' . $n; };
 check('stale: first visit builds', array($sc->remember('home', $mk), $n, count($jobs)), array('v1', 1, 0));
@@ -963,7 +963,7 @@ check('stale: too old, rebuilt at once', array($sc->remember('home', $mk), $n, c
 touch($files[0], time() - 120);
 check('stale: administrators (refresh) always rebuild at once', array($sc->remember('home', $mk, true), $n, count($jobs)), array('v4', 4, 1));
 touch($files[0], time() - 120);
-$noDefer = (new FragmentCache($staleDir, 60))->serveStale(3600, null);
+$noDefer = (new MsFragmentCache($staleDir, 60))->serveStale(3600, null);
 check('stale: without a way to answer early, an expired copy is rebuilt at once', array($noDefer->remember('home', $mk), $n), array('v5', 5));
 touch($files[0], time() - 120);
 $jobs = array();
@@ -984,7 +984,7 @@ $sc->remember('home', $throwing);
 try { call_user_func($jobs[0]); } catch (RuntimeException $e) { }
 $locksAfterFailure = glob($staleDir . '/*.lock');
 check('stale: a failed rebuild frees the lock and keeps the old copy, the next visit queues a new rebuild', array($locksAfterFailure, $sc->remember('home', $mk) !== '', count($jobs)), array(array(), true, 2));
-(new FragmentCache($staleDir, 60))->flush();
+(new MsFragmentCache($staleDir, 60))->flush();
 @rmdir($staleDir);
 
 class DeferTheme extends TestTheme {
@@ -1007,7 +1007,7 @@ $lazyPage = '<header><img src="/logo.png"></header><div class="pkp_structure_mai
 	. '<a href="https://www.flagcounter.com"><img src="https://s01.flagcounter.com/count/abc/"></a><iframe src="https://www.youtube.com/embed/x"></iframe>'
 	. '<img src="https://c.statcounter.com/1/0/a/1/" alt=""><IMG SRC="/upper.png"></div>'
 	. '<div class="pkp_structure_footer_wrapper"><img src="/pkp.png" /></div>';
-$lazyOut = ImageHints::lazySidebarAndFooter($lazyPage);
+$lazyOut = MsImageHints::lazySidebarAndFooter($lazyPage);
 check('lazy: header and main content untouched', substr($lazyOut, 0, strpos($lazyOut, '<div class="pkp_structure_sidebar')), substr($lazyPage, 0, strpos($lazyPage, '<div class="pkp_structure_sidebar')));
 check('lazy: sidebar and footer images and frames', array(
 	strpos($lazyOut, '<img loading="lazy" decoding="async" src="/sinta.png" alt="Sinta">') !== false,
@@ -1020,28 +1020,28 @@ check('lazy: visitor counters keep loading at once', array(
 	strpos($lazyOut, '<img src="https://s01.flagcounter.com/count/abc/">') !== false,
 	strpos($lazyOut, '<img src="https://c.statcounter.com/1/0/a/1/" alt="">') !== false,
 ), array(true, true));
-check('lazy: page without sidebar or footer unchanged', ImageHints::lazySidebarAndFooter('<p><img src="/a.png"></p>'), '<p><img src="/a.png"></p>');
-check('lazy: footer only', ImageHints::lazySidebarAndFooter('<img src="/a.png"><div class="pkp_structure_footer"><img src="/b.png"></div>'), '<img src="/a.png"><div class="pkp_structure_footer"><img loading="lazy" decoding="async" src="/b.png"></div>');
+check('lazy: page without sidebar or footer unchanged', MsImageHints::lazySidebarAndFooter('<p><img src="/a.png"></p>'), '<p><img src="/a.png"></p>');
+check('lazy: footer only', MsImageHints::lazySidebarAndFooter('<img src="/a.png"><div class="pkp_structure_footer"><img src="/b.png"></div>'), '<img src="/a.png"><div class="pkp_structure_footer"><img loading="lazy" decoding="async" src="/b.png"></div>');
 
 // CSS minifier used for the package
-check('minify: comments, white space, last semicolon', CssMinifier::minify("/* head */\n.a ,\n .b  {\n\tcolor : red;\n\tmargin: 0 auto;\n}\n\n@media (min-width: 768px) {\n  .c { top: 0; }\n}\n"), ".a , .b{color : red;margin: 0 auto}@media (min-width: 768px){.c{top: 0}}\n");
-check('minify: strings are left alone', CssMinifier::minify('a[href*="/*x*/"]::before { content: "a  ;  }  b"; }'), 'a[href*="/*x*/"]::before{content: "a  ;  }  b"}' . "\n");
-check('minify: escaped quotes and descendant selectors keep their meaning', CssMinifier::minify(".x :hover , html body\n.y { content: '\\'' ; }"), ".x :hover , html body .y{content: '\\''}\n");
-check('minify: a comment between two words still separates them', CssMinifier::minify('.a/* c */.b{} .c/**/ .d{}'), ".a .b{}.c .d{}\n");
+check('minify: comments, white space, last semicolon', MsCssMinifier::minify("/* head */\n.a ,\n .b  {\n\tcolor : red;\n\tmargin: 0 auto;\n}\n\n@media (min-width: 768px) {\n  .c { top: 0; }\n}\n"), ".a , .b{color : red;margin: 0 auto}@media (min-width: 768px){.c{top: 0}}\n");
+check('minify: strings are left alone', MsCssMinifier::minify('a[href*="/*x*/"]::before { content: "a  ;  }  b"; }'), 'a[href*="/*x*/"]::before{content: "a  ;  }  b"}' . "\n");
+check('minify: escaped quotes and descendant selectors keep their meaning', MsCssMinifier::minify(".x :hover , html body\n.y { content: '\\'' ; }"), ".x :hover , html body .y{content: '\\''}\n");
+check('minify: a comment between two words still separates them', MsCssMinifier::minify('.a/* c */.b{} .c/**/ .d{}'), ".a .b{}.c .d{}\n");
 
 // Meta description
-check('meta text: tags, entities, white space', MetaDescription::text('<p>Aulad&nbsp;is a <b>journal</b></p><p>on early&amp;childhood.</p>'), "Aulad is a journal on early&childhood.");
+check('meta text: tags, entities, white space', MsMetaDescription::text('<p>Aulad&nbsp;is a <b>journal</b></p><p>on early&amp;childhood.</p>'), "Aulad is a journal on early&childhood.");
 $long = str_repeat('word ', 60);
-$cut = MetaDescription::text($long);
+$cut = MsMetaDescription::text($long);
 check('meta text: cut at a word, at most 160 characters, with an ellipsis', array(mb_strlen($cut) <= 160, mb_substr($cut, -1), mb_substr($cut, -5, 4)), array(true, '…', 'word'));
-check('meta compose: issue title, then the journal', MetaDescription::compose(array('Vol. 9 No. 3 (2026): August-December 2026', '', 'Aulad: Journal on Early Childhood', '<p>A peer-reviewed journal.</p>')), 'Vol. 9 No. 3 (2026): August-December 2026. Aulad: Journal on Early Childhood. A peer-reviewed journal');
-check('meta compose: nothing usable', MetaDescription::compose(array('', ' ', '<p></p>')), '');
+check('meta compose: issue title, then the journal', MsMetaDescription::compose(array('Vol. 9 No. 3 (2026): August-December 2026', '', 'Aulad: Journal on Early Childhood', '<p>A peer-reviewed journal.</p>')), 'Vol. 9 No. 3 (2026): August-December 2026. Aulad: Journal on Early Childhood. A peer-reviewed journal');
+check('meta compose: nothing usable', MsMetaDescription::compose(array('', ' ', '<p></p>')), '');
 $head = '<html><head><title>T</title></head><body></body></html>';
-check('meta inject: added before </head>, escaped', MetaDescription::inject($head, 'A "quoted" <b> & more'), '<html><head><title>T</title><meta name="description" content="A &quot;quoted&quot; &lt;b&gt; &amp; more">' . "\n" . '</head><body></body></html>');
+check('meta inject: added before </head>, escaped', MsMetaDescription::inject($head, 'A "quoted" <b> & more'), '<html><head><title>T</title><meta name="description" content="A &quot;quoted&quot; &lt;b&gt; &amp; more">' . "\n" . '</head><body></body></html>');
 check('meta inject: kept when the page has one, or nothing to add', array(
-	MetaDescription::inject('<html><head><META NAME=\'description\' content="x"></head></html>', 'y'),
-	MetaDescription::inject($head, ''),
-	MetaDescription::inject('<div>fragment</div>', 'y'),
+	MsMetaDescription::inject('<html><head><META NAME=\'description\' content="x"></head></html>', 'y'),
+	MsMetaDescription::inject($head, ''),
+	MsMetaDescription::inject('<div>fragment</div>', 'y'),
 ), array('<html><head><META NAME=\'description\' content="x"></head></html>', $head, '<div>fragment</div>'));
 
 // File sizes on the workflow page
@@ -1052,15 +1052,15 @@ $fsDb->exec('CREATE TABLE submission_files (submission_file_id INTEGER, file_id 
 $fsDb->exec("INSERT INTO submissions VALUES (8842, 1), (9000, 2)");
 $fsDb->exec("INSERT INTO files VALUES (1, 'journals/1/articles/8842/a.docx', 'x'), (2, 'journals/1/articles/8842/b.docx', 'x'), (3, 'journals/2/articles/9000/c.docx', 'x'), (4, 'journals/1/articles/8842/gone.docx', 'x')");
 $fsDb->exec("INSERT INTO submission_files VALUES (37807, 1, 8842), (37808, 2, 8842), (40000, 3, 9000), (37809, 4, 8842)");
-check('file paths: only the files of that submission in this journal', FileSizes::paths($fsDb, 8842, 1), array(37807 => 'journals/1/articles/8842/a.docx', 37808 => 'journals/1/articles/8842/b.docx', 37809 => 'journals/1/articles/8842/gone.docx'));
-check('file paths: a submission of another journal gives nothing', FileSizes::paths($fsDb, 9000, 1), array());
+check('file paths: only the files of that submission in this journal', MsFileSizes::paths($fsDb, 8842, 1), array(37807 => 'journals/1/articles/8842/a.docx', 37808 => 'journals/1/articles/8842/b.docx', 37809 => 'journals/1/articles/8842/gone.docx'));
+check('file paths: a submission of another journal gives nothing', MsFileSizes::paths($fsDb, 9000, 1), array());
 $filesDir = sys_get_temp_dir() . '/ms-files-' . getmypid();
 @mkdir($filesDir . '/journals/1/articles/8842', 0777, true);
 file_put_contents($filesDir . '/journals/1/articles/8842/a.docx', str_repeat('x', 8388608));
 file_put_contents($filesDir . '/journals/1/articles/8842/b.docx', str_repeat('x', 61440));
-check('file sizes: read from the disk, missing files and odd paths left out', FileSizes::sizes(FileSizes::paths($fsDb, 8842, 1) + array(5 => '../../etc/passwd', 6 => ''), $filesDir . '/'), array(37807 => 8388608, 37808 => 61440));
-check('file sizes: data block', FileSizes::dataTag(array(37807 => 8388608, 37808 => 61440)), '<script type="application/json" id="ms-file-sizes">{"37807":8388608,"37808":61440}</script>');
-check('file sizes: no block without sizes', FileSizes::dataTag(array()), '');
+check('file sizes: read from the disk, missing files and odd paths left out', MsFileSizes::sizes(MsFileSizes::paths($fsDb, 8842, 1) + array(5 => '../../etc/passwd', 6 => ''), $filesDir . '/'), array(37807 => 8388608, 37808 => 61440));
+check('file sizes: data block', MsFileSizes::dataTag(array(37807 => 8388608, 37808 => 61440)), '<script type="application/json" id="ms-file-sizes">{"37807":8388608,"37808":61440}</script>');
+check('file sizes: no block without sizes', MsFileSizes::dataTag(array()), '');
 @unlink($filesDir . '/journals/1/articles/8842/a.docx');
 @unlink($filesDir . '/journals/1/articles/8842/b.docx');
 @rmdir($filesDir . '/journals/1/articles/8842'); @rmdir($filesDir . '/journals/1/articles'); @rmdir($filesDir . '/journals/1'); @rmdir($filesDir . '/journals'); @rmdir($filesDir);
@@ -1079,8 +1079,8 @@ $rv->exec("INSERT INTO files VALUES (1, 'a/review.docx'), (2, 'a/other-review.do
 $rv->exec("INSERT INTO submission_files VALUES (37819, 1, 8840, 4, NULL, NULL), (37820, 2, 8840, 4, NULL, NULL), (37800, 3, 8840, 2, NULL, NULL), (37830, 4, 8840, 5, 517, 70), (37831, 5, 8840, 5, 517, 71)");
 $rv->exec("INSERT INTO review_assignments VALUES (70, 8840, 5), (71, 8840, 6)");
 $rv->exec("INSERT INTO review_files VALUES (70, 37819), (71, 37820)");
-check('reviewer files: own review files and own attachments only', FileSizes::reviewerPaths($rv, 8840, 1, 5), array(37819 => 'a/review.docx', 37830 => 'a/my-attachment.pdf'));
-check('reviewer files: not a reviewer of it, or another journal, gives nothing', array(FileSizes::reviewerPaths($rv, 8840, 1, 99), FileSizes::reviewerPaths($rv, 8840, 2, 5)), array(array(), array()));
+check('reviewer files: own review files and own attachments only', MsFileSizes::reviewerPaths($rv, 8840, 1, 5), array(37819 => 'a/review.docx', 37830 => 'a/my-attachment.pdf'));
+check('reviewer files: not a reviewer of it, or another journal, gives nothing', array(MsFileSizes::reviewerPaths($rv, 8840, 1, 99), MsFileSizes::reviewerPaths($rv, 8840, 2, 5)), array(array(), array()));
 
 // Theme files: the Manuscript LESS and fonts it refers to are in the package
 $styleDir = __DIR__ . '/../styles';
@@ -1094,6 +1094,19 @@ check('stylesheet braces balanced', substr_count($css, '{'), substr_count($css, 
 foreach (array('ms-issue-coverage', 'ms-archive-stats', 'ms-article-actions', 'ms-highlights', 'ms-categories', 'ms-readmore__button', 'ms-country-line', 'ms-dimensions', 'ms-menu') as $class) {
 	check("stylesheet styles .$class", strpos($css, '.' . $class) !== false, true);
 }
+
+// Every helper class carries the theme's prefix, so this theme can be installed
+// next to Lite Scholar (same helpers without the prefix) without a fatal error
+$unprefixed = array();
+foreach (glob(__DIR__ . '/../classes/*.php') as $file) {
+	preg_match_all('/^\s*(?:final\s+|abstract\s+)?class\s+(\w+)/m', file_get_contents($file), $m);
+	foreach ($m[1] as $class) {
+		if (strpos($class, 'Ms') !== 0 || basename($file) !== $class . '.inc.php') {
+			$unprefixed[] = basename($file) . ': ' . $class;
+		}
+	}
+}
+check('helper classes are prefixed and named after their file', $unprefixed, array());
 
 echo $fail === 0 ? "OK\n" : "$fail failure(s)\n";
 exit($fail === 0 ? 0 : 1);

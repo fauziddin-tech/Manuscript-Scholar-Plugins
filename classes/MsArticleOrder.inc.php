@@ -7,16 +7,16 @@
  * page number goes to the end of its list, in its original order.
  * Nothing here touches OJS, so it can be tested on its own.
  */
-require_once(dirname(__FILE__) . '/HomeIssueTrim.inc.php');
+require_once(dirname(__FILE__) . '/MsHomeIssueTrim.inc.php');
 
-class ArticleOrder {
+class MsArticleOrder {
 
 	/**
 	 * @param string $output rendered page
 	 * @return string the page with each article list ordered by start page
 	 */
 	public static function sortByPages($output) {
-		$items = HomeIssueTrim::articleItems($output);
+		$items = MsHomeIssueTrim::articleItems($output);
 		if (count($items) < 2) {
 			return $output;
 		}

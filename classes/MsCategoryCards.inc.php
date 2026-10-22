@@ -7,7 +7,7 @@
  * Reading the database and building the HTML are kept apart from OJS, so
  * both can be tested on their own.
  */
-class CategoryCards {
+class MsCategoryCards {
 
 	/**
 	 * Id of the journal's current issue (OJS 3.3 `issues` table), or 0 when

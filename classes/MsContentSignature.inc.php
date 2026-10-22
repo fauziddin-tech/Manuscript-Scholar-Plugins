@@ -10,7 +10,7 @@
  * publications, publication_settings).
  * Nothing here touches OJS, so it can be tested on its own.
  */
-class ContentSignature {
+class MsContentSignature {
 
 	/**
 	 * @param PDO $pdo

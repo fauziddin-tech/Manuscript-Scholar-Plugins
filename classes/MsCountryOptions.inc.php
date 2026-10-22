@@ -5,7 +5,7 @@
  * names (as on the author form), sorted, behind an empty choice. Nothing
  * here touches OJS, so it can be tested on its own.
  */
-class CountryOptions {
+class MsCountryOptions {
 
 	/**
 	 * @param array $names CODE => country name (in the interface language)

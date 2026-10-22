@@ -13,22 +13,22 @@
  * 3.3.x updates of the Default Theme keep working.
  */
 import('lib.pkp.classes.plugins.ThemePlugin');
-require_once(dirname(__FILE__) . '/classes/IssueCoverage.inc.php');
-require_once(dirname(__FILE__) . '/classes/HomeHighlights.inc.php');
-require_once(dirname(__FILE__) . '/classes/ArticleActions.inc.php');
-require_once(dirname(__FILE__) . '/classes/HomeIssueTrim.inc.php');
-require_once(dirname(__FILE__) . '/classes/ArticleOrder.inc.php');
-require_once(dirname(__FILE__) . '/classes/DimensionsBadge.inc.php');
-require_once(dirname(__FILE__) . '/classes/CategoryCards.inc.php');
-require_once(dirname(__FILE__) . '/classes/FragmentCache.inc.php');
-require_once(dirname(__FILE__) . '/classes/ArchiveStats.inc.php');
-require_once(dirname(__FILE__) . '/classes/CountryFromAffiliation.inc.php');
-require_once(dirname(__FILE__) . '/classes/CountryOptions.inc.php');
-require_once(dirname(__FILE__) . '/classes/ImageHints.inc.php');
-require_once(dirname(__FILE__) . '/classes/MetaDescription.inc.php');
-require_once(dirname(__FILE__) . '/classes/FileSizes.inc.php');
-require_once(dirname(__FILE__) . '/classes/ContentSignature.inc.php');
-require_once(dirname(__FILE__) . '/classes/ThemeColour.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsIssueCoverage.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsHomeHighlights.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsArticleActions.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsHomeIssueTrim.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsArticleOrder.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsDimensionsBadge.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsCategoryCards.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsFragmentCache.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsArchiveStats.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsCountryFromAffiliation.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsCountryOptions.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsImageHints.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsMetaDescription.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsFileSizes.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsContentSignature.inc.php');
+require_once(dirname(__FILE__) . '/classes/MsThemeColour.inc.php');
 
 class ManuscriptScholarThemePlugin extends ThemePlugin {
 
@@ -61,7 +61,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 		$this->addOption('accentColour', 'FieldColor', array(
 			'label' => __('plugins.themes.manuscriptScholar.option.accentColour.label'),
 			'description' => __('plugins.themes.manuscriptScholar.option.accentColour.description'),
-			'default' => ThemeColour::DEFAULT_ACCENT,
+			'default' => MsThemeColour::DEFAULT_ACCENT,
 		));
 		$countryOptions = $this->homeCountryChoices();
 		$homeCountry = array(
@@ -82,11 +82,11 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				$this->removeStyle('font');
 			}
 		}
-		$base = ThemeColour::base($this->getOption('baseColour'));
-		$accent = ThemeColour::accent($this->getOption('accentColour'));
-		$this->modifyStyle('stylesheet', array('addLessVariables' => ThemeColour::lessVariables($base, $accent)));
+		$base = MsThemeColour::base($this->getOption('baseColour'));
+		$accent = MsThemeColour::accent($this->getOption('accentColour'));
+		$this->modifyStyle('stylesheet', array('addLessVariables' => MsThemeColour::lessVariables($base, $accent)));
 		$this->addStyle('manuscriptScholar', 'styles/manuscriptScholar.css', array('priority' => STYLE_SEQUENCE_LAST));
-		$rootCss = ThemeColour::rootCss($base, $accent);
+		$rootCss = MsThemeColour::rootCss($base, $accent);
 		if ($rootCss !== '') {
 			$this->addStyle('manuscriptScholarColour', $rootCss, array('inline' => true, 'priority' => STYLE_SEQUENCE_LAST));
 		}
@@ -120,10 +120,10 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	 */
 	const STALE_TTL = 604800;
 
-	/** @var FragmentCache|null */
+	/** @var MsFragmentCache|null */
 	protected $fragmentCache = null;
 
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * Choices of the "journal home country" option: every country by its full
@@ -133,10 +133,10 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	protected function homeCountryChoices() {
 		try {
 			$locale = class_exists('AppLocale') ? AppLocale::getLocale() : '';
-			$cache = new FragmentCache($this->cacheDir(), 86400);
+			$cache = new MsFragmentCache($this->cacheDir(), 86400);
 			$choices = $cache->remember('v' . self::VERSION . '-country-options-' . $locale, function () {
 				$this->loadCountryNames();
-				return CountryOptions::build($this->countryNames, __('plugins.themes.manuscriptScholar.option.homeCountry.none'));
+				return MsCountryOptions::build($this->countryNames, __('plugins.themes.manuscriptScholar.option.homeCountry.none'));
 			});
 			return is_array($choices) ? $choices : array();
 		} catch (\Throwable $e) {
@@ -181,24 +181,24 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 
 		try {
 			$this->inject('header image priority', function ($output) {
-				return ImageHints::prioritizeHeader($output);
+				return MsImageHints::prioritizeHeader($output);
 			});
 			$this->inject('sidebar and footer lazy loading', function ($output) {
-				return ImageHints::lazySidebarAndFooter($output);
+				return MsImageHints::lazySidebarAndFooter($output);
 			});
 			$description = $this->pageDescription($templateMgr, $template);
 			$this->inject('meta description', function ($output) use ($description) {
-				return MetaDescription::inject($output, $description);
+				return MsMetaDescription::inject($output, $description);
 			});
 			// First, so the home page shortening keeps the first articles by page
 			if ($template === 'frontend/pages/issue.tpl' || $template === 'frontend/pages/indexJournal.tpl') {
 				$this->inject('article order by pages', function ($output) {
-					return ArticleOrder::sortByPages($output);
+					return MsArticleOrder::sortByPages($output);
 				});
 			}
 			if ($template === 'frontend/pages/article.tpl') {
 				$this->inject('dimensions badge', function ($output) {
-					return DimensionsBadge::inject($output);
+					return MsDimensionsBadge::inject($output);
 				});
 				$this->addAuthorCountries($hookName, $args);
 			}
@@ -211,7 +211,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			}
 			if ($template === 'frontend/pages/issueArchive.tpl') {
 				$this->inject('archive cover lazy loading', function ($output) {
-					return ImageHints::lazyCovers($output);
+					return MsImageHints::lazyCovers($output);
 				});
 				$this->addArchiveStats($templateMgr);
 			}
@@ -219,7 +219,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				$more = __('plugins.themes.manuscriptScholar.home.readMore');
 				$less = __('plugins.themes.manuscriptScholar.home.readLess');
 				$this->inject('home issue fold', function ($output) use ($more, $less) {
-					return HomeIssueTrim::trim($output, ManuscriptScholarThemePlugin::HOME_ARTICLE_LIMIT, $more, $less);
+					return MsHomeIssueTrim::trim($output, ManuscriptScholarThemePlugin::HOME_ARTICLE_LIMIT, $more, $less);
 				});
 			}
 			if (in_array($template, array('frontend/pages/issue.tpl', 'frontend/pages/indexJournal.tpl', 'frontend/pages/search.tpl'), true)) {
@@ -268,7 +268,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			if (!class_exists('Validation') || !Validation::isLoggedIn()) {
 				return;
 			}
-			$tag = FileSizes::dataTag($this->workflowFileSizes($template))
+			$tag = MsFileSizes::dataTag($this->workflowFileSizes($template))
 				. self::adminScriptTag($this->getAssetUrl('js/manuscriptScholarAdmin.js'), self::VERSION, array(
 				'all' => __('plugins.themes.manuscriptScholar.admin.selectAll'),
 				'none' => __('plugins.themes.manuscriptScholar.admin.clearAll'),
@@ -311,9 +311,9 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			}
 			$pdo = \Illuminate\Database\Capsule\Manager::connection()->getPdo();
 			$paths = $page === 'reviewer'
-				? FileSizes::reviewerPaths($pdo, $submissionId, $context->getId(), $user->getId())
-				: FileSizes::paths($pdo, $submissionId, $context->getId());
-			return FileSizes::sizes($paths, Config::getVar('files', 'files_dir'));
+				? MsFileSizes::reviewerPaths($pdo, $submissionId, $context->getId(), $user->getId())
+				: MsFileSizes::paths($pdo, $submissionId, $context->getId());
+			return MsFileSizes::sizes($paths, Config::getVar('files', 'files_dir'));
 		} catch (\Throwable $e) {
 			error_log('manuscriptScholar: unable to read the file sizes: ' . $e->getMessage());
 			return array();
@@ -372,7 +372,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				$parts[] = (string) $context->getLocalizedName();
 				$parts[] = (string) $context->getLocalizedDescription();
 			}
-			return MetaDescription::compose($parts);
+			return MsMetaDescription::compose($parts);
 		} catch (\Throwable $e) {
 			return '';
 		}
@@ -501,7 +501,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	 */
 	protected function cached($kind, $contextId, $build, $signature = '') {
 		if ($this->fragmentCache === null) {
-			$this->fragmentCache = new FragmentCache($this->cacheDir(), $this->cacheTtl());
+			$this->fragmentCache = new MsFragmentCache($this->cacheDir(), $this->cacheTtl());
 			$this->fragmentCache->serveStale(self::STALE_TTL, $this->afterResponse());
 		}
 		$locale = class_exists('AppLocale') ? AppLocale::getLocale() : '';
@@ -524,8 +524,8 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			try {
 				$pdo = \Illuminate\Database\Capsule\Manager::connection()->getPdo();
 				$this->signatures[$key] = $issueId === null
-					? ContentSignature::forContext($pdo, $contextId)
-					: ContentSignature::forIssues($pdo, $contextId);
+					? MsContentSignature::forContext($pdo, $contextId)
+					: MsContentSignature::forIssues($pdo, $contextId);
 			} catch (\Throwable $e) {
 				$this->signatures[$key] = $issueId === null ? '' : null;
 			}
@@ -537,7 +537,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 		if (!is_array($map)) {
 			return '';
 		}
-		return isset($map[(int) $issueId]) ? $map[(int) $issueId] : ContentSignature::emptyIssue();
+		return isset($map[(int) $issueId]) ? $map[(int) $issueId] : MsContentSignature::emptyIssue();
 	}
 
 	/**
@@ -696,9 +696,9 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 		);
 		$this->inject('article actions', function ($output) use ($request, $context, $labels) {
 			try {
-				$ids = ArticleActions::idsFromOutput($output);
+				$ids = MsArticleActions::idsFromOutput($output);
 				$data = $ids ? $this->articleActionData($ids, $request, $context) : array();
-				return ArticleActions::inject($output, $data, $labels);
+				return MsArticleActions::inject($output, $data, $labels);
 			} catch (\Throwable $e) {
 				error_log('manuscriptScholar: unable to build article actions: ' . $e->getMessage());
 				return $output;
@@ -719,7 +719,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			$stored = $publication->getData('pub-id::doi');
 			$doi = is_scalar($stored) ? (string) $stored : '';
 		}
-		return ArticleActions::cleanDoi($doi);
+		return MsArticleActions::cleanDoi($doi);
 	}
 
 	/**
@@ -798,7 +798,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			return false;
 		}
 		$this->inject('home highlights', function ($output) use ($html) {
-			return HomeHighlights::inject($output, $html);
+			return MsHomeHighlights::inject($output, $html);
 		});
 		return false;
 	}
@@ -847,7 +847,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				'items' => $this->itemsFromStats('downloaded', $contextId, $request, $context),
 			),
 		);
-		return HomeHighlights::render($cards);
+		return MsHomeHighlights::render($cards);
 	}
 
 	/**
@@ -862,7 +862,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			return false;
 		}
 		$this->inject('category cards', function ($output) use ($html) {
-			return CategoryCards::inject($output, $html);
+			return MsCategoryCards::inject($output, $html);
 		});
 		return false;
 	}
@@ -891,12 +891,12 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			$context->getPrimaryLocale(),
 		))));
 		$pdo = \Illuminate\Database\Capsule\Manager::connection()->getPdo();
-		$issueId = CategoryCards::currentIssueId($pdo, $contextId);
+		$issueId = MsCategoryCards::currentIssueId($pdo, $contextId);
 		if (!$issueId) {
 			$this->note('category cards: the journal has no current issue');
 			return '';
 		}
-		$categories = CategoryCards::load($pdo, $contextId, $locales, self::CATEGORY_ARTICLE_LIMIT, $issueId);
+		$categories = MsCategoryCards::load($pdo, $contextId, $locales, self::CATEGORY_ARTICLE_LIMIT, $issueId);
 		$this->note('categories with articles in current issue ' . $issueId . ': ' . count($categories));
 
 		// One lookup for the articles of all cards
@@ -922,7 +922,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			}
 			$cards[] = array('title' => $category['title'], 'count' => $category['count'], 'articles' => $articles);
 		}
-		return CategoryCards::render($cards, array(
+		return MsCategoryCards::render($cards, array(
 			'heading' => __('plugins.themes.manuscriptScholar.categories.heading'),
 			'articles' => __('plugins.themes.manuscriptScholar.categories.articles'),
 			'more' => '',
@@ -937,9 +937,9 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	protected function itemsFromStats($kind, $contextId, $request, $context) {
 		try {
 			$rows = $this->queryMetrics($contextId, $kind);
-			$ids = HomeHighlights::idsFromStats($rows, 10);
+			$ids = MsHomeHighlights::idsFromStats($rows, 10);
 			$this->note('statistics (' . $kind . '): ' . count($ids) . ' articles with data');
-			$totals = HomeHighlights::totalsFromStats($rows);
+			$totals = MsHomeHighlights::totalsFromStats($rows);
 			$key = $kind === 'read' ? 'plugins.themes.manuscriptScholar.home.views' : 'plugins.themes.manuscriptScholar.home.downloads';
 			$submissions = $this->loadSubmissions($ids, $contextId);
 			return $this->itemsFromSubmissions(array_slice($submissions, 0, 5), $request, $context, function ($submission) use ($totals, $key) {
@@ -1040,7 +1040,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 			return false;
 		}
 		$this->inject('issue coverage', function ($output) use ($html) {
-			return IssueCoverage::inject($output, $html);
+			return MsIssueCoverage::inject($output, $html);
 		});
 		return false;
 	}
@@ -1090,13 +1090,13 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				$country = strtoupper(trim((string) $author->getData('country')));
 				if (!preg_match('/^[A-Z]{2}$/', $country)) {
 					// The Country field is empty: use the country that closes the affiliation, if any
-					$country = CountryFromAffiliation::detect((string) $author->getLocalizedData('affiliation'), $index);
+					$country = MsCountryFromAffiliation::detect((string) $author->getLocalizedData('affiliation'), $index);
 					if ($country !== '') {
 						$derived++;
 					}
 				}
 				$records[] = array(
-					'key' => IssueCoverage::authorKey(
+					'key' => MsIssueCoverage::authorKey(
 						$author->getData('email'),
 						$author->getFullName(),
 						$author->getLocalizedData('affiliation')
@@ -1106,20 +1106,20 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				);
 			}
 		}
-		return array('articles' => $articleCount, 'records' => $records, 'pages' => IssueCoverage::totalPages($pagesList), 'derived' => $derived);
+		return array('articles' => $articleCount, 'records' => $records, 'pages' => MsIssueCoverage::totalPages($pagesList), 'derived' => $derived);
 	}
 
 	protected function buildIssueCoverageHtml($issue) {
 		$collected = $this->collectIssueAuthors($issue);
 		$articleCount = $collected['articles'];
-		$summary = IssueCoverage::summarize($collected['records']);
+		$summary = MsIssueCoverage::summarize($collected['records']);
 		$this->note('issue coverage: issue ' . (int) $issue->getId() . ', ' . $articleCount . ' published articles, ' . $summary['authors'] . ' authors, '
 			. count($summary['countries']) . ' countries (' . implode(', ', array_keys($summary['countries'])) . '), '
-			. IssueCoverage::countWithoutCountry($collected['records']) . ' author bylines without a valid country'
-			. (IssueCoverage::countWithoutCountry($collected['records']) ? ' (' . implode('; ', IssueCoverage::namesWithoutCountry($collected['records'])) . ')' : '')
+			. MsIssueCoverage::countWithoutCountry($collected['records']) . ' author bylines without a valid country'
+			. (MsIssueCoverage::countWithoutCountry($collected['records']) ? ' (' . implode('; ', MsIssueCoverage::namesWithoutCountry($collected['records'])) . ')' : '')
 			. ', ' . count($collected['records']) . ' bylines in total, ' . $collected['pages'] . ' pages in total, '
 			. $collected['derived'] . ' countries taken from the affiliation');
-		$foreign = IssueCoverage::foreignShare($summary, $this->homeCountry());
+		$foreign = MsIssueCoverage::foreignShare($summary, $this->homeCountry());
 		$names = array();
 		foreach (array_keys($summary['countries']) as $code) {
 			$names[$code] = $this->getCountryName($code);
@@ -1127,7 +1127,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 		$flagUrl = function ($code) {
 			return $this->getFlagUrl($code);
 		};
-		return IssueCoverage::render($articleCount, $summary, $names, $flagUrl, array(
+		return MsIssueCoverage::render($articleCount, $summary, $names, $flagUrl, array(
 			'total' => __('plugins.themes.manuscriptScholar.issue.totalArticles', array('count' => $articleCount)),
 			'pages' => $collected['pages'] > 0 ? __('plugins.themes.manuscriptScholar.issue.totalPages', array('count' => $collected['pages'])) : '',
 			'coverage' => __('plugins.themes.manuscriptScholar.issue.coverage', array(
@@ -1170,7 +1170,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 		}
 		$this->note('archive stats: ' . count($cards) . ' issues, ' . $failed . ' failed');
 		$this->inject('archive stats', function ($output) use ($cards) {
-			return ArchiveStats::inject($output, $cards);
+			return MsArchiveStats::inject($output, $cards);
 		});
 		return false;
 	}
@@ -1178,12 +1178,12 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	protected function buildArchiveCard($issue) {
 		return $this->cached('archive-' . (int) $issue->getId() . '-h' . $this->homeCountry(), $issue->getJournalId(), function () use ($issue) {
 			$collected = $this->collectIssueAuthors($issue);
-			$summary = IssueCoverage::summarize($collected['records']);
+			$summary = MsIssueCoverage::summarize($collected['records']);
 			$names = array();
 			foreach (array_keys($summary['countries']) as $code) {
 				$names[$code] = $this->getCountryName($code);
 			}
-			return ArchiveStats::render($collected['articles'], $summary, $names, function ($code) {
+			return MsArchiveStats::render($collected['articles'], $summary, $names, function ($code) {
 				return $this->getFlagUrl($code);
 			}, array(
 				'authors' => __('plugins.themes.manuscriptScholar.archive.authors'),
@@ -1192,7 +1192,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 				'summary' => __('plugins.themes.manuscriptScholar.archive.summary'),
 				'pages' => __('plugins.themes.manuscriptScholar.archive.pages'),
 				'foreign' => __('plugins.themes.manuscriptScholar.archive.foreign'),
-			), $collected['pages'], IssueCoverage::foreignShare($summary, $this->homeCountry()));
+			), $collected['pages'], MsIssueCoverage::foreignShare($summary, $this->homeCountry()));
 		}, $this->contentSignature($issue->getJournalId(), (int) $issue->getId()));
 	}
 
@@ -1255,7 +1255,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	protected function affiliationIndex() {
 		if ($this->affiliationIndex === null) {
 			$this->loadCountryNames();
-			$this->affiliationIndex = CountryFromAffiliation::index(array($this->countryNames, $this->countryNamesEnglish));
+			$this->affiliationIndex = MsCountryFromAffiliation::index(array($this->countryNames, $this->countryNamesEnglish));
 		}
 		return $this->affiliationIndex;
 	}

@@ -7,7 +7,7 @@
  * sidebar and the footer (visitor counters excepted). Nothing here touches OJS, so it
  * can be tested on its own.
  */
-class ImageHints {
+class MsImageHints {
 
 	/**
 	 * Ask the browser to fetch the header (site name) image early. Only the

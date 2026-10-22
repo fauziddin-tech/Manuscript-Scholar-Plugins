@@ -7,7 +7,7 @@
  * declaration, never inside selectors, so the meaning of the stylesheet does
  * not change. Nothing here touches OJS, so it can be tested on its own.
  */
-class CssMinifier {
+class MsCssMinifier {
 
 	public static function minify($css) {
 		$css = (string) $css;

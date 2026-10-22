@@ -11,7 +11,7 @@
  * for the rebuild.
  * Nothing here touches OJS, so it can be tested on its own.
  */
-class FragmentCache {
+class MsFragmentCache {
 
 	/** @var string */
 	protected $dir;
@@ -42,7 +42,7 @@ class FragmentCache {
 	 * rebuild later. $defer gets a callable and must run it after the
 	 * response; null turns this off (an expired value is rebuilt at once).
 	 *
-	 * @return FragmentCache
+	 * @return MsFragmentCache
 	 */
 	public function serveStale($maxAge, $defer) {
 		$this->staleTtl = max(0, (int) $maxAge);

@@ -8,7 +8,7 @@
  * the button is a link to the issue page).
  * Nothing here touches OJS, so it can be tested on its own.
  */
-class HomeIssueTrim {
+class MsHomeIssueTrim {
 
 	const SECTIONS_ID = 'ms-issue-sections';
 
@@ -22,7 +22,7 @@ class HomeIssueTrim {
 	 */
 	public static function trim($output, $limit, $labelMore, $labelLess = 'Show less') {
 		return preg_replace_callback('#<section class="current_issue"[^>]*>.*?</section>#s', function ($m) use ($limit, $labelMore, $labelLess) {
-			return HomeIssueTrim::trimBlock($m[0], $limit, $labelMore, $labelLess);
+			return MsHomeIssueTrim::trimBlock($m[0], $limit, $labelMore, $labelLess);
 		}, $output, 1);
 	}
 

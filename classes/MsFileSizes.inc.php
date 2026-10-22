@@ -6,7 +6,7 @@
  * is downloaded or logged. Nothing here touches OJS, so it can be tested on
  * its own.
  */
-class FileSizes {
+class MsFileSizes {
 
 	/**
 	 * Stored path of every file of a submission of the journal (OJS 3.3

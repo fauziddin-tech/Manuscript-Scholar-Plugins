@@ -6,7 +6,7 @@
  * Country field is empty. Nothing here touches OJS, so it can be tested on
  * its own.
  */
-class CountryFromAffiliation {
+class MsCountryFromAffiliation {
 
 	/** Short forms that are not the official country name */
 	const ALIASES = array(
