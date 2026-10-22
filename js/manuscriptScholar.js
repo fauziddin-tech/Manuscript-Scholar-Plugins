@@ -3,8 +3,7 @@
  * - opens and closes the abstract under article lists (with ARIA state),
  * - marks the sidebar menu link of the current page,
  * - lines up the footer and the home page cards with the page content,
- * - shifts a header image with empty space on its left so the visible logo
- *   starts at the left edge of the content inside the white page,
+ * - puts the visible part of the header image in the middle of the header,
  * - unfolds and folds the rest of the current issue on the home page ("Read
  *   more" / "Show less") and keeps the button a fixed distance below the last
  *   visible article,
@@ -149,29 +148,27 @@
 		});
 	}
 
-	/* ---- Header image: empty space at its left -------------------------- */
+	/* ---- Header image: visible logo in the middle ---------------------- */
 
 	/*
-	 * The image fills the white page from edge to edge. When its left part is
-	 * empty (transparent), it is moved left so the visible logo starts where
-	 * the text of the page starts (the header band clips what moves out).
+	 * The image fills the white page from edge to edge. Its visible part (the
+	 * pixels that are not transparent) is moved so it sits in the middle of
+	 * the header. The visible part is never wider than the image, so nothing
+	 * of it is cut; what moves out of the header is transparent.
 	 */
 	function logo() {
 		var img = q('.pkp_site_name .is_img img');
-		var ratio = null;
+		var centre = null;
 		if (!img) {
 			return;
 		}
 		function shift() {
 			img.style.removeProperty('margin-left');
-			if (ratio === null || innerWidth < 992 || getComputedStyle(d.body).direction === 'rtl') {
+			if (centre === null || innerWidth < 992) {
 				return;
 			}
-			var main = q('.pkp_structure_main');
-			var box = img.getBoundingClientRect();
-			var start = main ? main.getBoundingClientRect().left + num(getComputedStyle(main).paddingLeft) : box.left;
-			var move = (start - box.left) - ratio * box.width;
-			if (move < 0) {
+			var move = (0.5 - centre) * img.getBoundingClientRect().width;
+			if (Math.abs(move) >= 1) {
 				img.style.setProperty('margin-left', move + 'px', 'important');
 			}
 		}
@@ -189,6 +186,7 @@
 				ctx.drawImage(img, 0, 0);
 				var data = ctx.getImageData(0, 0, w, h).data;
 				var first = w;
+				var last = -1;
 				for (var y = 0; y < h; y += 2) {
 					for (var x = 0; x < first; x++) {
 						if (data[(y * w + x) * 4 + 3] > 40) {
@@ -196,9 +194,15 @@
 							break;
 						}
 					}
+					for (var z = w - 1; z > last; z--) {
+						if (data[(y * w + z) * 4 + 3] > 40) {
+							last = z;
+							break;
+						}
+					}
 				}
-				if (first > 0 && first < w) {
-					ratio = first / w;
+				if (last >= first) {
+					centre = (first + last + 1) / 2 / w;
 					shift();
 				}
 			} catch (e) {}

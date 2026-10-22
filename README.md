@@ -100,7 +100,7 @@ Di layar 992 px ke atas, halaman putih Manuscript selebar **90% layar** (Manuscr
 
 Unggah gambar header yang lebar, misalnya **1800 × 293 px** (rasio sekitar 6:1; PNG/JPG/WebP, usahakan di bawah 300 KB) lewat **Website → Appearance → Setup → Logo**. Di layar 992 px ke atas gambar memenuhi lebar halaman putih dari tepi ke tepi (seperti kop surat) dengan proporsi tetap, dan Register/Login berada di sudut kanan atas gambar. Jurnal tanpa logo tetap memakai header teks Manuscript.
 
-Bila sisi kiri gambar kosong (transparan) lebih lebar dari jarak isi halaman, tema membaca gambar itu (lewat canvas) dan menggesernya ke kiri sehingga logo yang terlihat dimulai tepat di tepi kiri teks halaman; bagian yang keluar dari halaman putih dipotong. Jika browser menolak membaca gambar, gambar dibiarkan apa adanya. Cara paling andal tetap memotong ruang kosong di file gambarnya.
+Logo pada gambar header selalu ditampilkan **di tengah** header: tema membaca gambar itu (lewat canvas), mencari bagian yang tidak transparan (logo dan tulisan), lalu menggeser gambar sehingga bagian itu tepat di tengah. Karena bagian yang terlihat tidak pernah lebih lebar dari gambarnya, logo tidak terpotong; yang keluar dari header hanya bagian transparan. Gambar tanpa transparansi (latar ikut di dalam gambar) tidak digeser. Jika browser menolak membaca gambar, gambar dibiarkan apa adanya. Agar warna latar header sama dengan latar gambar, samakan **Base colour** dengan warna latar logo atau pakai PNG transparan.
 
 ## Menu sidebar otomatis (custom block)
 

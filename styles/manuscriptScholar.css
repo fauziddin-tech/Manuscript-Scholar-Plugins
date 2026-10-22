@@ -1,5 +1,5 @@
 /*
- * Manuscript Scholar 1.0.1: feature styles on top of the Manuscript stylesheet.
+ * Manuscript Scholar 1.0.2: feature styles on top of the Manuscript stylesheet.
  * The Manuscript look (styles/index.less: boxed white page on a grey
  * background, Montserrat headings, Noto Serif text, a thin accent line under
  * headings) is compiled with the Default Theme. This file adds the wide page,
@@ -137,7 +137,7 @@
 	html body.has_site_logo .pkp_site_name_wrapper {
 		padding-left: 0;
 		padding-right: 0;
-		overflow: hidden; /* the image may be shifted left, see js/manuscriptScholar.js */
+		overflow: hidden; /* the image is moved to centre its logo, see js/manuscriptScholar.js */
 	}
 	html body.has_site_logo .pkp_site_name {
 		float: none;

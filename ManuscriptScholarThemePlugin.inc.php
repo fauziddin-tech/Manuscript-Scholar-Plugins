@@ -123,7 +123,7 @@ class ManuscriptScholarThemePlugin extends ThemePlugin {
 	/** @var MsFragmentCache|null */
 	protected $fragmentCache = null;
 
-	const VERSION = '1.0.1';
+	const VERSION = '1.0.2';
 
 	/**
 	 * Choices of the "journal home country" option: every country by its full
