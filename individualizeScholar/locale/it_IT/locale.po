@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it_IT\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Il tema Individualize di Publia con le funzioni accademiche di Manuscript Scholar: paesi degli autori, badge delle citazioni Dimensions, copertura del fascicolo con bandiere, azioni sugli articoli, blocchi della home page e strumenti nel back-end. Richiede il tema Individualize."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Paese della rivista"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Paese della rivista, scelto con il nome completo come nel modulo dell'autore. Serve a mostrare la quota di autori dall'estero nelle pagine dell'archivio e dei fascicoli. Lasciarlo non impostato per nascondere questo dato."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— non impostato —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Schede della home page"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Mostrate in aggiunta ai blocchi della home page qui sopra: le categorie del fascicolo corrente subito sopra il fascicolo corrente (o alla fine se il fascicolo corrente non è mostrato), gli articoli più recenti, più letti e più scaricati alla fine della home page."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Categorie del fascicolo corrente"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Articoli più recenti, più letti e più scaricati"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Totale articoli: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Totale pagine: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Copertura del fascicolo: {$authors} autore/i da {$countries} paese/i"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Autori stranieri: {$count} ({$percent}%)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Ultimi articoli"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "I più letti"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "I più scaricati"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} visualizzazioni"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} download"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Leggi tutto"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Mostra meno"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Mostra abstract"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Nascondi abstract"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "Scarica PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Cerca in Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Categorie"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "articoli"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "autori"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "paesi"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "articoli"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "pagine"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Riepilogo dei contributi degli autori del fascicolo"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "dall'estero"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Seleziona tutto"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Annulla selezione"

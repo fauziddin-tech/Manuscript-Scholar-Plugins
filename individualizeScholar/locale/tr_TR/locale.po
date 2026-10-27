@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr_TR\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Publia'nın Individualize teması ve Manuscript Scholar'ın akademik özellikleri: yazar ülkeleri, Dimensions atıf rozeti, bayraklarla sayı kapsamı, makale eylemleri, ana sayfa blokları ve yönetim paneli yardımcıları. Individualize teması gerektirir."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Derginin ülkesi"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Derginin ülkesi, yazar formundaki gibi tam adıyla seçilir. Arşiv ve sayı sayfalarında yurt dışından yazarların oranını göstermek için kullanılır. Bu değeri gizlemek için seçmeden bırakın."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— seçilmedi —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Ana sayfa kartları"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Yukarıdaki ana sayfa bloklarına ek olarak gösterilir: güncel sayının kategorileri güncel sayının hemen üstünde (güncel sayı gösterilmiyorsa sonda), en yeni, en çok okunan ve en çok indirilen makaleler ana sayfanın sonunda."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Güncel sayının kategorileri"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "En yeni, en çok okunan ve en çok indirilen makaleler"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Toplam makale: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Toplam sayfa: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Sayı kapsamı: {$countries} ülkeden {$authors} yazar"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Yabancı yazarlar: {$count} (%{$percent})"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Son makaleler"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "En çok okunanlar"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "En çok indirilenler"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} görüntülenme"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} indirme"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Devamını oku"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Daha az göster"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Özeti göster"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Özeti gizle"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "PDF indir"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Google Scholar'da kontrol et"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Kategoriler"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "makale"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "yazar"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "ülke"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "makale"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "sayfa"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Sayının yazar katkısı özeti"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "yabancı"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Tümünü seç"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Seçimi temizle"

@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_PT\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "O tema Individualize da Publia com as funcionalidades académicas do Manuscript Scholar: países dos autores, distintivo de citações Dimensions, cobertura do número com bandeiras, ações dos artigos, blocos da página inicial e auxiliares na área de administração. Requer o tema Individualize."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "País da revista"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "País da revista, escolhido pelo nome completo como no formulário de autor. É usado para mostrar a proporção de autores estrangeiros nas páginas de arquivo e de número. Deixe por definir para ocultar esse valor."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— por definir —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Cartões da página inicial"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Apresentados além dos blocos da página inicial acima: as categorias do número atual logo acima do número atual (ou no fim, quando o número atual não é apresentado) e os artigos mais recentes, mais lidos e mais descarregados no fim da página inicial."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Categorias do número atual"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Artigos mais recentes, mais lidos e mais descarregados"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Total de artigos: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Total de páginas: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Cobertura do número: {$authors} autor(es) de {$countries} país(es)"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Autores estrangeiros: {$count} ({$percent}%)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Artigos recentes"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "Mais lidos"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "Mais descarregados"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} visualizações"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} transferências"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Ler mais"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Mostrar menos"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Mostrar resumo"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Ocultar resumo"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "Descarregar PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Verificar no Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Categorias"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "artigos"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "autores"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "países"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "artigos"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "páginas"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Resumo da contribuição dos autores do número"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "estrangeiros"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Selecionar tudo"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Limpar seleção"

@@ -20,6 +20,7 @@ tar \
 	--exclude='./.github' \
 	--exclude='./scripts' \
 	--exclude='./tests' \
+	--exclude='./individualizeScholar' \
 	-C "$theme_dir" \
 	-cf - . | tar -xf - -C "$work_dir"
 php "$script_dir/minify-css.php" "$work_dir/styles/manuscriptScholar.css"

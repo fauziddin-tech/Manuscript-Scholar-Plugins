@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de_DE\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Das Individualize-Theme von Publia mit den wissenschaftlichen Funktionen von Manuscript Scholar: Länder der Autor/innen, Dimensions-Zitationsbadge, Heftabdeckung mit Flaggen, Artikelaktionen, Startseiten-Blöcke und Helfer im Backend. Benötigt das Individualize-Theme."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Heimatland der Zeitschrift"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Land der Zeitschrift, gewählt mit seinem vollen Namen wie im Autor/innenformular. Damit wird auf der Archiv- und den Heftseiten der Anteil der Autor/innen aus dem Ausland angezeigt. Leer lassen, um diesen Wert auszublenden."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— nicht gewählt —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Karten auf der Startseite"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Zusätzlich zu den Startseiten-Blöcken oben: die Kategorien der aktuellen Ausgabe direkt über der aktuellen Ausgabe (oder am Ende, wenn die aktuelle Ausgabe nicht angezeigt wird), die neuesten, meistgelesenen und meistheruntergeladenen Artikel am Ende der Startseite."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Kategorien der aktuellen Ausgabe"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Neueste, meistgelesene und meistheruntergeladene Artikel"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Artikel gesamt: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Seiten gesamt: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Heftabdeckung: {$authors} Autor/innen aus {$countries} Land/Ländern"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Ausländische Autor/innen: {$count} ({$percent} %)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Neueste Artikel"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "Meistgelesen"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "Meistheruntergeladen"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} Aufrufe"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} Downloads"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Mehr anzeigen"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Weniger anzeigen"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Abstract anzeigen"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Abstract ausblenden"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "PDF herunterladen"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "In Google Scholar prüfen"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Kategorien"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "Artikel"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "Autor/innen"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "Länder"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "Artikel"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "Seiten"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Übersicht der Autor/innenbeiträge im Heft"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "aus dem Ausland"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Alle auswählen"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Auswahl aufheben"

@@ -23,11 +23,15 @@ jobs:
       - name: Lint PHP
         run: find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Tests
-        run: php tests/themeTest.php
+        run: php tests/themeTest.php && php tests/individualizeScholarTest.php
       - name: Check JavaScript syntax
-        run: node --check js/manuscriptScholar.js && node --check js/manuscriptScholarAdmin.js
+        run: |
+          node --check js/manuscriptScholar.js && node --check js/manuscriptScholarAdmin.js
+          node --check individualizeScholar/js/individualizeScholar.js && node --check individualizeScholar/js/individualizeScholarAdmin.js
+      - name: Shared helpers of Individualize Scholar are up to date
+        run: scripts/sync-individualize-scholar.sh --check
       - name: Check version numbers agree
-        run: scripts/check-version.sh
+        run: scripts/check-version.sh && scripts/check-version-individualize-scholar.sh
       - name: Check locale files
         run: scripts/check-locales.sh
       - name: Package
@@ -36,3 +40,10 @@ jobs:
           scripts/package-theme.sh "$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz"
           test "$(tar -tzf "$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz" | sed -n '1p')" = "manuscriptScholar/"
           tar -tzf "$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz" | grep -q '^manuscriptScholar/js/manuscriptScholar.js$'
+          ! tar -tzf "$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz" | grep -q '^manuscriptScholar/individualizeScholar/'
+      - name: Package Individualize Scholar
+        run: |
+          version=$(scripts/check-version-individualize-scholar.sh)
+          scripts/package-individualize-scholar.sh "$RUNNER_TEMP/individualizeScholar-v${version}.tar.gz"
+          tar -tzf "$RUNNER_TEMP/individualizeScholar-v${version}.tar.gz" | grep -q '^individualizeScholar/IndividualizeScholarThemePlugin.inc.php$'
+          tar -tzf "$RUNNER_TEMP/individualizeScholar-v${version}.tar.gz" | grep -q '^individualizeScholar/flags/id.svg$'

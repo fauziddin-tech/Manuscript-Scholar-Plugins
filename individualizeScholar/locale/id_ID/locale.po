@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: id_ID\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Tema Individualize dari Publia dengan fitur ilmiah Manuscript Scholar: negara penulis, badge kutipan Dimensions, cakupan terbitan dengan bendera, tombol aksi artikel, blok beranda, dan alat bantu di sisi admin. Membutuhkan tema Individualize."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Negara asal jurnal"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Negara asal jurnal, dipilih dengan nama lengkap seperti pada formulir penulis. Dipakai untuk menampilkan persentase penulis dari luar negeri di halaman Archives dan terbitan. Biarkan tidak dipilih untuk menyembunyikan angka itu."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— belum dipilih —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Kartu beranda"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Ditampilkan sebagai tambahan Homepage Blocks di atas: kategori pada terbitan terkini tepat di atas terbitan terkini (atau di akhir bila terbitan terkini tidak ditampilkan), artikel terbaru, terbanyak dibaca, dan terbanyak diunduh di akhir beranda."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Kategori pada terbitan terkini"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Artikel terbaru, terbanyak dibaca, dan terbanyak diunduh"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Total Artikel: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Total Halaman: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Cakupan Terbitan: {$authors} Penulis dari {$countries} Negara"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Penulis asing: {$count} ({$percent}%)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Artikel terbaru"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "Paling banyak dibaca"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "Paling banyak diunduh"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} kali dilihat"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} unduhan"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Selengkapnya"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Tampilkan lebih sedikit"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Tampilkan Abstrak"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Sembunyikan Abstrak"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "Unduh PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Cek di Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Kategori"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "artikel"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "penulis"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "negara"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "artikel"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "halaman"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Ringkasan kontribusi penulis terbitan"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "asing"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Pilih Semua"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Batal Pilih"

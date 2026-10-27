@@ -1,0 +1,406 @@
+/*
+ * Individualize Scholar 1.0.0: styles of the scholarly features on top of the Individualize theme.
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Colours and fonts come from Individualize's CSS variables (set by its
+ * colour and font options), so every feature follows the journal's choice:
+ * --color-page-text, --color-page-links, --color-secondary,
+ * --color-block-background/--color-block-text, --font-titles, --font-actions,
+ * --radius and --button-radius.
+ */
+:root {
+	--is-text: var(--color-page-text, rgba(0, 0, 0, 0.85));
+	--is-link: var(--color-page-links, #078078);
+	--is-accent: var(--color-secondary, #078078);
+	--is-line: rgba(0, 0, 0, 0.14);
+	--is-line: color-mix(in srgb, var(--is-text) 16%, transparent);
+	--is-muted: color-mix(in srgb, var(--is-text) 70%, transparent);
+	--is-panel: color-mix(in srgb, var(--is-text) 4%, transparent);
+	--is-radius: var(--radius, 0.5rem);
+	--is-pill: var(--button-radius, 9999px);
+}
+
+/* Hidden parts (folded articles, closed abstracts) stay hidden even where
+ * Individualize gives the element a display of its own. */
+.issue-toc [hidden],
+.ms-abstract[hidden] {
+	display: none !important;
+}
+
+/* ---- Article actions under the authors of listed articles ------------- */
+
+/* The title link of a summary covers the whole card (::after); the action
+ * line and the abstract sit above it so they stay clickable. */
+.ms-article-actions,
+.ms-abstract {
+	position: relative;
+	z-index: 1;
+}
+.ms-article-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 0.5rem 0 0;
+}
+.ms-article-actions .ms-sep {
+	display: none;
+}
+.ms-article-actions a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2rem;
+	max-width: 100%;
+	padding: 0.25rem 0.9rem;
+	border: var(--border-width, 1px) solid var(--is-link);
+	border-radius: var(--is-pill);
+	color: var(--is-link);
+	background: var(--color-page-background, #fff);
+	font-family: var(--font-actions, inherit);
+	font-size: 0.875rem;
+	font-weight: 700;
+	line-height: 1.25;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+.ms-article-actions a:hover,
+.ms-article-actions a.is-open {
+	color: var(--color-page-background, #fff);
+	background: var(--is-link);
+}
+.ms-abstract {
+	margin: 0.75rem 0 0;
+	padding: 1rem 1.25rem;
+	border-inline-start: 3px solid var(--is-accent);
+	border-radius: 0 var(--is-radius) var(--is-radius) 0;
+	background: var(--is-panel);
+	line-height: 1.75;
+}
+.ms-abstract p + p {
+	margin-top: 0.75em;
+}
+
+/* ---- Author country on the article page ------------------------------ */
+
+.author-details-affiliation.ms-country-line {
+	font-style: normal;
+}
+
+/* ---- Dimensions badge in the "Article details" table ------------------ */
+
+.ms-dimensions {
+	margin: 0 0 1rem;
+}
+
+/* ---- Issue Coverage (issue page and current issue of the home page) --- */
+
+.ms-issue-coverage {
+	padding: 1rem 1.25rem;
+	border-inline-start: 3px solid var(--is-accent);
+	border-radius: 0 var(--is-radius) var(--is-radius) 0;
+	background: var(--is-panel);
+	color: var(--is-text);
+	font-size: 0.9375rem;
+	line-height: 1.4;
+}
+.ms-issue-coverage p {
+	margin: 0 0 0.4em;
+	font-family: var(--font-titles, inherit);
+	font-weight: 700;
+}
+.ms-issue-coverage__total {
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+.ms-issue-coverage__sep {
+	margin: 0 0.5em;
+	font-weight: 400;
+	color: var(--is-line);
+}
+.ms-issue-coverage .ms-issue-coverage__foreign {
+	font-weight: 400;
+}
+.ms-issue-coverage__countries {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+	gap: 0.6em 1.5em;
+	margin: 0.8em 0 0;
+	padding: 0.8em 0 0;
+	border-top: 1px solid var(--is-line);
+	list-style: none;
+}
+.ms-issue-coverage__countries li {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	min-width: 0;
+}
+.ms-issue-coverage .ms-country {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.ms-issue-coverage .ms-count {
+	margin-inline-start: auto;
+	color: var(--is-muted);
+	font-variant-numeric: tabular-nums;
+}
+.ms-flag {
+	flex: none;
+	display: block;
+	width: 28px;
+	height: 21px;
+	object-fit: cover;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12); /* white flags keep their edge */
+}
+
+/* ---- "Read more" under the folded current issue (home page) ---------- */
+
+.ms-readmore {
+	display: flex;
+	justify-content: center;
+	margin-top: -3rem; /* Individualize keeps 6rem between the parts of the table of contents */
+}
+
+/* ---- Archives: card of authors, countries and articles --------------- */
+
+.ms-archive-stats {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) minmax(0, 1fr);
+	align-items: center;
+	max-width: 40rem;
+	margin: 0 0 1rem;
+	padding: 0.6rem 0.25rem;
+	border-inline-start: 3px solid var(--is-accent);
+	border-radius: 0 var(--is-radius) var(--is-radius) 0;
+	background: var(--is-panel);
+	color: var(--is-text);
+	font-size: 0.875rem;
+	line-height: 1.3;
+}
+.ms-archive-stats__item {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	min-width: 0;
+	padding: 0.15rem 0.8rem;
+	border-inline-end: 1px solid var(--is-line);
+}
+.ms-archive-stats__item:last-child {
+	border-inline-end: 0;
+}
+.ms-archive-stats__icon {
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	color: var(--color-block-text, #fff);
+	background: var(--color-block-background, #1e102b);
+}
+.ms-archive-stats__icon svg {
+	width: 1.1rem;
+	height: 1.1rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.ms-archive-stats__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	min-width: 0;
+}
+.ms-archive-stats__line {
+	white-space: nowrap;
+}
+.ms-archive-stats__num {
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+.ms-archive-stats__label,
+.ms-archive-stats__more {
+	color: var(--is-muted);
+}
+.ms-archive-stats__flags {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+}
+.ms-archive-stats .ms-flag {
+	width: 22px;
+	height: 16px;
+}
+.ms-archive-stats .ms-flag--text {
+	width: auto;
+	min-width: 22px;
+	padding: 0 3px;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 16px;
+	text-align: center;
+}
+@media (max-width: 640px) {
+	.ms-archive-stats {
+		grid-template-columns: 1fr;
+	}
+	.ms-archive-stats__item {
+		padding: 0.4rem 0.6rem;
+		border-inline-end: 0;
+		border-bottom: 1px solid var(--is-line);
+	}
+	.ms-archive-stats__item:last-child {
+		border-bottom: 0;
+	}
+}
+
+/* ---- Homepage blocks ------------------------------------------------- */
+
+.homepage-block-scholar-highlights,
+.homepage-block-scholar-categories {
+	width: 100%;
+	max-width: 1024px;
+}
+@media (min-width: 1920px) {
+	.homepage-block-scholar-highlights,
+	.homepage-block-scholar-categories {
+		max-width: 1280px;
+	}
+}
+.ms-highlight h2,
+.ms-categories > h2 {
+	margin: 0 0 1rem;
+	font-family: var(--font-titles, inherit);
+	font-size: 1.5rem;
+	font-weight: 900;
+	line-height: 1.25;
+}
+.ms-categories > h2 {
+	font-size: 2rem;
+}
+
+/* Latest, most read, most downloaded */
+.ms-highlights__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: 2rem;
+}
+.ms-highlight ul {
+	list-style: none;
+}
+.ms-highlight li {
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--is-line);
+	line-height: 1.45;
+}
+.ms-highlight li:first-child {
+	border-top: 2px solid var(--is-accent);
+}
+.ms-highlight li a {
+	color: var(--is-text);
+	font-weight: 600;
+	text-decoration: none;
+}
+.ms-highlight li a:hover {
+	color: var(--is-link);
+	text-decoration: underline;
+}
+.ms-highlight__meta {
+	display: block;
+	margin-top: 0.2rem;
+	font-size: 0.8125rem;
+	color: var(--is-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Categories of the current issue */
+.ms-categories__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: 1rem;
+	align-items: start;
+}
+.ms-category {
+	border: var(--border-width, 1px) solid var(--is-line);
+	border-radius: var(--is-radius);
+	background: var(--color-page-background, #fff);
+}
+.ms-category[open] {
+	grid-column: 1 / -1;
+}
+.ms-category summary {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	position: relative;
+	padding: 1rem 3rem 1rem 1.25rem;
+	cursor: pointer;
+	list-style: none;
+}
+.ms-category summary::-webkit-details-marker {
+	display: none;
+}
+.ms-category summary::after {
+	content: "+";
+	position: absolute;
+	inset-inline-end: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	border-radius: 50%;
+	color: var(--color-block-text, #fff);
+	background: var(--color-block-background, #1e102b);
+	font-weight: 700;
+	line-height: 1;
+}
+.ms-category[open] summary::after {
+	content: "\2212";
+}
+.ms-category__name {
+	font-family: var(--font-titles, inherit);
+	font-weight: 700;
+	line-height: 1.3;
+}
+.ms-category__count {
+	font-size: 0.8125rem;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: var(--is-muted);
+}
+.ms-category ul {
+	margin: 0 1.25rem 0.75rem;
+	list-style: none;
+	border-top: 1px solid var(--is-line);
+}
+.ms-category li {
+	padding: 0.6rem 0;
+	border-bottom: 1px solid var(--is-line);
+	line-height: 1.4;
+}
+.ms-category li:last-child {
+	border-bottom: 0;
+}
+.ms-category li a {
+	color: var(--is-text);
+	text-decoration: none;
+}
+.ms-category li a:hover {
+	color: var(--is-link);
+	text-decoration: underline;
+}
+
+/* ---- Keyboard focus -------------------------------------------------- */
+
+.ms-article-actions a:focus-visible,
+.ms-category summary:focus-visible,
+.ms-highlight li a:focus-visible,
+.ms-category li a:focus-visible {
+	outline: 2px solid var(--is-link);
+	outline-offset: 2px;
+}

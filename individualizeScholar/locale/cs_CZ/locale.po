@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs_CZ\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Šablona Individualize od Publia s odbornými funkcemi Manuscript Scholar: země autorů, citační odznak Dimensions, pokrytí čísla s vlajkami, akce u článků, bloky úvodní stránky a pomocníci v administraci. Vyžaduje šablonu Individualize."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Domovská země časopisu"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Země časopisu, vybraná podle plného názvu jako ve formuláři autora. Slouží k zobrazení podílu zahraničních autorů na stránkách archivu a čísel. Nechte nevybrané, chcete-li tento údaj skrýt."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— nevybráno —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Karty na úvodní stránce"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Zobrazují se navíc k blokům úvodní stránky výše: kategorie aktuálního čísla přímo nad aktuálním číslem (nebo na konci, pokud se aktuální číslo nezobrazuje), nejnovější, nejčtenější a nejstahovanější články na konci úvodní stránky."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Kategorie aktuálního čísla"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Nejnovější, nejčtenější a nejstahovanější články"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Celkem článků: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Celkem stran: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Pokrytí čísla: {$authors} autor(ů) z {$countries} zem(í)"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Zahraniční autoři: {$count} ({$percent} %)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Nejnovější články"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "Nejčtenější"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "Nejstahovanější"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} zobrazení"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} stažení"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Číst dále"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Zobrazit méně"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Zobrazit abstrakt"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Skrýt abstrakt"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "Stáhnout PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Ověřit v Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Kategorie"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "článků"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "autorů"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "zemí"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "článků"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "stran"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Přehled příspěvků autorů čísla"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "zahraničních"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Vybrat vše"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Zrušit výběr"

@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da_DK\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "Individualize-temaet fra Publia med de videnskabelige funktioner fra Manuscript Scholar: forfatternes lande, Dimensions-citationsmærke, nummerets dækning med flag, artikelhandlinger, blokke på forsiden og hjælpere i administrationen. Kræver Individualize-temaet."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "Tidsskriftets hjemland"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "Tidsskriftets land, valgt ved dets fulde navn som på forfatterformularen. Bruges til at vise andelen af udenlandske forfattere på arkiv- og nummersiderne. Lad feltet være tomt for at skjule tallet."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— ikke valgt —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "Kort på forsiden"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "Vises ud over forsideblokkene ovenfor: kategorierne i det aktuelle nummer lige over det aktuelle nummer (eller til sidst, når det aktuelle nummer ikke vises), de seneste, mest læste og mest downloadede artikler nederst på forsiden."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "Kategorier i det aktuelle nummer"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "Seneste, mest læste og mest downloadede artikler"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "Artikler i alt: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "Sider i alt: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "Nummerets dækning: {$authors} forfatter(e) fra {$countries} land(e)"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "Udenlandske forfattere: {$count} ({$percent}%)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "Seneste artikler"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "Mest læste"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "Mest downloadede"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} visninger"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} downloads"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "Læs mere"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "Vis mindre"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "Vis resumé"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "Skjul resumé"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "Download PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "Søg i Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "Kategorier"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "artikler"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "forfattere"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "lande"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "artikler"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "sider"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "Oversigt over nummerets forfatterbidrag"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "udenlandske"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "Vælg alle"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "Ryd valg"

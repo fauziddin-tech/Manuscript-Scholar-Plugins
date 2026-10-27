@@ -1,7 +1,10 @@
 name: Attach package to the release
 
-# When a GitHub Release is published (tag vX.Y.Z), build the installable
-# manuscriptScholar-vX.Y.Z.tar.gz from that tag and attach it to the release.
+# When a GitHub Release is published, build the installable package from that
+# tag and attach it to the release:
+# - tag vX.Y.Z: manuscriptScholar-vX.Y.Z.tar.gz (version.xml)
+# - tag individualizeScholar-vX.Y.Z: individualizeScholar-vX.Y.Z.tar.gz
+#   (individualizeScholar/version.xml)
 on:
   release:
     types: [published]
@@ -24,19 +27,37 @@ jobs:
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          version=$(scripts/check-version.sh)
-          if [ "$TAG" != "v$version" ]; then
-            echo "Release tag $TAG does not match version.xml ($version). Create the release with tag v$version." >&2
+          case "$TAG" in
+            individualizeScholar-v*)
+              version=$(scripts/check-version-individualize-scholar.sh)
+              expected="individualizeScholar-v$version"
+              ;;
+            *)
+              version=$(scripts/check-version.sh)
+              expected="v$version"
+              ;;
+          esac
+          if [ "$TAG" != "$expected" ]; then
+            echo "Release tag $TAG does not match the version file ($version). Create the release with tag $expected." >&2
             exit 1
           fi
       - name: Tests
-        run: php tests/themeTest.php
+        run: php tests/themeTest.php && php tests/individualizeScholarTest.php
       - name: Build and upload
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          version=$(scripts/check-version.sh)
-          file="$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz"
-          scripts/package-theme.sh "$file"
+          case "$TAG" in
+            individualizeScholar-v*)
+              version=$(scripts/check-version-individualize-scholar.sh)
+              file="$RUNNER_TEMP/individualizeScholar-v${version}.tar.gz"
+              scripts/package-individualize-scholar.sh "$file"
+              ;;
+            *)
+              version=$(scripts/check-version.sh)
+              file="$RUNNER_TEMP/manuscriptScholar-v${version}.tar.gz"
+              scripts/package-theme.sh "$file"
+              ;;
+          esac
           gh release upload "$TAG" "$file" --clobber --repo "$GITHUB_REPOSITORY"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE version SYSTEM "../../../lib/pkp/dtd/pluginVersion.dtd">
+<version>
+	<application>individualizeScholar</application>
+	<type>plugins.themes</type>
+	<release>1.0.0.0</release>
+	<date>2026-10-27</date>
+	<lazy-load>1</lazy-load>
+	<class>IndividualizeScholarThemePlugin</class>
+</version>

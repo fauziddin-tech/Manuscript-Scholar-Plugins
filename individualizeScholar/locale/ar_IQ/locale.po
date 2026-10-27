@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar_IQ\n"
+
+msgid "plugins.themes.individualizeScholar.name"
+msgstr "Individualize Scholar"
+
+msgid "plugins.themes.individualizeScholar.description"
+msgstr "قالب Individualize من Publia مع الميزات العلمية لـ Manuscript Scholar: بلدان المؤلفين، وشارة استشهادات Dimensions، وتغطية العدد مع الأعلام، وإجراءات المقالات، وكتل الصفحة الرئيسية، وأدوات مساعدة في لوحة الإدارة. يتطلب قالب Individualize."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.label"
+msgstr "بلد المجلة"
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.description"
+msgstr "بلد المجلة، يُختار باسمه الكامل كما في نموذج المؤلف. يُستخدم لعرض نسبة المؤلفين من خارج البلد في صفحات الأرشيف والأعداد. اتركه دون اختيار لإخفاء هذا الرقم."
+
+msgid "plugins.themes.individualizeScholar.option.homeCountry.none"
+msgstr "— غير محدد —"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.label"
+msgstr "بطاقات الصفحة الرئيسية"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.description"
+msgstr "تُعرض إضافةً إلى كتل الصفحة الرئيسية أعلاه: تصنيفات العدد الحالي فوق العدد الحالي مباشرةً (أو في النهاية إذا لم يُعرض العدد الحالي)، وأحدث المقالات والأكثر قراءة والأكثر تنزيلاً في نهاية الصفحة الرئيسية."
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.categories"
+msgstr "تصنيفات العدد الحالي"
+
+msgid "plugins.themes.individualizeScholar.option.homeBlocks.highlights"
+msgstr "أحدث المقالات والأكثر قراءة والأكثر تنزيلاً"
+
+msgid "plugins.themes.individualizeScholar.issue.totalArticles"
+msgstr "مجموع المقالات: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.totalPages"
+msgstr "مجموع الصفحات: {$count}"
+
+msgid "plugins.themes.individualizeScholar.issue.coverage"
+msgstr "تغطية العدد: {$authors} مؤلف من {$countries} بلد"
+
+msgid "plugins.themes.individualizeScholar.issue.foreign"
+msgstr "المؤلفون الأجانب: {$count} ({$percent}%)"
+
+msgid "plugins.themes.individualizeScholar.home.latest"
+msgstr "أحدث المقالات"
+
+msgid "plugins.themes.individualizeScholar.home.mostRead"
+msgstr "الأكثر قراءة"
+
+msgid "plugins.themes.individualizeScholar.home.mostDownloaded"
+msgstr "الأكثر تنزيلاً"
+
+msgid "plugins.themes.individualizeScholar.home.views"
+msgstr "{$count} مشاهدة"
+
+msgid "plugins.themes.individualizeScholar.home.downloads"
+msgstr "{$count} تنزيل"
+
+msgid "plugins.themes.individualizeScholar.home.readMore"
+msgstr "اقرأ المزيد"
+
+msgid "plugins.themes.individualizeScholar.home.readLess"
+msgstr "عرض أقل"
+
+msgid "plugins.themes.individualizeScholar.article.showAbstract"
+msgstr "عرض الملخص"
+
+msgid "plugins.themes.individualizeScholar.article.hideAbstract"
+msgstr "إخفاء الملخص"
+
+msgid "plugins.themes.individualizeScholar.article.download"
+msgstr "تنزيل PDF"
+
+msgid "plugins.themes.individualizeScholar.article.scholar"
+msgstr "البحث في Google Scholar"
+
+msgid "plugins.themes.individualizeScholar.categories.heading"
+msgstr "التصنيفات"
+
+msgid "plugins.themes.individualizeScholar.categories.articles"
+msgstr "مقالات"
+
+msgid "plugins.themes.individualizeScholar.archive.authors"
+msgstr "مؤلفون"
+
+msgid "plugins.themes.individualizeScholar.archive.countries"
+msgstr "بلدان"
+
+msgid "plugins.themes.individualizeScholar.archive.articles"
+msgstr "مقالات"
+
+msgid "plugins.themes.individualizeScholar.archive.pages"
+msgstr "صفحات"
+
+msgid "plugins.themes.individualizeScholar.archive.summary"
+msgstr "ملخص مساهمة المؤلفين في العدد"
+
+msgid "plugins.themes.individualizeScholar.archive.foreign"
+msgstr "أجانب"
+
+msgid "plugins.themes.individualizeScholar.admin.selectAll"
+msgstr "تحديد الكل"
+
+msgid "plugins.themes.individualizeScholar.admin.clearAll"
+msgstr "إلغاء التحديد"

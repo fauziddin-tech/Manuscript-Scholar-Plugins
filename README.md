@@ -7,6 +7,8 @@ Tema **Manuscript Scholar** menggabungkan tampilan **Manuscript** dari PKP ([pkp
 
 Tema ini mandiri: plugin Manuscript (`defaultManuscript`) tidak perlu dipasang; font Montserrat ikut di folder `fonts/`.
 
+> **Tema kedua di repo ini: [Individualize Scholar](individualizeScholar/README.md).** Folder `individualizeScholar/` berisi tema terpisah yang memadukan tampilan dan pengaturan [Individualize Theme](https://github.com/NateWr/individualizeTheme) (Publia) dengan fitur-fitur Manuscript Scholar di atas. Paketnya dirilis sendiri (`individualizeScholar-vX.Y.Z.tar.gz`, tag `individualizeScholar-vX.Y.Z`) dan tidak ikut paket Manuscript Scholar; kedua tema boleh terpasang bersamaan.
+
 ## Fitur
 
 ### Dari Manuscript
@@ -138,12 +140,13 @@ Dibuat untuk **OJS 3.3.x** dengan Default Theme (berkas LESS Manuscript dari cab
 
 ```bash
 php tests/themeTest.php                 # logika PHP dan berkas tema (tanpa instalasi OJS)
+php tests/individualizeScholarTest.php  # tema Individualize Scholar
 node --check js/manuscriptScholar.js    # sintaks JavaScript
 scripts/check-version.sh                # semua nomor versi sama dengan version.xml
 scripts/check-locales.sh                # semua locale punya kunci yang sama dengan en_US
 ```
 
-CI (`.github/workflows/quality.yml`) menjalankan semuanya di PHP 7.4, 8.1 dan 8.2. `scripts/package-theme.sh` membuat paket dari salinan repo dan memperkecil `styles/manuscriptScholar.css` di dalam paket.
+CI (`.github/workflows/quality.yml`) menjalankan semuanya di PHP 7.4, 8.1 dan 8.2, ditambah pemeriksaan tema Individualize Scholar. Sebagian kelas pembantu dipakai juga oleh Individualize Scholar: setelah mengubah berkas di `classes/` atau `js/manuscriptScholarAdmin.js`, jalankan `scripts/sync-individualize-scholar.sh` (lihat [README Individualize Scholar](individualizeScholar/README.md#pengembangan)). `scripts/package-theme.sh` membuat paket dari salinan repo dan memperkecil `styles/manuscriptScholar.css` di dalam paket.
 
 ### Merilis versi baru
 
